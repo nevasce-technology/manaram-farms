@@ -1,0 +1,419 @@
+/* Exact hero theme from Downloads/index.html (+ matching style.css) */
+
+.index-shell {
+  --blue: #196ab1;
+  --navy: #071b2d;
+  --cream: #f4efe4;
+  --paper: #fbf9f3;
+  --saffron: #e5a22b;
+  --ink: #102334;
+  --font-sans: "Montserrat", sans-serif;
+  --font-display: "Oswald", sans-serif;
+  font-family: var(--font-sans);
+  color: #fff;
+}
+
+.index-shell a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.index-shell img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  object-fit: unset;
+}
+
+.index-shell button {
+  font: inherit;
+}
+
+.index-shell .site-header {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 96px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  column-gap: 1.25rem;
+  padding: 0 4.5vw;
+  color: #fff;
+  transition: background 0.4s, height 0.4s, box-shadow 0.4s;
+}
+
+.index-shell .site-header.scrolled {
+  height: 76px;
+  background: rgba(7, 27, 45, 0.92);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+.index-shell .brand img {
+  width: 148px;
+  height: auto;
+  filter: none;
+}
+
+.index-shell .nav-links {
+  display: flex;
+  justify-content: center;
+  gap: clamp(22px, 3vw, 48px);
+}
+
+.index-shell .nav-links a {
+  position: relative;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.index-shell .nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -9px;
+  width: 100%;
+  height: 1px;
+  background: #fff;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s;
+}
+
+.index-shell .nav-links a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.index-shell .shop-pair {
+  justify-self: end;
+  display: inline-flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0;
+  width: max-content;
+  min-width: max-content;
+  max-width: none;
+  flex-shrink: 0;
+}
+
+/* Same style as Manaram Farm section — label stays one line */
+.index-shell .shop-pair .btn {
+  display: inline-flex;
+  flex: 0 0 auto;
+  flex-shrink: 0;
+  width: auto;
+  max-width: none;
+  padding: 0.65rem 1rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  white-space: nowrap !important;
+  word-break: keep-all;
+  overflow-wrap: normal;
+  line-height: 1;
+}
+
+.index-shell .menu-button {
+  display: none;
+}
+
+.index-shell .hero {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+  line-height: 0; /* collapse gap under the image */
+}
+
+/* Image sets the section height — no stretch/crop */
+.index-shell .hero-image {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto !important;
+  object-fit: unset !important;
+  position: relative;
+  z-index: 0;
+}
+
+.index-shell .hero-content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  width: min(1100px, 88vw);
+  height: 100%;
+  min-height: 0;
+  margin: 0;
+  margin-right: auto;
+  padding: clamp(5rem, 12%, 7rem) 0 clamp(2rem, 6%, 3.5rem) 4.5vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1.35rem;
+  text-align: left;
+  line-height: normal;
+}
+
+.index-shell .eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  margin: 0 0 0.35rem;
+  color: #fff;
+}
+
+.index-shell .eyebrow span {
+  width: 34px;
+  height: 1px;
+  background: currentColor;
+}
+
+.index-shell .hero h1 {
+  margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: -0.015em;
+  line-height: 1.08;
+  font-size: clamp(64px, 8.6vw, 140px);
+  max-width: 16ch;
+  color: #fff;
+}
+
+.index-shell .hero h1 em {
+  display: inline-block;
+  margin-bottom: 0.22em;
+  font-family: Georgia, serif;
+  font-weight: 400;
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: -0.02em;
+  color: var(--cream);
+}
+
+.index-shell .hero h1 .hero-line {
+  display: inline-block;
+  margin-top: 0.08em;
+}
+
+.index-shell .hero-bottom {
+  margin-top: 2.5vh;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  padding-left: 0;
+  width: 100%;
+  max-width: 560px;
+}
+
+.index-shell .hero-bottom > p {
+  margin: 0;
+  max-width: 38ch;
+  font-size: 15px;
+  line-height: 1.85;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.index-shell .round-cta {
+  width: 112px;
+  aspect-ratio: 1;
+  border: 1px solid #0870b8;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  flex: 0 0 auto;
+  transition: color 0.35s, background 0.35s, transform 0.35s, border-color 0.35s;
+  background: #0870b8;
+  color: #fff;
+}
+
+.index-shell .round-cta span + span {
+  font-size: 20px;
+}
+
+.index-shell .round-cta:hover {
+  background: #0870b8;
+  border-color: #0870b8;
+  color: #fff;
+  transform: rotate(-7deg);
+}
+
+.index-shell .vertical-note {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  right: 2.1vw;
+  writing-mode: vertical-rl;
+  transform: translateY(-50%);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.index-shell .scroll-cue {
+  position: absolute;
+  z-index: 2;
+  bottom: 25px;
+  left: 4.5vw;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 9px;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+}
+
+.index-shell .scroll-cue span {
+  width: 38px;
+  height: 1px;
+  background: #fff;
+  animation: indexPulseLine 1.8s infinite;
+}
+
+@keyframes indexPulseLine {
+  50% {
+    width: 65px;
+    opacity: 0.45;
+  }
+}
+
+@media (max-width: 900px) {
+  .index-shell .site-header {
+    height: 78px;
+    grid-template-columns: 1fr auto;
+    padding: 0 22px;
+  }
+
+  .index-shell .brand img {
+    width: 145px;
+  }
+
+  .index-shell .shop-pair {
+    display: none;
+  }
+
+  .index-shell .menu-button {
+    display: grid;
+    place-content: center;
+    gap: 6px;
+    width: 43px;
+    height: 43px;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: transparent;
+    border-radius: 50%;
+  }
+
+  .index-shell .menu-button span {
+    display: block;
+    width: 17px;
+    height: 1px;
+    background: #fff;
+  }
+
+  .index-shell .nav-links {
+    position: fixed;
+    inset: 0;
+    background: var(--navy);
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+    transform: translateY(-100%);
+    transition: transform 0.5s;
+    z-index: -1;
+  }
+
+  .index-shell .nav-links.open {
+    transform: translateY(0);
+  }
+
+  .index-shell .nav-links a {
+    font-family: var(--font-display);
+    font-size: 34px;
+    letter-spacing: 0.02em;
+  }
+
+  .index-shell .hero-content {
+    width: 88vw;
+    padding: clamp(4.5rem, 10%, 6rem) 0 clamp(1.5rem, 5%, 2.5rem) 22px;
+  }
+
+  .index-shell .hero h1 {
+    font-size: clamp(56px, 14vw, 92px);
+    line-height: 1.04;
+  }
+
+  .index-shell .hero-bottom {
+    padding-left: 0;
+    justify-content: flex-start;
+    gap: 28px;
+  }
+
+  .index-shell .hero-bottom > p {
+    max-width: 34ch;
+  }
+
+  .index-shell .vertical-note {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .index-shell .hero-content {
+    width: calc(100% - 44px);
+    gap: 1.1rem;
+  }
+
+  .index-shell .hero h1 {
+    font-size: clamp(52px, 16vw, 76px);
+    line-height: 1.06;
+  }
+
+  .index-shell .hero-eyebrow {
+    margin-bottom: 8px;
+  }
+
+  .index-shell .hero-bottom {
+    align-items: end;
+    margin-top: 12px;
+  }
+
+  .index-shell .hero-bottom > p {
+    font-size: 13px;
+    line-height: 1.75;
+    max-width: 28ch;
+  }
+
+  .index-shell .round-cta {
+    width: 85px;
+  }
+
+  .index-shell .scroll-cue {
+    left: 22px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .index-shell .scroll-cue span {
+    animation: none;
+  }
+}
