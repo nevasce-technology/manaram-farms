@@ -7,8 +7,10 @@
   --ss-line: rgba(16, 35, 52, 0.13);
   --ss-paper: #fbf9f3;
   --ss-nav: 92px;
-  --ss-stage-h: min(68vh, 36rem);
-  --ss-media-h: min(30rem, calc(var(--ss-stage-h) - 5.75rem));
+  --ss-lock-gap: 3.1rem;
+  --ss-stage-h: min(58vh, 32rem);
+  --ss-media-h: min(26rem, calc(var(--ss-stage-h) - 5.75rem));
+  --ss-lock-h: calc(4.5rem + var(--ss-lock-gap) + var(--ss-stage-h));
   background: var(--ss-paper);
   color: var(--ss-ink);
 }
@@ -16,7 +18,7 @@
 .story-stack__inner {
   width: min(100%, 1420px);
   margin-inline: auto;
-  padding: clamp(1.75rem, 3vw, 2.5rem) clamp(1.4rem, 5.5vw, 5.5rem)
+  padding: clamp(1rem, 2vw, 1.5rem) clamp(1.4rem, 5.5vw, 5.5rem)
     clamp(4rem, 6vw, 5.5rem);
 }
 
@@ -72,18 +74,40 @@
   border: 1px solid rgba(8, 112, 184, 0.18);
 }
 
-/* Tall track keeps the card locked in center through the flip */
+/* Tall track keeps banner + card locked together through the flip */
 .story-stack__scroller {
   position: relative;
   height: 190vh;
 }
 
-.story-stack__stage {
+.story-stack__lock {
   position: sticky;
-  /* Dead-center in the visible area below the fixed nav */
   top: calc(
-    var(--ss-nav) + (100vh - var(--ss-nav) - var(--ss-stage-h)) / 2
+    var(--ss-nav) +
+      max(0.35rem, (100vh - var(--ss-nav) - var(--ss-lock-h)) / 2)
   );
+  display: flex;
+  flex-direction: column;
+  gap: var(--ss-lock-gap);
+  width: 100%;
+}
+
+/* Banner sits flush in the lock — no extra paper padding */
+.story-stack .impact-banner {
+  flex: 0 0 auto;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+.story-stack .impact-banner__inner {
+  width: 100%;
+}
+
+.story-stack__stage {
+  position: relative;
+  flex: 0 0 auto;
   height: var(--ss-stage-h);
   overflow: hidden;
   background: #ffffff;
@@ -167,6 +191,34 @@
 
 .story-stack__copy {
   min-width: 0;
+}
+
+.story-stack__copy--about {
+  align-self: center;
+  max-width: 34rem;
+  padding-right: clamp(0rem, 1.5vw, 1rem);
+}
+
+.story-stack__copy--about h2 {
+  margin-bottom: 1.15rem;
+  max-width: none;
+  font-family: "Outfit", "Outfit Fallback", system-ui, sans-serif;
+  font-size: clamp(2.25rem, 3.5vw, 3.35rem);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.story-stack__copy--about .story-stack__body {
+  margin-top: 0;
+  max-width: 49ch;
+  color: #4f5e6c;
+  font-size: clamp(0.92rem, 1.05vw, 1rem);
+  line-height: 1.72;
+}
+
+.story-stack__copy--about .story-stack__link {
+  margin-top: 1.4rem;
 }
 
 .story-stack__eyebrow {
@@ -314,8 +366,8 @@
 @media (max-width: 900px) {
   .story-stack {
     --ss-nav: 78px;
-    --ss-stage-h: min(78vh, 40rem);
-    --ss-media-h: min(22rem, 52vw);
+    --ss-stage-h: min(62vh, 34rem);
+    --ss-media-h: min(18rem, 48vw);
   }
 
   .story-stack__slide {
@@ -366,9 +418,12 @@
     height: auto;
   }
 
-  .story-stack__stage {
+  .story-stack__lock {
     position: relative;
     top: auto;
+  }
+
+  .story-stack__stage {
     height: auto;
     overflow: visible;
   }

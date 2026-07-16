@@ -392,16 +392,17 @@ button {
 .why-manaram__top {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: clamp(2rem, 5vw, 4rem);
+  gap: clamp(1rem, 2.5vw, 2rem);
   align-items: center;
 }
 
 .why-manaram__intro {
-  max-width: 40rem;
+  max-width: none;
+  min-width: 0;
   padding-left: 0;
+  padding-right: clamp(0.5rem, 2vw, 1.5rem);
 }
 
-.why-manaram__eyebrow,
 .why-manaram__certification-label {
   margin: 0;
   color: var(--blue);
@@ -412,24 +413,37 @@ button {
   text-transform: uppercase;
 }
 
+.why-manaram__intro .why-manaram__eyebrow,
 .why-manaram__intro h2 {
-  margin: 1rem 0 0;
-  max-width: 13ch;
+  margin: 0;
+  max-width: none;
   color: #102334;
-  font-family: var(--font-sans);
-  font-size: clamp(2.75rem, 4.5vw, 4.4rem);
+  font-family: "Oswald", var(--font-sans);
+  font-size: clamp(2.75rem, 5vw, 4.25rem);
   font-weight: 500;
-  letter-spacing: -0.052em;
+  letter-spacing: -0.04em;
   line-height: 0.98;
-  text-wrap: balance;
+  text-transform: none;
+}
+
+.why-manaram__intro .why-manaram__eyebrow {
+  margin: 0;
+}
+
+.why-manaram__intro h2 {
+  margin: 0.15rem 0 0;
 }
 
 .why-manaram__intro > p:not(.why-manaram__eyebrow) {
-  margin: 1.4rem 0 0;
-  max-width: 55ch;
+  margin: 1.15rem 0 0;
+  width: 100%;
+  max-width: none;
   color: #5a6572;
-  font-size: clamp(0.96rem, 1.2vw, 1.05rem);
-  line-height: 1.65;
+  font-size: clamp(0.92rem, 1.05vw, 1rem);
+  line-height: 1.55;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: none;
 }
 
 .why-manaram__certification {
@@ -563,23 +577,32 @@ button {
   line-height: 1.45;
 }
 
-/* Impact stats — solid blue strip, same width as adjacent sections */
+/* Impact stats — one blue strip; paper seam matches sections above/below */
 .impact-banner {
-  width: min(100%, 1420px);
-  margin: 0.85rem auto;
-  padding: 0 clamp(1.5rem, 5.5vw, 5.5rem);
-  background: transparent;
+  width: 100%;
+  margin: 0;
+  padding: clamp(1.75rem, 3vw, 2.5rem) clamp(1.5rem, 5.5vw, 5.5rem);
+  background: #fbf9f3;
   font-family: "Montserrat", var(--font-sans);
 }
 
 .impact-banner__inner {
-  width: 100%;
-  margin: 0;
+  width: min(100%, 1420px);
+  margin-inline: auto;
   padding: 0.8rem clamp(1.25rem, 2.5vw, 2rem);
   border: 0;
-  border-radius: 2px;
+  border-radius: 0;
   background: var(--blue);
   box-shadow: none;
+  filter: none;
+}
+
+.impact-banner::before,
+.impact-banner::after,
+.impact-banner__inner::before,
+.impact-banner__inner::after {
+  content: none;
+  display: none;
 }
 
 .impact-banner__stats {

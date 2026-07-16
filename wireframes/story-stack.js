@@ -2,6 +2,7 @@
   const scroller = document.querySelector("[data-story-stack]");
   if (!scroller) return;
 
+  const lock = scroller.querySelector(".story-stack__lock");
   const stage = scroller.querySelector(".story-stack__stage");
   const slides = Array.from(
     scroller.querySelectorAll("[data-story-slide]")
@@ -9,7 +10,7 @@
   const firstSlide = slides.find((s) => s.dataset.storySlide === "0");
   const storySlide = slides.find((s) => s.dataset.storySlide === "1");
 
-  if (!stage || !firstSlide || !storySlide) return;
+  if (!lock || !stage || !firstSlide || !storySlide) return;
 
   const reduceMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
@@ -26,6 +27,10 @@
 
   const clamp01 = (value) => Math.min(1, Math.max(0, value));
 
+  const syncLockHeight = () => {
+    scroller.style.setProperty("--ss-lock-h", `${lock.offsetHeight}px`);
+  };
+
   const setSlide = (showSecond) => {
     storySlide.style.opacity = showSecond ? "1" : "0";
     storySlide.style.transform = "none";
@@ -37,9 +42,10 @@
 
   const update = () => {
     ticking = false;
+    syncLockHeight();
 
     const rect = scroller.getBoundingClientRect();
-    const total = scroller.offsetHeight - stage.offsetHeight;
+    const total = scroller.offsetHeight - lock.offsetHeight;
     if (total <= 0) {
       setSlide(false);
       return;
