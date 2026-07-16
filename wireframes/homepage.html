@@ -4,16 +4,46 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Manaram Farm — Homepage Concept</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500;1,9..144,700&family=Outfit:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Oswald:wght@400;500;600&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="https://fonts.gstatic.com/s/outfit/v15/QGYvz_MVcBeNP4NJtEtqUYLknw.woff2"
+      crossorigin
     />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="https://fonts.gstatic.com/s/fraunces/v38/6NUu8FyLNQOQZAnv9bYEvDiIdE9Ea92uemAk_WBq8U_9v0c2Wa0K7iN7iQcIfJD58ngB1Yc7qv8oRcTn.woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="https://fonts.gstatic.com/s/fraunces/v38/6NUs8FyLNQOQZAnv9ZwNjucMHVn85Ni7emAe9lKqZTnbB-gzTK0K1ChJdt9hFwpX9W37lm1_mv0iQublWII.woff2"
+      crossorigin
+    />
+    <link rel="stylesheet" href="fonts.css" />
     <link rel="stylesheet" href="homepage.css" />
     <link rel="stylesheet" href="index-hero.css" />
     <link rel="stylesheet" href="story-index.css" />
     <link rel="stylesheet" href="standalone.css" />
+    <!-- Secondary fonts for lower sections — load after first paint -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Oswald:wght@400;500;600&display=optional"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Oswald:wght@400;500;600&display=optional"
+      />
+    </noscript>
   </head>
   <body>
     <div class="ambient" aria-hidden="true"></div>
@@ -84,84 +114,99 @@
     <!-- ========== WELCOME / BRAND PROMISE ========== -->
     <section class="brand-welcome" aria-labelledby="welcome-title">
       <div class="brand-welcome__inner">
-        <header class="brand-welcome__header">
-          <p class="brand-welcome__eyebrow">Welcome to Manaram Farm</p>
-          <h2 id="welcome-title">
-            Good food begins with<br /><em>better choices.</em>
-          </h2>
-          <p>
-            Since 2014, we have turned Nepal’s local resources into foods made
-            for everyday life—bringing together fine raw materials,
-            time-honoured knowledge and modern standards.
-          </p>
-        </header>
+        <div class="brand-welcome__top">
+          <header class="brand-welcome__intro">
+            <p class="brand-welcome__eyebrow">Why Manaram</p>
+            <h2 id="welcome-title">Made in Nepal. Made with care.</h2>
+            <p>
+              Since 2014, Manaram Farm has brought Nepal’s local ingredients and
+              food traditions into thoughtfully made dairy, pantry and
+              Himalayan foods for everyday life.
+            </p>
+            <div class="brand-welcome__facts" aria-label="Manaram Farm at a glance">
+              <div>
+                <strong>2014</strong>
+                <span>Established in Nepal</span>
+              </div>
+              <div>
+                <strong>40,000+</strong>
+                <span>Farmers supported</span>
+              </div>
+            </div>
+          </header>
+
+          <aside class="iso-card" aria-labelledby="iso-card-title">
+            <div class="iso-card__heading">
+              <p>Food safety, verified</p>
+              <span aria-hidden="true">Certified standard</span>
+            </div>
+            <h3 id="iso-card-title">ISO 22000:2018</h3>
+            <p>Certified food-safety management system.</p>
+            <img
+              src="assets/manaram-about/IAS-Accredfied.jpg"
+              alt="IAS Accredited and G-CERT ISO 22000:2018 certification marks"
+              width="600"
+              height="200"
+              loading="lazy"
+              decoding="async"
+            />
+          </aside>
+        </div>
 
         <div class="brand-promises">
           <article class="brand-promise">
-            <img
-              src="assets/manaram-homepage/Premiumqualityproducts.jpg"
-              alt="A selection of Manaram dairy products"
-              width="400"
-              height="400"
-              loading="lazy"
-              decoding="async"
-            />
-            <div class="brand-promise__veil"></div>
+            <div class="brand-promise__media">
+              <img
+                src="assets/manaram-homepage/Premiumqualityproducts.jpg"
+                alt="A Manaram team member sealing a packaged food product"
+                width="446"
+                height="400"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
             <div class="brand-promise__copy">
-              <span>01</span>
-              <h3>Premium quality<br />products</h3>
-              <p>Carefully selected ingredients. No shortcuts on quality.</p>
+              <span>01 / Made with care</span>
+              <h3>Quality, without shortcuts</h3>
+              <p>Considered production and attention at every step.</p>
             </div>
           </article>
 
           <article class="brand-promise">
-            <img
-              src="assets/manaram-homepage/Healthwellnessfirst.jpg"
-              alt="Colorful spices and Himalayan pantry ingredients"
-              width="400"
-              height="400"
-              loading="lazy"
-              decoding="async"
-            />
-            <div class="brand-promise__veil"></div>
+            <div class="brand-promise__media">
+              <img
+                src="assets/manaram-homepage/Healthwellnessfirst.jpg"
+                alt="A Manaram laboratory technician testing a product sample"
+                width="407"
+                height="524"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
             <div class="brand-promise__copy">
-              <span>02</span>
-              <h3>Health &amp; wellness<br />first</h3>
-              <p>Nourishing foods made with everyday wellbeing in mind.</p>
+              <span>02 / Tested with purpose</span>
+              <h3>Wellbeing comes first</h3>
+              <p>Foods made for everyday nourishment and enjoyment.</p>
             </div>
           </article>
 
           <article class="brand-promise">
-            <img
-              src="assets/manaram-homepage/goodnessyoucantrustr.jpg"
-              alt="Aerial view of Manaram's production site and surrounding fields"
-              width="554"
-              height="548"
-              loading="lazy"
-              decoding="async"
-            />
-            <div class="brand-promise__veil"></div>
+            <div class="brand-promise__media">
+              <img
+                src="assets/manaram-homepage/goodnessyoucantrust-1200.jpg"
+                alt="Hands planting a young seedling in the soil"
+                width="1200"
+                height="800"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
             <div class="brand-promise__copy">
-              <span>03</span>
-              <h3>Goodness you<br />can trust</h3>
-              <p>Traditional knowledge supported by modern food standards.</p>
+              <span>03 / Rooted at source</span>
+              <h3>Trust, built into the process</h3>
+              <p>Traditional know-how supported by modern standards.</p>
             </div>
           </article>
-        </div>
-
-        <div class="brand-proof" aria-label="Manaram Farm at a glance">
-          <div>
-            <strong>2014</strong>
-            <span>Manaram Farm established</span>
-          </div>
-          <div>
-            <strong>40,000+</strong>
-            <span>Farmers supported and empowered</span>
-          </div>
-          <div>
-            <strong>ISO</strong>
-            <span>Certified food production</span>
-          </div>
         </div>
       </div>
     </section>

@@ -6,8 +6,8 @@
   --story-muted: #596775;
   --story-paper: #fbf9f3;
   --story-line: rgba(16, 35, 52, 0.13);
-  --story-display: "Fraunces", Georgia, serif;
-  --story-sans: "Outfit", system-ui, sans-serif;
+  --story-display: "Fraunces", "Fraunces Fallback", Georgia, serif;
+  --story-sans: "Outfit", "Outfit Fallback", system-ui, sans-serif;
   background: var(--story-paper);
   color: var(--story-ink);
   font-family: var(--story-sans);
