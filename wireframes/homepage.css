@@ -365,15 +365,120 @@ button {
   }
 }
 
-/* Second-section refinement: compact, modern and certification-led */
+/* Trust band — ISO + workforce, directly under hero */
+.trust-band {
+  background: linear-gradient(180deg, #eef6fb 0%, #ffffff 72%);
+  border-bottom: 1px solid rgba(16, 35, 52, 0.1);
+}
+
+.trust-band__inner {
+  width: min(100%, 1420px);
+  margin-inline: auto;
+  padding: clamp(2.5rem, 4.5vw, 3.75rem) clamp(1.4rem, 5.5vw, 5.5rem);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: stretch;
+}
+
+.trust-band .iso-card {
+  height: 100%;
+}
+
+.trust-band__people {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(12rem, 0.85fr);
+  gap: clamp(1rem, 2vw, 1.5rem);
+  align-items: end;
+  min-width: 0;
+}
+
+.trust-band__card {
+  margin: 0;
+  min-width: 0;
+}
+
+.trust-band__card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 3px;
+  background: #e8eef2;
+}
+
+.trust-band__card figcaption {
+  margin-top: 0.75rem;
+  color: #596775;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  line-height: 1.35;
+}
+
+.trust-band__workforce {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  min-height: 100%;
+  padding: 1rem 0 0;
+  border-top: 1px solid rgba(16, 35, 52, 0.13);
+}
+
+.trust-band__eyebrow {
+  margin: 0;
+  color: var(--blue);
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.trust-band__stat {
+  margin: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.trust-band__stat strong {
+  display: block;
+  color: var(--blue);
+  font-family: var(--font-display);
+  font-size: clamp(3.25rem, 6vw, 4.75rem);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 0.92;
+}
+
+.trust-band__stat span {
+  display: block;
+  max-width: 14ch;
+  color: #102334;
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.trust-band__note {
+  margin: 0.35rem 0 0;
+  max-width: 34ch;
+  color: var(--ink-soft);
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+/* Second-section refinement: compact, modern */
 .brand-welcome__inner {
   padding-block: clamp(4.5rem, 7vw, 6.5rem);
 }
 
 .brand-welcome__top {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(19rem, 0.65fr);
-  gap: clamp(3rem, 7vw, 7rem);
+  grid-template-columns: 1fr;
+  gap: 0;
   align-items: start;
   margin-bottom: clamp(2.5rem, 4vw, 3.75rem);
 }
@@ -595,9 +700,12 @@ button {
 }
 
 @media (max-width: 900px) {
-  .brand-welcome__top {
-    grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.72fr);
-    gap: 2.5rem;
+  .trust-band__inner {
+    grid-template-columns: 1fr;
+  }
+
+  .trust-band__people {
+    grid-template-columns: minmax(0, 1fr) minmax(11rem, 0.75fr);
   }
 
   .brand-welcome__intro h2 {
@@ -606,13 +714,18 @@ button {
 }
 
 @media (max-width: 760px) {
-  .brand-welcome__top {
+  .trust-band__inner {
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 1.25rem;
+  }
+
+  .trust-band__people {
+    grid-template-columns: minmax(0, 1.1fr) minmax(8rem, 0.7fr);
+    align-items: end;
   }
 
   .iso-card {
-    width: min(100%, 31rem);
+    width: 100%;
   }
 
   .brand-promises {

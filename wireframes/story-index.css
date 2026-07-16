@@ -180,10 +180,11 @@
 
 .story-support {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(7.5rem, 0.62fr);
+  grid-template-columns: minmax(0, 1fr);
   gap: 1rem;
   align-items: end;
   margin-top: clamp(2.25rem, 4vw, 3.5rem);
+  max-width: 16.5rem;
 }
 
 .story-support img {

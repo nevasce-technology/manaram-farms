@@ -81,21 +81,21 @@
         </button>
       </header>
 
-      <section class="hero" id="top">
+      <section class="hero" id="top" aria-labelledby="hero-title">
         <img
           class="hero-image"
           src="./assets/hero.png"
-          alt="Manaram Farm"
+          alt="Cattle grazing below a Himalayan mountain in Nepal"
           width="1564"
           height="724"
         />
         <div class="hero-content">
           <p class="eyebrow hero-eyebrow">
-            <span></span> Rooted in Nepal · Since 2014
+            <span></span> Made in Nepal · Shared beyond borders
           </p>
-          <h1>
-            <span>Nepal’s goodness,</span>
-            <em>made for every<br />day.</em>
+          <h1 id="hero-title">
+            <span>Nepal’s Goodness,</span>
+            <em>made for the<br />world.</em>
           </h1>
           <p class="hero-support">
             Thoughtfully made dairy, pantry staples and Himalayan favourites —
@@ -103,13 +103,61 @@
           </p>
           <div class="hero-actions">
             <a class="hero-cta" href="#worlds"
-              >Explore our foods <span aria-hidden="true">→</span></a
+              >Taste Nepal <span aria-hidden="true">→</span></a
             >
-            <a class="hero-link" href="#story">Our story</a>
+            <a class="hero-link" href="#shop-regions">Shop by region</a>
           </div>
         </div>
       </section>
     </div>
+
+    <!-- ========== TRUST BAND — ISO + source card + workforce ========== -->
+    <section class="trust-band" aria-label="Certification and workforce">
+      <div class="trust-band__inner">
+        <aside class="iso-card" aria-labelledby="iso-card-title">
+          <div class="iso-card__heading">
+            <p>Food safety, verified</p>
+            <span aria-hidden="true">Certified standard</span>
+          </div>
+          <h3 id="iso-card-title">ISO 22000:2018</h3>
+          <p>Certified food-safety management system.</p>
+          <img
+            src="assets/manaram-about/IAS-Accredfied.jpg"
+            alt="IAS Accredited and G-CERT ISO 22000:2018 certification marks"
+            width="600"
+            height="200"
+            loading="lazy"
+            decoding="async"
+          />
+        </aside>
+
+        <div class="trust-band__people">
+          <figure class="trust-band__card">
+            <img
+              src="assets/farm-story.jpg"
+              alt="Manaram team members handling packaged products"
+              width="554"
+              height="548"
+              loading="lazy"
+              decoding="async"
+            />
+            <figcaption>Made with care, from source to shelf.</figcaption>
+          </figure>
+
+          <div class="trust-band__workforce" aria-labelledby="workforce-title">
+            <p class="trust-band__eyebrow">Our people</p>
+            <p id="workforce-title" class="trust-band__stat">
+              <strong>75%+</strong>
+              <span>Women across our workforce</span>
+            </p>
+            <p class="trust-band__note">
+              Care is a practice — from farm and factory to the hands that make
+              every product possible.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- ========== WELCOME / BRAND PROMISE ========== -->
     <section class="brand-welcome" aria-labelledby="welcome-title">
@@ -134,23 +182,6 @@
               </div>
             </div>
           </header>
-
-          <aside class="iso-card" aria-labelledby="iso-card-title">
-            <div class="iso-card__heading">
-              <p>Food safety, verified</p>
-              <span aria-hidden="true">Certified standard</span>
-            </div>
-            <h3 id="iso-card-title">ISO 22000:2018</h3>
-            <p>Certified food-safety management system.</p>
-            <img
-              src="assets/manaram-about/IAS-Accredfied.jpg"
-              alt="IAS Accredited and G-CERT ISO 22000:2018 certification marks"
-              width="600"
-              height="200"
-              loading="lazy"
-              decoding="async"
-            />
-          </aside>
         </div>
 
         <div class="brand-promises">
@@ -249,24 +280,6 @@
             <a class="story-link" href="https://manaram.farm/about/"
               >Discover our story <span aria-hidden="true">→</span></a
             >
-
-            <div class="story-support">
-              <figure>
-                <img
-                  src="assets/farm-story.jpg"
-                  alt="Manaram team members handling packaged products"
-                  width="554"
-                  height="548"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <figcaption>Made with care, from source to shelf.</figcaption>
-              </figure>
-              <div class="story-stat">
-                <strong>75%+</strong>
-                <span>Women across our workforce</span>
-              </div>
-            </div>
           </div>
         </div>
 
