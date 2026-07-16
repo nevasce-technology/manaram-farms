@@ -21,23 +21,31 @@
     <!-- ========== 1. HERO — exact theme from Downloads/index.html ========== -->
     <div class="index-shell">
       <header class="site-header">
-        <a class="brand" href="#top" aria-label="Manaram Farm home"
-          ><img src="assets/logo.png" alt="Manaram Farm"
-        /></a>
-        <nav class="nav-links" aria-label="Main navigation">
-          <a href="#story">Our story</a><a href="#worlds">Products</a
-          ><a href="#codex-source">Our source</a
-          ><a href="#footer">Contact</a>
+        <a class="brand" href="#top" aria-label="Manaram Farm home">
+          <img src="assets/logo.png" alt="Manaram Farm" />
+          <span class="brand-note">Foods of Nepal</span>
+        </a>
+        <nav class="nav-links" id="main-navigation" aria-label="Main navigation">
+          <a href="#story">Our story</a>
+          <a href="#worlds">Products</a>
+          <a href="#codex-source">Our source</a>
+          <a href="#footer">Contact</a>
+          <div class="mobile-shop-pair" role="group" aria-label="Shop by region">
+            <a href="#shop-regions">Shop Nepal <span aria-hidden="true">→</span></a>
+            <a href="#shop-regions">Shop USA <span aria-hidden="true">→</span></a>
+          </div>
         </nav>
-        <div class="shop-pair" aria-label="Shop by region">
-          <a class="btn btn--primary" href="#shop-regions">Shop&nbsp;Nepal</a>
-          <a class="btn btn--ghost-light" href="#shop-regions">Shop&nbsp;USA</a>
+        <div class="shop-pair" role="group" aria-label="Shop by region">
+          <span class="shop-label">Shop</span>
+          <a class="btn btn--primary" href="#shop-regions">Nepal</a>
+          <a class="btn btn--ghost-nav" href="#shop-regions">USA</a>
         </div>
         <button
           class="menu-button"
           type="button"
-          aria-label="Toggle navigation"
+          aria-label="Open navigation"
           aria-expanded="false"
+          aria-controls="main-navigation"
         >
           <span></span><span></span>
         </button>
@@ -53,76 +61,186 @@
         />
         <div class="hero-content">
           <p class="eyebrow hero-eyebrow">
-            <span></span> Grown in Nepal · Since 2014
+            <span></span> Rooted in Nepal · Since 2014
           </p>
           <h1>
-            Goodness,<br /><em>grown close</em><br /><span class="hero-line"
-              >to home.</span
-            >
+            <span>Nepal’s goodness,</span>
+            <em>made for every<br />day.</em>
           </h1>
-          <div class="hero-bottom">
-            <p>
-              Honest food made from local resources, traditional knowledge and a
-              stubborn commitment to quality.
-            </p>
-            <a
-              class="round-cta"
-              href="#story"
-              aria-label="Discover our story"
-              ><span>Discover</span><span>→</span></a
+          <p class="hero-support">
+            Thoughtfully made dairy, pantry staples and Himalayan favourites —
+            preserving the taste of home with care at every step.
+          </p>
+          <div class="hero-actions">
+            <a class="hero-cta" href="#worlds"
+              >Explore our foods <span aria-hidden="true">→</span></a
             >
+            <a class="hero-link" href="#story">Our story</a>
           </div>
         </div>
-        <div class="vertical-note">Farm to family · Naturally Nepal</div>
-        <div class="scroll-cue"><span></span> Scroll to explore</div>
       </section>
     </div>
 
-    <!-- ========== OUR STORY — exact layout from index.html ========== -->
-    <div class="story-index">
-      <section class="intro section-pad" id="story">
-        <div class="section-index reveal">01 / OUR STORY</div>
-        <div class="intro-copy reveal">
-          <p class="eyebrow dark"><span></span> Welcome to Manaram Farm</p>
-          <h2>Food with a <em>memory.</em><br />Made for today.</h2>
-        </div>
-        <div class="intro-body reveal">
-          <p class="lead">
-            We bring Nepal’s finest local ingredients into everyday kitchens,
-            preserving the taste of home while raising the standard of how it is
-            made.
-          </p>
+    <!-- ========== WELCOME / BRAND PROMISE ========== -->
+    <section class="brand-welcome" aria-labelledby="welcome-title">
+      <div class="brand-welcome__inner">
+        <header class="brand-welcome__header">
+          <p class="brand-welcome__eyebrow">Welcome to Manaram Farm</p>
+          <h2 id="welcome-title">
+            Good food begins with<br /><em>better choices.</em>
+          </h2>
           <p>
-            From dairy and grains to achar, spices and mountain-grown tea, every
-            Manaram product begins with a close relationship to source. We pair
-            time-honoured techniques with modern care so that what reaches your
-            table is delicious, dependable and deeply rooted.
+            Since 2014, we have turned Nepal’s local resources into foods made
+            for everyday life—bringing together fine raw materials,
+            time-honoured knowledge and modern standards.
           </p>
-          <a
-            class="text-link"
-            href="https://manaram.farm/about/"
-            target="_blank"
-            rel="noreferrer"
-            >Read our full story <span>→</span></a
-          >
-        </div>
-      </section>
+        </header>
 
-      <section class="story-collage">
-        <div class="collage-main reveal">
-          <img src="assets/cows.jpg" alt="Cattle at Manaram Farm" />
-          <div class="image-tag">Pure beginnings</div>
+        <div class="brand-promises">
+          <article class="brand-promise">
+            <img
+              src="assets/manaram-homepage/Premiumqualityproducts.jpg"
+              alt="A selection of Manaram dairy products"
+              width="400"
+              height="400"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="brand-promise__veil"></div>
+            <div class="brand-promise__copy">
+              <span>01</span>
+              <h3>Premium quality<br />products</h3>
+              <p>Carefully selected ingredients. No shortcuts on quality.</p>
+            </div>
+          </article>
+
+          <article class="brand-promise">
+            <img
+              src="assets/manaram-homepage/Healthwellnessfirst.jpg"
+              alt="Colorful spices and Himalayan pantry ingredients"
+              width="400"
+              height="400"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="brand-promise__veil"></div>
+            <div class="brand-promise__copy">
+              <span>02</span>
+              <h3>Health &amp; wellness<br />first</h3>
+              <p>Nourishing foods made with everyday wellbeing in mind.</p>
+            </div>
+          </article>
+
+          <article class="brand-promise">
+            <img
+              src="assets/manaram-homepage/goodnessyoucantrustr.jpg"
+              alt="Aerial view of Manaram's production site and surrounding fields"
+              width="554"
+              height="548"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="brand-promise__veil"></div>
+            <div class="brand-promise__copy">
+              <span>03</span>
+              <h3>Goodness you<br />can trust</h3>
+              <p>Traditional knowledge supported by modern food standards.</p>
+            </div>
+          </article>
         </div>
-        <div class="collage-card reveal">
-          <span class="year">2014</span>
-          <p>The year our mission took root.</p>
-          <div class="seal">
-            <strong>10+</strong><span>years of<br />goodness</span>
+
+        <div class="brand-proof" aria-label="Manaram Farm at a glance">
+          <div>
+            <strong>2014</strong>
+            <span>Manaram Farm established</span>
+          </div>
+          <div>
+            <strong>40,000+</strong>
+            <span>Farmers supported and empowered</span>
+          </div>
+          <div>
+            <strong>ISO</strong>
+            <span>Certified food production</span>
           </div>
         </div>
-        <div class="collage-small reveal">
-          <img src="assets/farm-story.jpg" alt="Manaram's local farm" />
-          <p>Baluwatar · Kathmandu · Nepal</p>
+      </div>
+    </section>
+
+    <!-- ========== OUR STORY ========== -->
+    <div class="story-index">
+      <section class="story-section" id="story">
+        <div class="story-heading reveal">
+          <p class="section-index"><span>01</span> Our story</p>
+          <p class="story-established">
+            Manaram Farm · Established <time datetime="2014">2014</time>
+          </p>
+        </div>
+
+        <div class="story-layout">
+          <figure class="story-primary reveal">
+            <img
+              src="assets/cows.jpg"
+              alt="Cattle at Manaram Farm"
+              width="1017"
+              height="870"
+              loading="lazy"
+              decoding="async"
+            />
+            <figcaption>Our dairy farm · Nepal</figcaption>
+          </figure>
+
+          <div class="story-copy reveal">
+            <p class="eyebrow dark"><span></span> Who we are</p>
+            <h2>Rooted in Nepal.<br /><em>Made with care.</em></h2>
+            <p class="story-lead">
+              Manaram Farm turns Nepal’s native ingredients into thoughtfully
+              made foods for everyday life.
+            </p>
+            <p class="story-body">
+              Since 2014, we have brought together quality raw materials,
+              time-honoured knowledge and modern standards to make familiar
+              Himalayan flavours ready for homes in Nepal and beyond.
+            </p>
+            <a class="story-link" href="https://manaram.farm/about/"
+              >Discover our story <span aria-hidden="true">→</span></a
+            >
+
+            <div class="story-support">
+              <figure>
+                <img
+                  src="assets/farm-story.jpg"
+                  alt="Manaram team members handling packaged products"
+                  width="554"
+                  height="548"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <figcaption>Made with care, from source to shelf.</figcaption>
+              </figure>
+              <div class="story-stat">
+                <strong>75%+</strong>
+                <span>Women across our workforce</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="story-principles reveal" aria-label="How we work">
+          <div>
+            <span>01</span>
+            <h3>Local at the source</h3>
+            <p>Nepali ingredients chosen for quality and character.</p>
+          </div>
+          <div>
+            <span>02</span>
+            <h3>Tradition, refined</h3>
+            <p>Familiar methods strengthened by modern care.</p>
+          </div>
+          <div>
+            <span>03</span>
+            <h3>Made to go further</h3>
+            <p>Himalayan foods for tables in Nepal and beyond.</p>
+          </div>
         </div>
       </section>
     </div>

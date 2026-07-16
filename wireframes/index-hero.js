@@ -14,13 +14,33 @@
   window.addEventListener("scroll", updateScene, { passive: true });
 
   if (menuButton && nav) {
+    const closeMenu = () => {
+      nav.classList.remove("open");
+      menuButton.classList.remove("is-open");
+      menuButton.setAttribute("aria-expanded", "false");
+      menuButton.setAttribute("aria-label", "Open navigation");
+      document.body.classList.remove("nav-open");
+    };
+
     menuButton.addEventListener("click", () => {
       const open = nav.classList.toggle("open");
+      menuButton.classList.toggle("is-open", open);
       menuButton.setAttribute("aria-expanded", String(open));
+      menuButton.setAttribute(
+        "aria-label",
+        open ? "Close navigation" : "Open navigation"
+      );
+      document.body.classList.toggle("nav-open", open);
     });
     nav.querySelectorAll("a").forEach((link) =>
-      link.addEventListener("click", () => nav.classList.remove("open"))
+      link.addEventListener("click", closeMenu)
     );
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMenu();
+    });
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 900) closeMenu();
+    });
   }
 
   updateScene();
