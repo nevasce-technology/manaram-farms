@@ -820,12 +820,12 @@
 }
 
 /* Quiet handoff from the photographic hero into the warm trust section. */
-.index-shell + .trust-band {
+.index-shell + .why-manaram {
   position: relative;
   border-top: 0;
 }
 
-.index-shell + .trust-band::before {
+.index-shell + .why-manaram::before {
   content: "";
   position: absolute;
   z-index: 1;
