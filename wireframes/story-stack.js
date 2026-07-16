@@ -6,15 +6,17 @@
   const slides = Array.from(
     scroller.querySelectorAll("[data-story-slide]")
   );
+  const firstSlide = slides.find((s) => s.dataset.storySlide === "0");
   const storySlide = slides.find((s) => s.dataset.storySlide === "1");
 
-  if (!stage || !storySlide) return;
+  if (!stage || !firstSlide || !storySlide) return;
 
   const reduceMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)"
   ).matches;
 
   if (reduceMotion) {
+    storySlide.style.opacity = "1";
     storySlide.style.transform = "none";
     slides.forEach((slide) => slide.classList.add("is-active"));
     return;
@@ -24,24 +26,28 @@
 
   const clamp01 = (value) => Math.min(1, Math.max(0, value));
 
+  const setSlide = (showSecond) => {
+    storySlide.style.opacity = showSecond ? "1" : "0";
+    storySlide.style.transform = "none";
+    firstSlide.style.opacity = "1";
+    firstSlide.classList.toggle("is-active", !showSecond);
+    storySlide.classList.toggle("is-active", showSecond);
+    storySlide.style.pointerEvents = showSecond ? "auto" : "none";
+  };
+
   const update = () => {
     ticking = false;
 
     const rect = scroller.getBoundingClientRect();
     const total = scroller.offsetHeight - stage.offsetHeight;
     if (total <= 0) {
-      storySlide.style.transform = "translate3d(0, 100%, 0)";
+      setSlide(false);
       return;
     }
 
-    // Progress through the sticky scroll range
-    const progress = clamp01(-rect.top / total);
-    const y = (1 - progress) * 100;
-
-    storySlide.style.transform = `translate3d(0, ${y}%, 0)`;
-
-    slides[0]?.classList.toggle("is-active", progress < 0.55);
-    storySlide.classList.toggle("is-active", progress >= 0.45);
+    const raw = clamp01(-rect.top / total);
+    // Instant flip at midpoint — no fade / easing
+    setSlide(raw >= 0.5);
   };
 
   const onScroll = () => {
