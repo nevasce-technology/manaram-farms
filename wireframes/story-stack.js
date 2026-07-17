@@ -72,18 +72,72 @@
     requestAnimationFrame(update);
   };
 
+  /* —— Mobile Read more for story descriptions —— */
+  const descBlocks = Array.from(document.querySelectorAll("[data-story-desc]"));
+
+  const syncDescClamp = () => {
+    const mobile = compactMq.matches;
+
+    descBlocks.forEach((desc) => {
+      const more = desc.parentElement?.querySelector("[data-story-more]");
+      if (!more) return;
+
+      if (!mobile) {
+        desc.classList.remove("is-expanded");
+        more.hidden = true;
+        more.classList.remove("is-visible");
+        more.setAttribute("aria-expanded", "false");
+        more.textContent = "Read more";
+        return;
+      }
+
+      // Measure overflow while collapsed
+      const wasExpanded = desc.classList.contains("is-expanded");
+      desc.classList.remove("is-expanded");
+      const overflows = desc.scrollHeight > desc.clientHeight + 1;
+
+      if (wasExpanded) desc.classList.add("is-expanded");
+
+      if (overflows) {
+        more.hidden = false;
+        more.classList.add("is-visible");
+        more.setAttribute("aria-expanded", String(wasExpanded));
+        more.textContent = wasExpanded ? "Read less" : "Read more";
+      } else {
+        more.hidden = true;
+        more.classList.remove("is-visible");
+        desc.classList.add("is-expanded");
+      }
+    });
+  };
+
+  descBlocks.forEach((desc) => {
+    const more = desc.parentElement?.querySelector("[data-story-more]");
+    if (!more) return;
+    more.addEventListener("click", () => {
+      const open = !desc.classList.contains("is-expanded");
+      desc.classList.toggle("is-expanded", open);
+      more.setAttribute("aria-expanded", String(open));
+      more.textContent = open ? "Read less" : "Read more";
+    });
+  });
+
   const syncMode = () => {
     if (reduceMotionMq.matches || compactMq.matches) {
       unlockStatic();
-      return;
+    } else {
+      lockScroll();
+      update();
     }
-    lockScroll();
-    update();
+    requestAnimationFrame(syncDescClamp);
   };
 
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", syncMode, { passive: true });
   if (reduceMotionMq.addEventListener) reduceMotionMq.addEventListener("change", syncMode);
   if (compactMq.addEventListener) compactMq.addEventListener("change", syncMode);
+  if (document.fonts?.ready) {
+    document.fonts.ready.then(() => requestAnimationFrame(syncDescClamp)).catch(() => {});
+  }
   syncMode();
 })();

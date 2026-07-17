@@ -545,3 +545,61 @@
     border-top: 1px solid var(--ss-line);
   }
 }
+
+
+/* Mobile: clamp story descriptions to ~4 lines with Read more */
+.story-stack__desc {
+  display: block;
+}
+
+.story-stack__more {
+  display: none;
+  margin: 0.65rem 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ss-blue);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.story-stack__more:hover,
+.story-stack__more:focus-visible {
+  color: var(--ss-ink);
+}
+
+.story-stack__more:focus-visible {
+  outline: 2px solid var(--ss-blue);
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .story-stack__desc:not(.is-expanded) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+  }
+
+  .story-stack__desc:not(.is-expanded) .story-stack__lead {
+    margin-bottom: 0.35rem;
+  }
+
+  .story-stack__more.is-visible {
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+
+/* Hide Discover our story on mobile — Rooted in Nepal + Our Story */
+@media (max-width: 900px) {
+  .story-stack__link {
+    display: none;
+  }
+}

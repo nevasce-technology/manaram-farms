@@ -77,16 +77,36 @@
       </header>
 
       <section class="hero" id="top" aria-labelledby="hero-title">
-        <img
-          class="hero-image"
-          src="./assets/hero.png"
-          alt="Cattle grazing below a Himalayan mountain in Nepal"
-          width="1564"
-          height="724"
-        />
+        <div class="hero-media">
+          <img
+            class="hero-image"
+            src="./assets/hero.png"
+            alt="Cattle grazing below a Himalayan mountain in Nepal"
+            width="1564"
+            height="724"
+          />
+          <aside
+            class="hero-iso"
+            aria-labelledby="why-manaram-iso-title"
+          >
+            <p class="hero-iso__label">Food safety, verified</p>
+            <h3 id="why-manaram-iso-title">ISO 22000:2018</h3>
+            <p>Certified food-safety management system.</p>
+            <img
+              src="assets/manaram-about/IAS-Accredfied.jpg"
+              alt="IAS Accredited and G-CERT certification marks"
+              width="600"
+              height="200"
+              loading="lazy"
+              decoding="async"
+            />
+          </aside>
+        </div>
         <div class="hero-content">
           <p class="eyebrow hero-eyebrow">
-            <span></span> Made in Nepal · Shared beyond borders
+            <span></span>
+            <span class="hero-eyebrow__desk">Made in Nepal · Shared beyond borders</span>
+            <span class="hero-eyebrow__mobile">Shared<br />beyond borders</span>
           </p>
           <h1 id="hero-title">
             <span>Nepal’s Goodness,</span>
@@ -103,22 +123,6 @@
             <a class="hero-link" href="#shop-regions">Shop by region</a>
           </div>
         </div>
-        <aside
-          class="hero-iso"
-          aria-labelledby="why-manaram-iso-title"
-        >
-          <p class="hero-iso__label">Food safety, verified</p>
-          <h3 id="why-manaram-iso-title">ISO 22000:2018</h3>
-          <p>Certified food-safety management system.</p>
-          <img
-            src="assets/manaram-about/IAS-Accredfied.jpg"
-            alt="IAS Accredited and G-CERT certification marks"
-            width="600"
-            height="200"
-            loading="lazy"
-            decoding="async"
-          />
-        </aside>
       </section>
     </div>
 
@@ -245,15 +249,26 @@
                 <h2 id="story-stack-title">
                   Rooted in Nepal.<br /><em>Made with care.</em>
                 </h2>
-                <p class="story-stack__lead">
-                  Manaram Farm turns Nepal’s native ingredients into thoughtfully
-                  made foods for everyday life.
-                </p>
-                <p class="story-stack__body">
-                  Since 2014, we have brought together quality raw materials,
-                  time-honoured knowledge and modern standards to make familiar
-                  Himalayan flavours ready for homes in Nepal and beyond.
-                </p>
+                <div class="story-stack__desc" data-story-desc>
+                  <p class="story-stack__lead">
+                    Manaram Farm turns Nepal’s native ingredients into thoughtfully
+                    made foods for everyday life.
+                  </p>
+                  <p class="story-stack__body">
+                    Since 2014, we have brought together quality raw materials,
+                    time-honoured knowledge and modern standards to make familiar
+                    Himalayan flavours ready for homes in Nepal and beyond.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  class="story-stack__more"
+                  data-story-more
+                  hidden
+                  aria-expanded="false"
+                >
+                  Read more
+                </button>
                 <a class="story-stack__link" href="https://manaram.farm/about/"
                   >Discover our story <span aria-hidden="true">→</span></a
                 >
@@ -280,13 +295,25 @@
               </figure>
               <div class="story-stack__copy story-stack__copy--about">
                 <h2>Our Story</h2>
-                <p class="story-stack__body">
-                  Manaram Farm was established with the mission to utilize andpromote local resources,
-                  producing high-quality consumable products. Through various brands, we develop a 
-                  range of FMCG products to meet our customers’ daily needs efficiently. Using the
-                  finest raw materials and traditional and innovative techniques, we ensure our products
-                  are both delicious and healthy.
-                </p>
+                <div class="story-stack__desc" data-story-desc>
+                  <p class="story-stack__body">
+                    Manaram Farm was established with the mission to utilize and
+                    promote local resources, producing high-quality consumable
+                    products. Through various brands, we develop a range of FMCG
+                    products to meet our customers’ daily needs efficiently. Using
+                    the finest raw materials and traditional and innovative
+                    techniques, we ensure our products are both delicious and healthy.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  class="story-stack__more"
+                  data-story-more
+                  hidden
+                  aria-expanded="false"
+                >
+                  Read more
+                </button>
                 <a class="story-stack__link" href="https://manaram.farm/about/"
                   >Discover our story <span aria-hidden="true">→</span></a
                 >
@@ -567,13 +594,24 @@
                   We did not want to buy the milk.<br />
                   We wanted to <em>know</em> it.
                 </p>
-                <p>
-                  Manaram Farm collects milk from across Nepal and processes it
-                  under its own roof. Owning the facility is not a matter of pride
-                  — it is the only way to hold safety and sanitation to a line we
-                  set ourselves, rather than one we inherit from someone else’s
-                  factory.
-                </p>
+                <div class="farm-focus__desc" data-story-desc>
+                  <p>
+                    Manaram Farm collects milk from across Nepal and processes it
+                    under its own roof. Owning the facility is not a matter of pride
+                    — it is the only way to hold safety and sanitation to a line we
+                    set ourselves, rather than one we inherit from someone else’s
+                    factory.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  class="farm-focus__more"
+                  data-story-more
+                  hidden
+                  aria-expanded="false"
+                >
+                  Read more
+                </button>
 
                 <ul class="farm-focus__stats">
                   <li>

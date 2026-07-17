@@ -4,3 +4,4 @@
 *.log
 .venv/
 node_modules/
+wireframes/.mobile-preview/
