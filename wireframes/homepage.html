@@ -54,23 +54,17 @@
       <header class="site-header">
         <a class="brand" href="#top" aria-label="Manaram Farm home">
           <img src="assets/logo.png" alt="Manaram Farm" />
-          <span class="brand-note">Foods of Nepal</span>
         </a>
         <nav class="nav-links" id="main-navigation" aria-label="Main navigation">
-          <a href="#story">Our Story</a>
-          <a href="#worlds">Products</a>
-          <a href="#why-manaram">Our source</a>
-          <a href="#footer">Contact</a>
-          <div class="mobile-shop-pair" role="group" aria-label="Shop by region">
-            <a href="#shop-regions">Shop Nepal <span aria-hidden="true">→</span></a>
-            <a href="#shop-regions">Shop USA <span aria-hidden="true">→</span></a>
+          <a href="#story">OUR STORY</a>
+          <a href="#worlds">PRODUCTS</a>
+          <a href="#why-manaram">OUR SOURCE</a>
+          <a href="#footer">CONTACT</a>
+          <div class="mobile-shop-pair">
+            <a href="#shop-regions">Shop <span aria-hidden="true">→</span></a>
           </div>
         </nav>
-        <div class="shop-pair" role="group" aria-label="Shop by region">
-          <span class="shop-label">Shop</span>
-          <a class="btn btn--primary" href="#shop-regions">Nepal</a>
-          <a class="btn btn--ghost-nav" href="#shop-regions">USA</a>
-        </div>
+        <a class="shop-link" href="#shop-regions">Shop</a>
         <button
           class="menu-button"
           type="button"
@@ -109,6 +103,22 @@
             <a class="hero-link" href="#shop-regions">Shop by region</a>
           </div>
         </div>
+        <aside
+          class="hero-iso"
+          aria-labelledby="why-manaram-iso-title"
+        >
+          <p class="hero-iso__label">Food safety, verified</p>
+          <h3 id="why-manaram-iso-title">ISO 22000:2018</h3>
+          <p>Certified food-safety management system.</p>
+          <img
+            src="assets/manaram-about/IAS-Accredfied.jpg"
+            alt="IAS Accredited and G-CERT certification marks"
+            width="600"
+            height="200"
+            loading="lazy"
+            decoding="async"
+          />
+        </aside>
       </section>
     </div>
 
@@ -119,38 +129,20 @@
       aria-labelledby="why-manaram-title"
     >
       <div class="why-manaram__inner">
-        <div class="why-manaram__top">
-          <header class="why-manaram__intro">
-            <h2 id="why-manaram-title" class="why-manaram__eyebrow">Our story</h2>
-            <p>
-              Manaram Farm was established with the mission to utilize &
-              promote local resources, producing high-quality consumable<br />
-              products. Through various brands, we develop a range of FMCG
-              products to meet our customers’ daily needs efficiently.<br />
-              Using the finest raw materials and traditional innovative
-              techniques, we ensure our products are both delicious and healthy.
-            </p>
-          </header>
-
-          <aside
-            class="why-manaram__certification"
-            aria-labelledby="why-manaram-iso-title"
-          >
-            <p class="why-manaram__certification-label">
-              Food safety, verified
-            </p>
-            <h3 id="why-manaram-iso-title">ISO 22000:2018</h3>
-            <p>Certified food-safety management system.</p>
-            <img
-              src="assets/manaram-about/IAS-Accredfied.jpg"
-              alt="IAS Accredited and G-CERT certification marks"
-              width="600"
-              height="200"
-              loading="lazy"
-              decoding="async"
-            />
-          </aside>
-        </div>
+        <header class="why-manaram__intro">
+          <p class="why-manaram__eyebrow">Our story</p>
+          <h2 id="why-manaram-title">
+            Local resources,<br /><em>made with care.</em>
+          </h2>
+          <p>
+            Manaram Farm was established with the mission to utilize &
+            promote local resources, producing high-quality consumable
+            products. Through various brands, we develop a range of FMCG
+            products to meet our customers’ daily needs efficiently.
+            Using the finest raw materials and traditional innovative
+            techniques, we ensure our products are both delicious and healthy.
+          </p>
+        </header>
 
         <ol class="why-manaram__promises">
           <li class="why-manaram__promise">
@@ -306,117 +298,449 @@
       </div>
     </section>
 
-    <!-- ========== 2. PRODUCT WORLDS ========== -->
-    <section class="section" id="worlds">
-      <div class="section__inner">
-        <header class="section-head">
-          <p class="eyebrow">The Manaram world</p>
-          <h2>Explore by world</h2>
-          <p>From the dairy to the spice shelf — curated, not crowded.</p>
+    <!-- ========== PRODUCT WORLDS ========== -->
+    <section
+      class="manaram-worlds"
+      id="worlds"
+      aria-labelledby="manaram-worlds-title"
+    >
+      <div class="manaram-worlds__inner">
+        <header class="manaram-worlds__intro">
+          <p class="manaram-worlds__eyebrow">What we make</p>
+          <h2 id="manaram-worlds-title">
+            Everyday staples,<br /><em>grown for family.</em>
+          </h2>
+          <p>
+            From dairy and pantry to spices and snacks — curated worlds of Nepali
+            goodness, ready for the table.
+          </p>
         </header>
 
-        <div class="worlds">
-          <a class="world" href="#shop-regions">
-            <img
-              src="https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=900&q=80"
-              alt="Fresh milk bottles"
-            />
-            <span class="world__label">Dairy</span>
-          </a>
-          <a class="world" href="#shop-regions">
-            <img
-              src="https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=900&q=80"
-              alt="Grains and flour"
-            />
-            <span class="world__label">Everyday Pantry</span>
-          </a>
-          <a class="world" href="#shop-regions">
-            <img
-              src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=900&q=80"
-              alt="Dried fruits and snacks"
-            />
-            <span class="world__label">Snacks &amp; Titaura</span>
-          </a>
-          <a class="world" href="#shop-regions">
-            <img
-              src="https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=900&q=80"
-              alt="Colorful spices"
-            />
-            <span class="world__label">Spices &amp; Staples</span>
-          </a>
-          <a class="world" href="#shop-regions">
-            <img
-              src="https://images.unsplash.com/photo-1571934811356-5cc061b6821f?auto=format&fit=crop&w=900&q=80"
-              alt="Tea brewing"
-            />
-            <span class="world__label">Beverages</span>
-          </a>
-        </div>
+        <ul class="manaram-worlds__grid">
+          <li>
+            <a class="manaram-world" href="#shop-regions" aria-label="Beverages">
+              <span class="manaram-world__media">
+                <span class="manaram-world__stage" aria-hidden="true">
+                <img
+                  src="assets/products/Beverages.svg"
+                  alt=""
+                  width="400"
+                  height="400"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
+              </span>
+              <span class="manaram-world__copy">
+                <span class="manaram-world__label">Beverages</span>
+                <span class="manaram-world__hint">Tea, coffee and Himalayan drinks for everyday ritual.</span>
+                <span class="manaram-world__cta">Explore <span aria-hidden="true">→</span></span>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a class="manaram-world" href="#shop-regions" aria-label="Everyday Pantry">
+              <span class="manaram-world__media">
+                <span class="manaram-world__stage" aria-hidden="true">
+                <img
+                  src="assets/products/Everyday%20Pantry.svg"
+                  alt=""
+                  width="400"
+                  height="400"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
+              </span>
+              <span class="manaram-world__copy">
+                <span class="manaram-world__label">Everyday Pantry</span>
+                <span class="manaram-world__hint">Grains, flours and kitchen staples from the hills.</span>
+                <span class="manaram-world__cta">Explore <span aria-hidden="true">→</span></span>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a class="manaram-world manaram-world--dairy" href="#shop-regions" aria-label="Dairy">
+              <span class="manaram-world__media">
+                <span class="manaram-world__stage" aria-hidden="true">
+                <img
+                  src="assets/products/dairy.svg"
+                  alt=""
+                  width="400"
+                  height="400"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
+              </span>
+              <span class="manaram-world__copy">
+                <span class="manaram-world__label">Dairy</span>
+                <span class="manaram-world__hint">Chhurpi, ghee and dairy made with mountain care.</span>
+                <span class="manaram-world__cta">Explore <span aria-hidden="true">→</span></span>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a class="manaram-world" href="#shop-regions" aria-label="Snacks and Titaura">
+              <span class="manaram-world__media">
+                <span class="manaram-world__stage" aria-hidden="true">
+                <img
+                  src="assets/products/snacks.svg"
+                  alt=""
+                  width="400"
+                  height="400"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
+              </span>
+              <span class="manaram-world__copy">
+                <span class="manaram-world__label">Snacks &amp; Titaura</span>
+                <span class="manaram-world__hint">Sattu, titaura and bites with a Nepali kick.</span>
+                <span class="manaram-world__cta">Explore <span aria-hidden="true">→</span></span>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a class="manaram-world" href="#shop-regions" aria-label="Spices and Staples">
+              <span class="manaram-world__media">
+                <span class="manaram-world__stage" aria-hidden="true">
+                <img
+                  src="assets/products/spices.svg"
+                  alt=""
+                  width="400"
+                  height="400"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
+              </span>
+              <span class="manaram-world__copy">
+                <span class="manaram-world__label">Spices &amp; Staples</span>
+                <span class="manaram-world__hint">Masala, seeds and spices that carry home.</span>
+                <span class="manaram-world__cta">Explore <span aria-hidden="true">→</span></span>
+              </span>
+            </a>
+          </li>
+        </ul>
       </div>
     </section>
 
     <div class="standalone">
       <main>
-        <section class="shop section-pad">
-          <div class="section-index reveal">03 / FIND MANARAM</div>
-          <div class="shop-title reveal">
-            <h2>A taste of home,<br /><em>wherever home is.</em></h2>
-            <p>
-              Choose your region and shop Manaram products through our official
-              partners.
-            </p>
+        <section
+          class="journey-spine"
+          id="journey"
+          aria-labelledby="journey-title"
+          data-journey-spine
+        >
+          <div class="journey-spine__pin">
+          <div class="journey-spine__inner">
+            <header class="journey-spine__intro">
+              <p class="journey-spine__eyebrow">Our path</p>
+              <h2 id="journey-title">
+                Twenty-two years of <em>growing.</em>
+              </h2>
+              <p>
+                From a box of dog chews to a national export award — the same
+                family thread, chapter by chapter.
+              </p>
+            </header>
+
+            <div class="journey-spine__layout">
+              <nav class="journey-spine__years" aria-label="Journey years">
+                <a href="#journey-2003" data-journey-year="2003">2003</a>
+                <a href="#journey-2013" data-journey-year="2013">2013</a>
+                <a href="#journey-2014" data-journey-year="2014">2014</a>
+                <a href="#journey-2016" data-journey-year="2016">2016</a>
+                <a href="#journey-2018" data-journey-year="2018">2018</a>
+                <a href="#journey-2020" data-journey-year="2020">2020</a>
+                <a href="#journey-2022" data-journey-year="2022">2022</a>
+              </nav>
+
+              <div class="journey-spine__viewport" data-journey-viewport>
+              <ol class="journey-spine__list">
+                <li class="journey-spine__item is-active" id="journey-2003">
+                  <time datetime="2003">2003</time>
+                  <h3>Manaram Himalayan Handicraft</h3>
+                  <p>
+                    Ram Dai and his sons begin exporting churpi dog chews and
+                    handicrafts to the United States.
+                  </p>
+                </li>
+                <li class="journey-spine__item" id="journey-2013">
+                  <time datetime="2013">2013</time>
+                  <h3>Roots in agriculture</h3>
+                  <p>
+                    The family turns toward farming and food processing —
+                    laying the groundwork for Manaram Farm.
+                  </p>
+                </li>
+                <li class="journey-spine__item" id="journey-2014">
+                  <time datetime="2014">2014</time>
+                  <h3>Manaram Farm</h3>
+                  <p>
+                    The farm is founded to put Nepal’s local resources to work —
+                    milk, grain and spice, processed in-house.
+                  </p>
+                </li>
+                <li class="journey-spine__item" id="journey-2016">
+                  <time datetime="2016">2016</time>
+                  <h3>Seto Tyami</h3>
+                  <p>
+                    The group widens beyond its first export line.
+                  </p>
+                </li>
+                <li class="journey-spine__item" id="journey-2018">
+                  <time datetime="2018">2018</time>
+                  <h3>Manaram Group</h3>
+                  <p>
+                    Eight enterprises are brought under a single umbrella.
+                  </p>
+                </li>
+                <li class="journey-spine__item" id="journey-2020">
+                  <time datetime="2020">2020</time>
+                  <h3>CIP Award</h3>
+                  <p>
+                    The Government of Nepal names Manaram a Commercially
+                    Important Person — the country’s highest exporter of
+                    agriculture-based products.
+                  </p>
+                </li>
+                <li class="journey-spine__item" id="journey-2022">
+                  <time datetime="2022">2022</time>
+                  <h3>Momoway</h3>
+                  <p>
+                    The group’s food and service arm opens a new chapter.
+                  </p>
+                </li>
+              </ol>
+              </div>
+              <p class="journey-spine__hint" aria-hidden="true">
+                Scroll for more years
+              </p>
+            </div>
           </div>
-          <div class="shop-grid reveal">
-            <a
-              href="https://manakomart.com/"
-              target="_blank"
-              class="market-card nepal"
-              ><span class="market-top">SHOP FROM</span><strong>NEPAL</strong
-              ><span class="market-link"
-                >Visit Mana Ko Mart <span>→</span></span
-              ></a
-            >
-            <a
-              href="https://jibrofoods.com/"
-              target="_blank"
-              class="market-card usa"
-              ><span class="market-top">SHOP FROM</span><strong>USA</strong
-              ><span class="market-link"
-                >Visit Jibro Foods <span>→</span></span
-              ></a
-            >
           </div>
         </section>
 
-        <footer id="codex-contact">
-          <div class="footer-top">
-            <img src="assets/logo.png" alt="Manaram Farm" />
-            <h2>Let’s put more<br /><em>goodness</em> on the table.</h2>
-            <a class="round-cta light" href="mailto:info@manaram.group"
-              ><span>Say hello</span><span>→</span></a
-            >
+        <section
+          class="farm-focus"
+          id="the-farm"
+          aria-labelledby="farm-focus-title"
+        >
+          <div class="farm-focus__inner">
+            <header class="farm-focus__intro">
+              <h2 id="farm-focus-title" class="farm-focus__eyebrow">The farm</h2>
+            </header>
+
+            <div class="farm-focus__layout">
+              <div class="farm-focus__gallery">
+                <img
+                  src="assets/manaram-about/abt_image_p1.jpg"
+                  alt="A Manaram Farm worker in hairnet and mask feeding the dairy herd"
+                  width="640"
+                  height="800"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <img
+                  src="assets/cows.jpg"
+                  alt="Dairy cows feeding at the trough at Manaram Farm"
+                  width="640"
+                  height="480"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <img
+                  src="assets/dairy.jpg"
+                  alt="Fresh milk in a stainless steel processing vat"
+                  width="640"
+                  height="480"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+
+              <div class="farm-focus__copy">
+                <p class="farm-focus__lead">
+                  We did not want to buy the milk.<br />
+                  We wanted to <em>know</em> it.
+                </p>
+                <p>
+                  Manaram Farm collects milk from across Nepal and processes it
+                  under its own roof. Owning the facility is not a matter of pride
+                  — it is the only way to hold safety and sanitation to a line we
+                  set ourselves, rather than one we inherit from someone else’s
+                  factory.
+                </p>
+
+                <ul class="farm-focus__stats">
+                  <li>
+                    <strong>100%</strong>
+                    <span>Pure cow milk in every Chhurpi pack</span>
+                  </li>
+                  <li>
+                    <strong>In-house</strong>
+                    <span>Processing, start to finish</span>
+                  </li>
+                  <li>
+                    <strong>13</strong>
+                    <span>Product categories</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
-          <div class="footer-grid">
-            <div>
-              <span>VISIT</span>
-              <p>Baluwatar 4<br />Kathmandu, Nepal</p>
-            </div>
-            <div>
-              <span>CONTACT</span>
-              <p>+977-01-5971547<br />info@manaram.group</p>
-            </div>
-            <div>
-              <span>FOLLOW</span>
-              <p>
-                <a href="https://www.instagram.com/" target="_blank"
-                  >Instagram</a
-                ><br /><a href="https://www.facebook.com/" target="_blank"
-                  >Facebook</a
-                >
+        </section>
+
+        <section
+          class="shop section-pad find-manaram"
+          id="shop-regions"
+          aria-labelledby="find-manaram-title"
+        >
+          <div class="find-manaram__inner">
+            <header class="find-manaram__bar">
+              <p class="find-manaram__eyebrow">Where to buy</p>
+              <h2 id="find-manaram-title">
+                Two storefronts. <em>One farm.</em>
+              </h2>
+              <p class="find-manaram__lede">
+                Shop Manaram from Nepal or through our United States partner.
               </p>
+            </header>
+
+            <div class="find-manaram__grid reveal">
+              <a
+                class="find-market find-market--nepal"
+                href="https://manakomart.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="find-market__media">
+                  <img
+                    src="assets/farm-story.jpg"
+                    alt=""
+                    width="720"
+                    height="480"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </span>
+                <span class="find-market__body">
+                  <span class="find-market__region">Shopping from Nepal</span>
+                  <span class="find-market__logo">
+                    <img
+                      src="assets/manaram-homepage/manamart_logo_with-text.png"
+                      alt="Mana Ko Mart"
+                      width="220"
+                      height="88"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </span>
+                  <span class="find-market__title">Shop close to home.</span>
+                  <span class="find-market__copy"
+                    >Explore Manaram through our Nepal storefront.</span
+                  >
+                  <span class="find-market__cta"
+                    >Visit Mana Ko Mart <span aria-hidden="true">↗</span></span
+                  >
+                </span>
+              </a>
+
+              <a
+                class="find-market find-market--usa"
+                href="https://jibrofoods.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="find-market__media">
+                  <img
+                    src="assets/recipes/chicken-ghee-momo.jpg"
+                    alt=""
+                    width="720"
+                    height="480"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </span>
+                <span class="find-market__body">
+                  <span class="find-market__region">Shopping from the USA</span>
+                  <span class="find-market__logo">
+                    <img
+                      src="assets/manaram-homepage/logo_jibro_foods.png"
+                      alt="Jibro Foods"
+                      width="220"
+                      height="88"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </span>
+                  <span class="find-market__title">Bring home closer.</span>
+                  <span class="find-market__copy"
+                    >Find Manaram foods through our United States partner.</span
+                  >
+                  <span class="find-market__cta"
+                    >Visit Jibro Foods <span aria-hidden="true">↗</span></span
+                  >
+                </span>
+              </a>
             </div>
-            <div class="footer-end">
-              <span>MANARAM FARM PVT. LTD.</span>
+          </div>
+        </section>
+
+        <footer id="footer" class="site-footer">
+          <div class="site-footer__inner">
+            <div class="site-footer__top">
+              <div class="site-footer__brand">
+                <img
+                  src="assets/manaram-homepage/Manaram-Farm-Light-Logo.png"
+                  alt="Manaram Farm"
+                  width="200"
+                  height="64"
+                />
+                <h2>
+                  Let’s put more <em>goodness</em> on the table.
+                </h2>
+              </div>
+              <a class="site-footer__cta" href="mailto:info@manaram.group"
+                >Say hello <span aria-hidden="true">→</span></a
+              >
+              <div class="site-footer__meta">
+                <div class="site-footer__col">
+                  <span>Visit</span>
+                  <p>Baluwatar 4<br />Kathmandu, Nepal</p>
+                </div>
+                <div class="site-footer__col">
+                  <span>Contact</span>
+                  <p>
+                    <a href="tel:+977015971547">+977-01-5971547</a><br />
+                    <a href="mailto:info@manaram.group">info@manaram.group</a>
+                  </p>
+                </div>
+                <div class="site-footer__col">
+                  <span>Follow</span>
+                  <p>
+                    <a
+                      href="https://www.instagram.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >Instagram</a
+                    ><br />
+                    <a
+                      href="https://www.facebook.com/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      >Facebook</a
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="site-footer__bottom">
+              <p>Manaram Farm Pvt. Ltd.</p>
               <p>© 2026 · Crafted with care in Nepal</p>
             </div>
           </div>
@@ -427,6 +751,7 @@
     <script src="index-hero.js"></script>
     <script src="story-index.js"></script>
     <script src="story-stack.js"></script>
+    <script src="journey-spine.js"></script>
     <script src="standalone.js"></script>
   </body>
 </html>

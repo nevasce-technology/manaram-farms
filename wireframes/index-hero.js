@@ -6,12 +6,22 @@
   const menuButton = root.querySelector(".menu-button");
   const nav = root.querySelector(".nav-links");
 
+  let ticking = false;
   const updateScene = () => {
+    ticking = false;
     const y = window.scrollY;
     if (header) header.classList.toggle("scrolled", y > 40);
   };
 
-  window.addEventListener("scroll", updateScene, { passive: true });
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(updateScene);
+    },
+    { passive: true }
+  );
 
   if (menuButton && nav) {
     const closeMenu = () => {

@@ -24,10 +24,13 @@
 
     const standaloneTop = () => root.getBoundingClientRect().top + window.scrollY;
 
+    let ticking = false;
     const updateScene = () => {
+      ticking = false;
       const y = window.scrollY;
       const localY = Math.max(0, y - standaloneTop());
       if (header) header.classList.toggle("scrolled", localY > 40);
+      // Only run parallax when those legacy nodes exist on the page
       if (heroImage) {
         heroImage.style.transform = `translate3d(0, ${localY * 0.18}px, 0) scale(1.06)`;
       }
@@ -39,7 +42,13 @@
       }
     };
 
-    window.addEventListener("scroll", updateScene, { passive: true });
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(updateScene);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     if (menuButton && nav) {
       menuButton.addEventListener("click", () => {

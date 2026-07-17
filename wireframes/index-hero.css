@@ -1,6 +1,8 @@
 /* Exact hero theme from Downloads/index.html (+ matching style.css) */
 
 .index-shell {
+  position: relative;
+  z-index: 5;
   --blue: #196ab1;
   --brand: #0870b8;
   --navy: #071b2d;
@@ -150,80 +152,30 @@
   transform-origin: left;
 }
 
-.index-shell .shop-pair {
+.index-shell .shop-link {
   justify-self: end;
   display: inline-flex;
-  flex-flow: row nowrap;
   align-items: center;
-  gap: 0.25rem;
-  margin: 0;
-  padding: 0.25rem;
-  width: max-content;
-  min-width: max-content;
-  max-width: none;
+  justify-content: center;
   flex-shrink: 0;
-  background: rgba(11, 31, 51, 0.045);
-  border: 1px solid rgba(11, 31, 51, 0.08);
-  border-radius: 3px;
-}
-
-.index-shell .shop-label {
-  padding: 0 0.5rem 0 0.65rem;
-  color: rgba(11, 31, 51, 0.48);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.index-shell .shop-pair .btn {
-  display: inline-flex;
-  flex: 0 0 auto;
-  flex-shrink: 0;
-  width: auto;
-  max-width: none;
-  padding: 0.62rem 0.9rem;
+  min-height: 2.5rem;
+  padding: 0.55rem 1.1rem;
+  background: #0870b8;
+  border: 1px solid #0870b8;
+  border-radius: 2px;
+  color: #ffffff;
   font-family: var(--font-sans);
   font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.01em;
-  text-transform: none;
-  white-space: nowrap !important;
-  word-break: keep-all;
-  overflow-wrap: normal;
-  line-height: 1.2;
-  border-radius: 2px;
-  border-width: 1px;
-  transform: none;
-  box-shadow: none;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background 0.25s ease, border-color 0.25s ease;
 }
 
-.index-shell .shop-pair .btn:hover {
-  transform: none;
-}
-
-.index-shell .shop-pair .btn--primary {
-  background: #0870b8;
-  border-color: #0870b8;
-  color: #ffffff;
-}
-
-.index-shell .shop-pair .btn--primary:hover {
+.index-shell .shop-link:hover {
   background: #065a94;
   border-color: #065a94;
   color: #ffffff;
-}
-
-.index-shell .shop-pair .btn--ghost-nav {
-  background: transparent;
-  color: var(--hero-text);
-  border-color: transparent;
-}
-
-.index-shell .shop-pair .btn--ghost-nav:hover {
-  background: rgba(11, 31, 51, 0.04);
-  color: var(--hero-text);
-  border-color: rgba(11, 31, 51, 0.4);
 }
 
 .index-shell .mobile-shop-pair {
@@ -236,7 +188,7 @@
 
 .index-shell .brand:focus-visible,
 .index-shell .nav-links a:focus-visible,
-.index-shell .shop-pair .btn:focus-visible,
+.index-shell .shop-link:focus-visible,
 .index-shell .menu-button:focus-visible {
   outline: 2px solid #0870b8;
   outline-offset: 3px;
@@ -263,7 +215,7 @@
   /* Slightly taller than the native 1564×724 frame */
   aspect-ratio: 16 / 8.2;
   min-height: clamp(28rem, 48vw, 42rem);
-  overflow: hidden;
+  overflow: visible;
   background: #000;
   color: var(--hero-text);
   container-type: size;
@@ -503,7 +455,7 @@
     display: none;
   }
 
-  .index-shell .shop-pair {
+  .index-shell .shop-link {
     display: none;
   }
 
@@ -549,7 +501,7 @@
   .index-shell .nav-links {
     position: fixed;
     z-index: 2;
-    inset: 68px 0 0;
+    inset: 78px 0 0;
     padding: clamp(3rem, 10vh, 6rem) 22px 2rem;
     background: #fbf9f3;
     flex-direction: column;
@@ -590,9 +542,7 @@
   }
 
   .index-shell .mobile-shop-pair {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem;
+    display: block;
     width: 100%;
     margin-top: auto;
     padding-top: 1.5rem;
@@ -600,39 +550,25 @@
   }
 
   .index-shell .mobile-shop-pair a {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    justify-content: space-between;
-    padding: 1rem;
-    background: #ffffff;
-    border: 1px solid rgba(11, 31, 51, 0.12);
+    gap: 0.4rem;
+    width: auto;
+    padding: 0.85rem 1.15rem;
+    background: #0870b8;
+    border-radius: 2px;
+    color: #ffffff;
     font-family: var(--font-sans);
-    font-size: 0.9375rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    letter-spacing: 0;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   .index-shell .mobile-shop-pair a::after {
-    content: none;
+    display: none;
   }
 
-  body.nav-open {
-    overflow: hidden;
-  }
-
-  .index-shell .hero-content {
-    top: 78px;
-    width: min(88vw, 38rem);
-    max-width: none;
-    padding:
-      clamp(1.75rem, 5cqh, 2.75rem)
-      1.25rem
-      0
-      22px;
-  }
-}
-
-@media (max-width: 700px) {
   .index-shell .hero {
     aspect-ratio: auto;
     min-height: 44rem;
@@ -819,6 +755,92 @@
 
 }
 
+
+/* ISO certification card — pinned to hero image bottom-right */
+.index-shell .hero-iso {
+  position: absolute;
+  z-index: 4;
+  right: clamp(1.5rem, 5.5vw, 5.5rem);
+  bottom: 0;
+  width: min(100% - 3rem, 16.5rem);
+  padding: 0.95rem 1rem 0.7rem;
+  background: #ffffff;
+  border: 1px solid rgba(8, 112, 184, 0.2);
+  border-top: 3px solid #0870b8;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 22px 45px rgba(7, 27, 45, 0.18);
+  box-sizing: border-box;
+  color: #102334;
+  font-family: "Outfit", "Outfit Fallback", system-ui, sans-serif;
+  /* Only the top quarter sits on the hero; three-quarters hang below */
+  transform: translateY(75%);
+}
+
+.index-shell .hero-iso__label {
+  margin: 0;
+  color: #0870b8;
+  font-size: 0.6875rem;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.index-shell .hero-iso h3 {
+  margin: 0.4rem 0 0;
+  color: #102334;
+  font-family: "Outfit", "Outfit Fallback", system-ui, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  text-transform: none;
+}
+
+.index-shell .hero-iso > p:not(.hero-iso__label) {
+  margin: 0.35rem 0 0.7rem;
+  max-width: 22ch;
+  color: #5a6572;
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+.index-shell .hero-iso img {
+  display: block;
+  width: 14.5rem;
+  max-width: 100%;
+  height: auto;
+  margin: 0;
+  padding: 0.55rem 0 0;
+  background: #ffffff;
+  border-top: 1px solid rgba(16, 35, 52, 0.11);
+  object-fit: contain;
+}
+
+@media (max-width: 780px) {
+  .index-shell .hero-iso {
+    right: 1.35rem;
+    width: min(calc(100% - 2.7rem), 15.5rem);
+  }
+}
+
+@media (max-width: 560px) {
+  .index-shell .hero-iso {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: min(100%, 16.5rem);
+    margin: -1.25rem 1.35rem 0 auto;
+    transform: none;
+  }
+
+  .index-shell .hero {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 /* Quiet handoff from the photographic hero into the warm trust section. */
 .index-shell + .why-manaram {
   position: relative;
@@ -834,4 +856,170 @@
   left: 0;
   height: 1px;
   background: rgba(54, 43, 31, 0.1);
+}
+
+
+/* —— Fortune-500 responsive pass: meaningful composition at every width —— */
+body.nav-open {
+  overflow: hidden;
+}
+
+@media (max-width: 1100px) {
+  .index-shell .hero-content {
+    width: min(42rem, 58%);
+    max-width: 58vw;
+  }
+
+  .index-shell .hero h1 {
+    font-size: clamp(2.6rem, 8.5cqh, 4.1rem);
+  }
+}
+
+@media (max-width: 900px) {
+  .index-shell .hero {
+    aspect-ratio: auto;
+    /* Fill first screen without leaving a dead grass band */
+    min-height: min(100svh, 44rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  .index-shell .hero-image {
+    object-position: 62% 42%;
+  }
+
+  .index-shell .hero::after {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 249, 235, 0.62) 0%,
+        rgba(255, 249, 235, 0.42) 42%,
+        rgba(255, 249, 235, 0.16) 68%,
+        rgba(74, 47, 22, 0.1) 100%
+      ),
+      linear-gradient(90deg, rgba(255, 249, 235, 0.22), transparent 78%);
+  }
+
+  .index-shell .hero-content {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    max-width: none;
+    margin-top: 78px;
+    padding: 1.5rem 1.35rem 1.75rem;
+    box-sizing: border-box;
+  }
+
+  .index-shell .hero h1 {
+    margin-top: 1rem;
+    font-size: clamp(2.35rem, 9vw, 3.25rem);
+    line-height: 1.02;
+  }
+
+  .index-shell .hero h1 > span {
+    white-space: normal;
+  }
+
+  .index-shell .hero-support {
+    margin-top: 1.25rem;
+    max-width: 36ch;
+    font-size: 0.9375rem;
+  }
+
+  .index-shell .hero-actions {
+    margin-top: 1.75rem;
+    flex-wrap: wrap;
+    gap: 0.85rem 1.15rem;
+  }
+
+  .index-shell .hero-iso {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: min(100% - 2.7rem, 16.5rem);
+    margin: auto 1.35rem 1.5rem auto;
+    transform: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .index-shell .hero {
+    min-height: 0;
+  }
+
+  .index-shell .hero-image {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: min(52svh, 22rem) !important;
+    min-height: 16rem;
+    object-fit: cover !important;
+    object-position: 58% 40%;
+  }
+
+  .index-shell .hero::after {
+    inset: 0 0 auto;
+    height: min(52svh, 22rem);
+    min-height: 16rem;
+    width: auto;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 249, 235, 0.28) 0%,
+        transparent 45%,
+        rgba(251, 249, 243, 0.55) 100%
+      );
+  }
+
+  .index-shell .hero-content {
+    margin-top: 0;
+    padding: 1.35rem 1.25rem 1.5rem;
+    background: #fbf9f3;
+  }
+
+  .index-shell .hero h1 {
+    font-size: clamp(2.2rem, 10.5vw, 2.95rem);
+  }
+
+  .index-shell .hero-support {
+    margin-top: 1rem;
+    max-width: none;
+  }
+
+  .index-shell .hero-actions {
+    margin-top: 1.5rem;
+  }
+
+  .index-shell .hero-cta {
+    min-height: 48px;
+  }
+
+  .index-shell .hero-iso {
+    width: calc(100% - 2.5rem);
+    max-width: 20rem;
+    margin: 0 1.25rem 1.35rem;
+  }
+
+  .index-shell .nav-links {
+    inset: 78px 0 0;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 420px) {
+  .index-shell .brand img,
+  .index-shell .site-header.scrolled .brand img {
+    width: 138px;
+  }
+
+  .index-shell .hero h1 {
+    font-size: clamp(2rem, 11vw, 2.45rem);
+  }
+
+  .index-shell .hero-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
