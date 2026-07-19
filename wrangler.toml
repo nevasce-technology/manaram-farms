@@ -1,0 +1,8 @@
+name = "manaram-farms"
+compatibility_date = "2026-07-19"
+
+# Serve the homepage wireframe as a static site.
+# Cloudflare deploy command can stay: npx wrangler deploy
+[assets]
+directory = "./wireframes"
+html_handling = "auto-trailing-slash"
