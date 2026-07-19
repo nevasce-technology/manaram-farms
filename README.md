@@ -15,13 +15,14 @@ Then visit [http://localhost:5173/](http://localhost:5173/) or [http://localhost
 
 ## Deploy (Cloudflare)
 
-This site is static HTML in `wireframes/`. Config lives in `wrangler.toml`.
+This site is a **Worker with static assets** (not Pages). Config: `wrangler.jsonc`.
 
-1. Commit and push `wrangler.toml` + `wireframes/index.html` (and latest wireframe changes).
-2. In Cloudflare → Workers & Pages → your project → **Settings**:
-   - **Deploy command:** `npx wrangler deploy`
-   - Leave build command empty (no npm build needed).
-3. Redeploy. Root `/` serves `wireframes/index.html`.
+Live URL looks like: `https://manaram-farms.<account>.workers.dev`  
+(`*.pages.dev` is a different product — only works if you create a separate Pages project.)
+
+1. Push to `main` (Cloudflare Git deploy runs `npx wrangler deploy`).
+2. Assets directory must be `./wireframes` (the whole site, not only `wireframes/assets`).
+3. Root `/` serves `wireframes/index.html`.
 
 Local deploy (optional):
 
@@ -35,4 +36,4 @@ npx wrangler deploy
 - `wireframes/homepage.html` — same homepage concept
 - `wireframes/*.css` / `*.js` — styles and interactions
 - `wireframes/assets/` — images and brand logo
-- `wrangler.toml` — Cloudflare static assets config
+- `wrangler.jsonc` — Cloudflare Worker static assets config

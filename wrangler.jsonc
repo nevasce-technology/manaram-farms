@@ -1,9 +1,9 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "manaram-farm",
+  "name": "manaram-farms",
   "compatibility_date": "2026-07-19",
   "assets": {
-    "directory": "./wireframes/assets",
-    "not_found_handling": "404-page"
+    "directory": "./wireframes",
+    "html_handling": "auto-trailing-slash"
   }
 }
