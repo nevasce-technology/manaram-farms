@@ -138,14 +138,25 @@
           <h2 id="why-manaram-title">
             Local resources,<br /><em>made with care.</em>
           </h2>
-          <p>
-            Manaram Farm was established with the mission to utilize &
-            promote local resources, producing high-quality consumable
-            products. Through various brands, we develop a range of FMCG
-            products to meet our customers’ daily needs efficiently.
-            Using the finest raw materials and traditional innovative
-            techniques, we ensure our products are both delicious and healthy.
-          </p>
+          <div class="why-manaram__desc" data-story-desc>
+            <p>
+              Manaram Farm was established with the mission to utilize &
+              promote local resources, producing high-quality consumable
+              products. Through various brands, we develop a range of FMCG
+              products to meet our customers’ daily needs efficiently.
+              Using the finest raw materials and traditional innovative
+              techniques, we ensure our products are both delicious and healthy.
+            </p>
+          </div>
+          <button
+            type="button"
+            class="why-manaram__more"
+            data-story-more
+            hidden
+            aria-expanded="false"
+          >
+            Read more
+          </button>
         </header>
 
         <ol class="why-manaram__promises">
@@ -341,7 +352,11 @@
           </p>
         </header>
 
-        <ul class="manaram-worlds__grid">
+        <ul
+          class="manaram-worlds__grid"
+          data-collection-slider
+          aria-label="Product collection"
+        >
           <li>
             <a
               class="manaram-world manaram-world--dairy"
@@ -710,6 +725,7 @@
     <script src="index-hero.js"></script>
     <script src="story-index.js"></script>
     <script src="story-stack.js"></script>
+    <script src="collection-slider.js"></script>
     <script src="standalone.js"></script>
   </body>
 </html>

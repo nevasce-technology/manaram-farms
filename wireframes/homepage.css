@@ -444,16 +444,60 @@ button {
   font-weight: 500;
 }
 
-.why-manaram__intro > p:not(.why-manaram__eyebrow) {
+.why-manaram__desc {
   margin: 1rem 0 0;
   width: 100%;
   max-width: 52ch;
+}
+
+.why-manaram__desc > p {
+  margin: 0;
   color: var(--ink-soft);
   font-size: clamp(0.95rem, 1.15vw, 1.05rem);
   font-weight: 450;
   line-height: 1.55;
   text-align: left;
   hyphens: none;
+}
+
+.why-manaram__more {
+  display: none;
+  margin: 0.65rem 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--blue);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+}
+
+.why-manaram__more:hover,
+.why-manaram__more:focus-visible {
+  color: var(--ink);
+}
+
+.why-manaram__more:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .why-manaram__desc:not(.is-expanded) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    overflow: hidden;
+  }
+
+  .why-manaram__more.is-visible {
+    display: inline-flex;
+    align-items: center;
+  }
 }
 
 .why-manaram__certification {
@@ -1479,6 +1523,7 @@ button {
 .manaram-worlds {
   position: relative;
   z-index: 2;
+  overflow: visible;
   background: #f7f3ea;
   color: #102334;
   font-family: var(--font-sans);
@@ -1488,6 +1533,8 @@ button {
   display: flex;
   flex-direction: column;
   width: min(100%, 1180px);
+  max-width: 100%;
+  min-width: 0;
   margin-inline: auto;
   padding: clamp(3.5rem, 7vw, 5.5rem) var(--section-x)
     clamp(3.5rem, 7vw, 5.5rem);
@@ -1739,28 +1786,42 @@ button {
   outline-offset: 3px;
 }
 
-@media (max-width: 980px) {
-  .manaram-worlds__grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
-  }
-}
-
-@media (max-width: 560px) {
+@media (max-width: 900px) {
   .manaram-worlds__intro h2 {
     font-size: clamp(2rem, 9vw, 2.65rem);
   }
 
+  /* Horizontal product slider — constrain width so cards overflow & scroll */
   .manaram-worlds__grid {
     display: flex;
+    align-items: stretch;
     gap: 0.85rem;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    padding-bottom: 0.5rem;
+    width: auto;
+    max-width: none;
+    min-width: 0;
     margin-inline: calc(-1 * var(--section-x));
     padding-inline: var(--section-x);
+    padding-bottom: 0.65rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--section-x);
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+    touch-action: pan-x pinch-zoom;
+    cursor: grab;
+  }
+
+  .manaram-worlds__grid:active,
+  .manaram-worlds__grid.is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
+    user-select: none;
+  }
+
+  .manaram-worlds__grid.is-dragging a {
+    pointer-events: none;
   }
 
   .manaram-worlds__grid::-webkit-scrollbar {
@@ -1768,8 +1829,21 @@ button {
   }
 
   .manaram-worlds__grid > li {
-    flex: 0 0 min(74vw, 16.5rem);
+    flex: 0 0 min(78vw, 17.25rem);
+    min-width: min(78vw, 17.25rem);
+    max-width: min(78vw, 17.25rem);
     scroll-snap-align: start;
+    scroll-snap-stop: normal;
+  }
+
+  .manaram-world:hover,
+  .manaram-world:focus-visible {
+    transform: none;
+  }
+
+  .manaram-world:hover .manaram-world__stage,
+  .manaram-world:focus-visible .manaram-world__stage {
+    transform: none;
   }
 
   .manaram-world__hint {
@@ -2786,7 +2860,7 @@ button {
     padding-top: clamp(3rem, 10vw, 4rem);
   }
 
-  .why-manaram__intro > p:not(.why-manaram__eyebrow) {
+  .why-manaram__desc {
     max-width: none;
   }
 
