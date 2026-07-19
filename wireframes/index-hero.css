@@ -480,9 +480,10 @@
     z-index: 3;
     display: grid;
     place-content: center;
-    gap: 5px;
-    width: 44px;
-    height: 44px;
+    gap: 4px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
     border: 1px solid rgba(11, 31, 51, 0.14);
     background: rgba(11, 31, 51, 0.025);
     border-radius: 2px;
@@ -493,8 +494,8 @@
 
   .index-shell .menu-button span {
     display: block;
-    width: 18px;
-    height: 1.5px;
+    width: 14px;
+    height: 1.25px;
     background: var(--hero-text);
     transition:
       transform 0.25s ease,
@@ -507,23 +508,23 @@
   }
 
   .index-shell .menu-button.is-open span:first-child {
-    transform: translateY(3.25px) rotate(45deg);
+    transform: translateY(2.625px) rotate(45deg);
   }
 
   .index-shell .menu-button.is-open span:last-child {
-    transform: translateY(-3.25px) rotate(-45deg);
+    transform: translateY(-2.625px) rotate(-45deg);
   }
 
   .index-shell .nav-links {
     position: fixed;
     z-index: 2;
     inset: 78px 0 0;
-    padding: clamp(3rem, 10vh, 6rem) 22px 2rem;
+    padding: clamp(1.75rem, 6vh, 3rem) 22px 1.5rem;
     background: #fbf9f3;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: 0.4rem;
+    gap: 0.15rem;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -543,11 +544,11 @@
 
   .index-shell .nav-links a {
     width: 100%;
-    padding: 0.55rem 0;
+    padding: 0.4rem 0;
     font-family: var(--font-display);
-    font-size: clamp(2rem, 8vw, 3rem);
+    font-size: clamp(1.35rem, 5.2vw, 1.75rem);
     font-weight: 500;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.02em;
     text-transform: none;
     color: var(--hero-text);
   }
@@ -1144,8 +1145,8 @@ body.nav-open {
   }
 
   .index-shell .nav-links {
-    inset: 78px 0 0;
-    justify-content: space-between;
+    inset: 72px 0 0;
+    justify-content: flex-start;
   }
 }
 
