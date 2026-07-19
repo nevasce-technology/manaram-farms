@@ -3,7 +3,7 @@
   "name": "manaram-farm",
   "compatibility_date": "2026-07-19",
   "assets": {
-    "directory": "./public",
+    "directory": "./wireframes/assets",
     "not_found_handling": "404-page"
   }
 }
