@@ -1,0 +1,88 @@
+@import "@fontsource-variable/bricolage-grotesque";
+@import "@fontsource-variable/source-sans-3";
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Source Sans 3 Variable", "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque Variable", "Bricolage Grotesque", ui-sans-serif, system-ui,
+    sans-serif;
+  --color-ink: #142018;
+  --color-pine: #1c3a28;
+  --color-moss: #2f5a40;
+  --color-mist: #e8eee8;
+  --color-paper: #f3f6f3;
+  --color-steel: #2e75b6;
+  --color-steel-deep: #1f5a8f;
+  --radius-glass: 1.35rem;
+}
+
+:root {
+  color-scheme: light;
+  --z-nav: 40;
+  --z-overlay: 30;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--color-paper);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-steel) 35%, white);
+  color: var(--color-ink);
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--color-steel);
+  outline-offset: 3px;
+}
+
+/* Web glass approximation, not Apple Liquid Glass. */
+.glass-nav {
+  position: relative;
+  isolation: isolate;
+  border: 1px solid rgb(255 255 255 / 0.45);
+  background:
+    linear-gradient(135deg, rgb(255 255 255 / 0.42), rgb(255 255 255 / 0.12)),
+    rgb(255 255 255 / 0.22);
+  backdrop-filter: blur(22px) saturate(165%);
+  -webkit-backdrop-filter: blur(22px) saturate(165%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.62),
+    inset 0 -1px 0 rgb(255 255 255 / 0.12),
+    0 14px 40px rgb(20 32 24 / 0.12);
+}
+
+.glass-nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 0%, rgb(255 255 255 / 0.55), transparent 38%),
+    linear-gradient(90deg, rgb(255 255 255 / 0.16), transparent 48%, rgb(255 255 255 / 0.1));
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .glass-nav {
+    background: rgb(255 255 255 / 0.94);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
