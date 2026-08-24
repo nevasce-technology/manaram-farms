@@ -17,6 +17,9 @@ dist-ssr
 !.vscode/extensions.json
 .idea
 .DS_Store
+**/.DS_Store
+.cursor/
+.venv/
 *.suo
 *.ntvs*
 *.njsproj
@@ -25,3 +28,6 @@ dist-ssr
 
 # Impeccable local workshop files
 .impeccable/
+
+# Wireframe preview
+wireframes/.mobile-preview/
