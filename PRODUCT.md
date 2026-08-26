@@ -36,9 +36,11 @@ Visitors arrive through the web to read about the farm and browse products. Prod
 
 ## Evidence on Hand
 
-- Logo: confirmed by the team; file not in the repo yet.
-- Product images and about/product copy: confirmed by the team; files not in the repo yet.
-- In-repo: placeholder page copy only (`src/App.tsx`).
+- Live site crawl (2026-08-25): [CONTENT_INVENTORY.md](CONTENT_INVENTORY.md) — Home, About, Contact, Recipes titles, 12 categories, 108 WooCommerce products. Source: [manaram.farm](https://manaram.farm/).
+- Live legal name: **Manaram Farm**. Established **2014**. Contact: Baluwatar 4 and Suite 105, 529 Bansidhar Marg, Kathmandu; `+977-01-5971547`; `info@manaram.group`.
+- Shop-elsewhere CTAs: Nepal [manakomart.com](https://manakomart.com/), USA [jibrofoods.com](https://jibrofoods.com/).
+- Logo: confirmed by the team; also on the live site.
+- Do not invent testimonials, customers, prices, or awards. Treat the inventory’s copy bugs as live-site errors, not facts. Do not expand the unnamed ISO footer line.
 
 ## Product Principles
 

@@ -1,6 +1,9 @@
-import { useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
+import { usePageReveal } from "../hooks/usePageReveal";
 
 export default function Contact() {
+  const root = useRef<HTMLElement>(null);
+  usePageReveal(root);
   const [sent, setSent] = useState(false);
 
   function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -9,7 +12,7 @@ export default function Contact() {
   }
 
   return (
-    <main className="bg-paper pt-28 pb-24 md:pt-32">
+    <main ref={root} className="bg-paper pt-28 pb-24 md:pt-32">
       <div className="mx-auto grid max-w-[1400px] gap-16 px-6 md:grid-cols-12 md:px-10">
         <div className="md:col-span-5">
           <h1 className="font-display text-4xl font-extrabold tracking-tight text-pine md:text-6xl">
