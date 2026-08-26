@@ -1,3 +1,7 @@
+export function prefersReducedMotion() {
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+}
+
 export function clamp01(n: number) {
   return Math.min(1, Math.max(0, n));
 }

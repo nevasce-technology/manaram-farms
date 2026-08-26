@@ -1,6 +1,12 @@
+import { useRef } from "react";
+import { usePageReveal } from "../hooks/usePageReveal";
+
 export default function About() {
+  const root = useRef<HTMLElement>(null);
+  usePageReveal(root);
+
   return (
-    <main className="bg-paper pt-28 pb-24 md:pt-32">
+    <main ref={root} className="bg-paper pt-28 pb-24 md:pt-32">
       <article className="mx-auto max-w-[1400px] px-6 md:px-10">
         <div className="max-w-3xl">
           <h1 className="font-display text-4xl font-extrabold tracking-tight text-pine md:text-6xl">

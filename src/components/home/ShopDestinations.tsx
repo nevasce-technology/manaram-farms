@@ -1,5 +1,6 @@
 import { useRef } from "react";
 import { ArrowUpRight } from "@phosphor-icons/react";
+import { prefersReducedMotion } from "../../lib/anim";
 import { gsap, useGSAP } from "../../lib/gsap";
 
 const shops = [
@@ -22,22 +23,87 @@ const shops = [
 ];
 
 /**
- * Two shop destinations as large interactive panels under the product stage.
+ * Shop destinations: opposing panel fly-ins + scrubbed counter-tilt.
  */
 export default function ShopDestinations() {
   const root = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      gsap.from(".shop-panel", {
-        y: 28,
-        autoAlpha: 0,
-        duration: 0.65,
-        stagger: 0.12,
-        ease: "power3.out",
-        scrollTrigger: { trigger: root.current, start: "top 80%", once: true },
-      });
+      if (prefersReducedMotion()) return;
+
+      const head = root.current?.querySelector<HTMLElement>(".shop-head");
+      const primary = root.current?.querySelector<HTMLElement>(".shop-panel-primary");
+      const secondary = root.current?.querySelector<HTMLElement>(".shop-panel-secondary");
+
+      if (head) {
+        gsap.from(head.children, {
+          y: 28,
+          autoAlpha: 0,
+          duration: 0.65,
+          stagger: 0.08,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: head,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      }
+
+      // Nepal swings in from the left; USA from the right and lower
+      if (primary) {
+        gsap.from(primary, {
+          xPercent: -18,
+          rotate: -5,
+          autoAlpha: 0,
+          duration: 0.9,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: primary,
+            start: "top 82%",
+            toggleActions: "play none none reverse",
+          },
+        });
+
+        gsap.to(primary, {
+          rotate: 1.5,
+          ease: "none",
+          scrollTrigger: {
+            trigger: primary,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.2,
+          },
+        });
+      }
+
+      if (secondary) {
+        gsap.from(secondary, {
+          xPercent: 18,
+          rotate: 5,
+          autoAlpha: 0,
+          duration: 0.9,
+          delay: 0.08,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: secondary,
+            start: "top 82%",
+            toggleActions: "play none none reverse",
+          },
+        });
+
+        gsap.to(secondary, {
+          rotate: -1.5,
+          ease: "none",
+          scrollTrigger: {
+            trigger: secondary,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.2,
+          },
+        });
+      }
     },
     { scope: root },
   );
@@ -45,7 +111,7 @@ export default function ShopDestinations() {
   return (
     <section ref={root} className="relative overflow-hidden bg-paper py-16 md:py-20 lg:py-24">
       <div className="mx-auto max-w-[1200px] px-5 sm:px-8 md:px-10">
-        <div className="shop-panel max-w-[36rem]">
+        <div className="shop-head max-w-[36rem]">
           <h2 className="font-display text-[clamp(2rem,4vw,3.1rem)] leading-[1.02] font-extrabold tracking-[-0.035em] text-pine">
             Where to buy
           </h2>
@@ -63,10 +129,10 @@ export default function ShopDestinations() {
                 href={s.href}
                 rel="noreferrer"
                 target="_blank"
-                className={`shop-panel group relative flex min-h-[16.5rem] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.6rem] p-7 transition-transform duration-300 ease-out hover:-translate-y-1 active:scale-[0.99] md:min-h-[19rem] md:p-8 ${
+                className={`group relative flex min-h-[16.5rem] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.6rem] p-7 transition-shadow duration-300 ease-out hover:shadow-[0_28px_56px_-24px_rgb(4_40_63_/_0.35)] active:scale-[0.99] md:min-h-[19rem] md:p-8 will-change-transform ${
                   isPrimary
-                    ? "bg-pine text-paper shadow-[0_28px_56px_-28px_rgb(4_40_63_/_0.55)] md:translate-y-0"
-                    : "border border-steel/15 bg-white text-ink shadow-[0_20px_48px_-28px_rgb(0_110_181_/_0.28)] md:translate-y-6"
+                    ? "shop-panel-primary bg-pine text-paper shadow-[0_28px_56px_-28px_rgb(4_40_63_/_0.55)] md:translate-y-0"
+                    : "shop-panel-secondary border border-steel/15 bg-white text-ink shadow-[0_20px_48px_-28px_rgb(0_110_181_/_0.28)] md:translate-y-6"
                 }`}
               >
                 <div
@@ -85,7 +151,7 @@ export default function ShopDestinations() {
                     {s.partner}
                   </p>
                   <span
-                    className={`inline-flex size-11 shrink-0 items-center justify-center rounded-full transition-colors duration-200 ${
+                    className={`shop-arrow inline-flex size-11 shrink-0 items-center justify-center rounded-full transition-colors duration-200 ${
                       isPrimary
                         ? "bg-white/10 text-paper group-hover:bg-white group-hover:text-pine"
                         : "bg-steel/10 text-steel group-hover:bg-steel group-hover:text-white"

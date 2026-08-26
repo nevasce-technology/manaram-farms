@@ -1,6 +1,7 @@
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "@phosphor-icons/react";
+import { prefersReducedMotion } from "../../lib/anim";
 import { gsap, useGSAP } from "../../lib/gsap";
 
 const PRODUCTS = [
@@ -137,15 +138,96 @@ export default function FeaturedProducts() {
 
   useGSAP(
     () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      gsap.from(".showcase-rise", {
-        y: 28,
-        autoAlpha: 0,
-        duration: 0.6,
-        stagger: 0.08,
-        ease: "power3.out",
-        scrollTrigger: { trigger: root.current, start: "top 78%", once: true },
-      });
+      if (prefersReducedMotion()) return;
+
+      const header = root.current?.querySelector<HTMLElement>(".showcase-header");
+      const stage = stageRef.current;
+      const dots = root.current?.querySelector<HTMLElement>(".showcase-dots");
+      const cards = gsap.utils.toArray<HTMLElement>(".showcase-card");
+      const wash = root.current?.querySelector<HTMLElement>(".showcase-wash");
+
+      if (wash) {
+        gsap.fromTo(
+          wash,
+          { opacity: 0.7 },
+          {
+            opacity: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: root.current,
+              start: "top bottom",
+              end: "center center",
+              scrub: 0.8,
+            },
+          },
+        );
+      }
+
+      // Soft header rise — once, no reverse thrash
+      if (header) {
+        gsap.from(header.children, {
+          y: 20,
+          autoAlpha: 0,
+          duration: 1,
+          stagger: 0.12,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: header,
+            start: "top 84%",
+            once: true,
+          },
+        });
+      }
+
+      // Pedestals: only opacity + y so CSS tilt/offset stay intact
+      if (cards.length && stage) {
+        gsap.set(cards, { autoAlpha: 0, y: 40 });
+
+        gsap.to(cards, {
+          autoAlpha: 1,
+          y: 0,
+          duration: 1.15,
+          stagger: { each: 0.16, from: "center" },
+          ease: "power2.out",
+          force3D: true,
+          scrollTrigger: {
+            trigger: stage,
+            start: "top 80%",
+            once: true,
+          },
+        });
+
+        // Gentle float after cards have settled — scrub lag for smoothness
+        cards.forEach((card, i) => {
+          const cutout = card.querySelector<HTMLElement>(".cutout");
+          if (!cutout) return;
+          gsap.to(cutout, {
+            y: i === 1 ? -12 : -8,
+            ease: "none",
+            scrollTrigger: {
+              trigger: card,
+              start: "top 70%",
+              end: "bottom top",
+              scrub: 1.6,
+            },
+          });
+        });
+      }
+
+      if (dots) {
+        gsap.from(dots.children, {
+          autoAlpha: 0,
+          y: 8,
+          duration: 0.55,
+          stagger: 0.04,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: dots,
+            start: "top 94%",
+            once: true,
+          },
+        });
+      }
     },
     { scope: root },
   );
@@ -162,9 +244,8 @@ export default function FeaturedProducts() {
         if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setPaused(false);
       }}
     >
-      {/* Soft depth on steel field */}
       <div
-        className="pointer-events-none absolute inset-0"
+        className="showcase-wash pointer-events-none absolute inset-0 will-change-transform"
         aria-hidden
         style={{
           background:
@@ -173,7 +254,7 @@ export default function FeaturedProducts() {
       />
 
       <div className="relative mx-auto max-w-[1200px] px-5 sm:px-8 md:px-10">
-        <div className="showcase-rise flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div className="showcase-header flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div className="max-w-[28rem]">
             <h2 className="font-display text-[clamp(2rem,4.2vw,3.35rem)] leading-[1.02] font-extrabold tracking-[-0.035em] text-white">
               What we bottle, churn and dry
@@ -193,7 +274,7 @@ export default function FeaturedProducts() {
 
         <div
           ref={stageRef}
-          className="showcase-rise mt-16 grid grid-cols-1 items-end gap-10 sm:mt-20 sm:grid-cols-3 sm:gap-5 md:gap-7 lg:mt-24"
+          className="mt-16 grid grid-cols-1 items-end gap-10 sm:mt-20 sm:grid-cols-3 sm:gap-5 md:gap-7 lg:mt-24"
           aria-live="polite"
         >
           {SLOTS.map((slot, i) => {
@@ -253,7 +334,7 @@ export default function FeaturedProducts() {
         </div>
 
         <div
-          className="showcase-rise mt-12 flex flex-wrap items-center justify-center gap-2.5"
+          className="showcase-dots mt-12 flex flex-wrap items-center justify-center gap-2.5"
           role="tablist"
           aria-label="Showcase position"
         >

@@ -1,3 +1,6 @@
+import { useRef } from "react";
+import { usePageReveal } from "../hooks/usePageReveal";
+
 const products = [
   {
     id: "milk",
@@ -22,8 +25,11 @@ const products = [
 ];
 
 export default function Products() {
+  const root = useRef<HTMLElement>(null);
+  usePageReveal(root);
+
   return (
-    <main className="bg-paper pt-28 pb-24 md:pt-32">
+    <main ref={root} className="bg-paper pt-28 pb-24 md:pt-32">
       <div className="mx-auto max-w-[1400px] px-6 md:px-10">
         <h1 className="font-display max-w-2xl text-4xl font-extrabold tracking-tight text-pine md:text-6xl">
           Dairy we actually make

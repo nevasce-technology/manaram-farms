@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "@phosphor-icons/react";
+import { prefersReducedMotion } from "../../lib/anim";
 import { gsap, useGSAP } from "../../lib/gsap";
 
 const explore = [
@@ -20,23 +21,82 @@ const socials = [
 ];
 
 /**
- * Modern steel-band footer: white logo mark, sparse nav, real contact.
- * Brand field uses #0071BC from the provided swatch.
+ * Footer close: logo bloom, staggered columns, scrubbed wash drift.
  */
 export default function HomeFooter() {
   const root = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
-      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      gsap.from(".footer-rise", {
-        y: 20,
-        autoAlpha: 0,
-        duration: 0.55,
-        stagger: 0.07,
-        ease: "power3.out",
-        scrollTrigger: { trigger: root.current, start: "top 88%", once: true },
-      });
+      if (prefersReducedMotion()) return;
+
+      const wash = root.current?.querySelector<HTMLElement>(".footer-wash");
+      const brand = root.current?.querySelector<HTMLElement>(".footer-brand");
+      const cols = gsap.utils.toArray<HTMLElement>(".footer-col");
+      const legal = root.current?.querySelector<HTMLElement>(".footer-legal");
+
+      if (wash) {
+        gsap.fromTo(
+          wash,
+          { xPercent: -8, opacity: 0.6 },
+          {
+            xPercent: 6,
+            opacity: 1,
+            ease: "none",
+            scrollTrigger: {
+              trigger: root.current,
+              start: "top bottom",
+              end: "bottom top",
+              scrub: true,
+            },
+          },
+        );
+      }
+
+      if (brand) {
+        gsap.from(brand.children, {
+          y: 32,
+          autoAlpha: 0,
+          scale: (i) => (i === 0 ? 0.9 : 1),
+          duration: 0.7,
+          stagger: 0.12,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: brand,
+            start: "top 90%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      }
+
+      if (cols.length) {
+        gsap.from(cols, {
+          y: 40,
+          autoAlpha: 0,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: cols[0],
+            start: "top 92%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      }
+
+      if (legal) {
+        gsap.from(legal, {
+          autoAlpha: 0,
+          y: 16,
+          duration: 0.5,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: legal,
+            start: "top 98%",
+            toggleActions: "play none none reverse",
+          },
+        });
+      }
     },
     { scope: root },
   );
@@ -48,7 +108,7 @@ export default function HomeFooter() {
       style={{ backgroundColor: "#0071bc" }}
     >
       <div
-        className="pointer-events-none absolute inset-0"
+        className="footer-wash pointer-events-none absolute inset-0 will-change-transform"
         aria-hidden
         style={{
           background:
@@ -57,8 +117,7 @@ export default function HomeFooter() {
       />
 
       <div className="relative mx-auto max-w-[1200px] px-5 pt-14 pb-8 sm:px-8 md:px-10 md:pt-16 md:pb-10">
-        {/* Brand row */}
-        <div className="footer-rise flex flex-col gap-8 border-b border-white/15 pb-10 md:flex-row md:items-center md:justify-between md:pb-12">
+        <div className="footer-brand flex flex-col gap-8 border-b border-white/15 pb-10 md:flex-row md:items-center md:justify-between md:pb-12">
           <Link to="/" className="inline-flex w-fit cursor-pointer">
             <img
               src="/logo.png"
@@ -76,9 +135,8 @@ export default function HomeFooter() {
           </Link>
         </div>
 
-        {/* Link columns */}
-        <div className="footer-rise mt-10 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:mt-12 lg:grid-cols-12 lg:gap-8">
-          <div className="lg:col-span-3">
+        <div className="mt-10 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:mt-12 lg:grid-cols-12 lg:gap-8">
+          <div className="footer-col lg:col-span-3">
             <p className="font-display mb-4 text-[13px] font-extrabold text-white">
               Explore
             </p>
@@ -96,7 +154,7 @@ export default function HomeFooter() {
             </ul>
           </div>
 
-          <div className="font-sans space-y-2 text-[15px] leading-[1.55] text-white/70 lg:col-span-5">
+          <div className="footer-col font-sans space-y-2 text-[15px] leading-[1.55] text-white/70 lg:col-span-5">
             <p className="font-display mb-4 text-[13px] font-extrabold text-white">
               Visit and call
             </p>
@@ -116,7 +174,7 @@ export default function HomeFooter() {
             </a>
           </div>
 
-          <div className="lg:col-span-4 lg:text-right">
+          <div className="footer-col lg:col-span-4 lg:text-right">
             <p className="font-display mb-4 text-[13px] font-extrabold text-white">
               Follow along
             </p>
@@ -137,8 +195,7 @@ export default function HomeFooter() {
           </div>
         </div>
 
-        {/* Legal */}
-        <div className="footer-rise mt-12 flex flex-col gap-3 border-t border-white/15 pt-7 md:mt-14 md:flex-row md:items-center md:justify-between">
+        <div className="footer-legal mt-12 flex flex-col gap-3 border-t border-white/15 pt-7 md:mt-14 md:flex-row md:items-center md:justify-between">
           <p className="font-sans max-w-[42ch] text-[12.5px] leading-[1.55] text-white/45">
             ISO Certified: A mark of our promise for healthier, safer, better food.
           </p>
