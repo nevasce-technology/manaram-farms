@@ -1,173 +1,132 @@
 import { useRef } from "react";
+import { Link } from "react-router-dom";
+import { ArrowUpRight } from "@phosphor-icons/react";
 import { prefersReducedMotion } from "../../lib/anim";
 import { gsap, useGSAP } from "../../lib/gsap";
 
-/**
- * Welcome story: title wipe, photo float scrub, split prose, quote swing-in.
- */
 export default function WelcomeFarm() {
   const root = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
-      const section = root.current;
-      if (!section) return;
+      if (prefersReducedMotion() || !root.current) return;
 
-      const title = section.querySelector<HTMLElement>(".welcome-title");
-      const photo = section.querySelector<HTMLElement>(".welcome-photo");
-      const photoImg = section.querySelector<HTMLElement>(".welcome-photo-img");
-      const ghost = section.querySelector<HTMLElement>(".welcome-shape-ghost");
-      const intros = gsap.utils.toArray<HTMLElement>(".welcome-intro p");
-      const craft = section.querySelector<HTMLElement>(".welcome-craft");
-      const quote = section.querySelector<HTMLElement>(".welcome-quote");
-      const marks = gsap.utils.toArray<HTMLElement>(".welcome-mark");
+      // Headline: clip-rise through overflow masks
+      const titleWords = gsap.utils.toArray<HTMLElement>(".story-title-word");
+      gsap.from(titleWords, {
+        yPercent: 110,
+        rotate: 4,
+        duration: 1.05,
+        stagger: 0.08,
+        ease: "power4.out",
+        scrollTrigger: {
+          trigger: ".story-hero-block",
+          start: "top 80%",
+          toggleActions: "play none none reverse",
+        },
+      });
 
-      if (prefersReducedMotion()) {
-        gsap.set(
-          [title, photo, photoImg, ghost, intros, craft, quote, marks],
-          { clearProps: "all" },
-        );
-        return;
-      }
+      gsap.from(".story-lead > *:not(h2)", {
+        y: 32,
+        opacity: 0,
+        filter: "blur(8px)",
+        duration: 0.85,
+        stagger: 0.12,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".story-hero-block",
+          start: "top 76%",
+          toggleActions: "play none none reverse",
+        },
+      });
 
-      // Title: horizontal mask wipe into place
-      if (title) {
-        gsap.fromTo(
-          title,
-          { clipPath: "inset(0 100% 0 0)", x: -28 },
-          {
-            clipPath: "inset(0 0% 0 0)",
-            x: 0,
-            duration: 0.9,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: title,
-              start: "top 88%",
-              toggleActions: "play none none reverse",
-            },
-          },
-        );
-      }
+      // Hero pasture: curtain wipe + scale settle
+      const pasture = root.current.querySelector(".story-pasture");
+      const pastureImg = root.current.querySelector(".story-pasture img");
+      if (pasture && pastureImg) {
+        gsap.set(pasture, { clipPath: "inset(18% 12% 18% 12% round 1.5rem)" });
+        gsap.set(pastureImg, { scale: 1.18 });
 
-      // Photo: lift + soft rotate on enter, then scrubbed float while in view
-      if (photo) {
-        gsap.from(photo, {
-          y: 56,
-          rotate: -4,
-          scale: 0.92,
-          autoAlpha: 0,
-          duration: 0.85,
-          ease: "power3.out",
+        const pastureTl = gsap.timeline({
           scrollTrigger: {
-            trigger: photo,
-            start: "top 85%",
+            trigger: pasture,
+            start: "top 82%",
             toggleActions: "play none none reverse",
           },
         });
+        pastureTl
+          .to(pasture, {
+            clipPath: "inset(0% 0% 0% 0% round 1.5rem)",
+            duration: 1.25,
+            ease: "power4.inOut",
+          })
+          .to(pastureImg, { scale: 1, duration: 1.45, ease: "power2.out" }, 0);
 
-        gsap.to(photo, {
-          y: -18,
+        gsap.to(pastureImg, {
+          yPercent: 8,
           ease: "none",
           scrollTrigger: {
-            trigger: photo,
+            trigger: pasture,
             start: "top bottom",
             end: "bottom top",
-            scrub: 1.1,
+            scrub: 1.2,
           },
         });
       }
 
-      if (photoImg) {
-        gsap.fromTo(
-          photoImg,
-          { scale: 1.18 },
-          {
-            scale: 1,
-            ease: "none",
-            scrollTrigger: {
-              trigger: photo,
-              start: "top 90%",
-              end: "bottom 30%",
-              scrub: true,
-            },
-          },
-        );
-      }
+      // Facility split: opposing slides
+      gsap.from(".story-facility-photo", {
+        xPercent: -14,
+        opacity: 0,
+        rotate: -1.5,
+        duration: 1.1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".story-split",
+          start: "top 78%",
+          toggleActions: "play none none reverse",
+        },
+      });
 
-      if (ghost) {
-        gsap.to(ghost, {
-          x: 14,
-          y: 10,
-          ease: "none",
-          scrollTrigger: {
-            trigger: photo,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.4,
-          },
-        });
-      }
+      gsap.from(".story-facility-copy > :not(.story-stats)", {
+        x: 40,
+        opacity: 0,
+        duration: 0.75,
+        stagger: 0.1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".story-split",
+          start: "top 74%",
+          toggleActions: "play none none reverse",
+        },
+      });
 
-      // Intro lines: stagger from the right
-      if (intros.length) {
-        gsap.from(intros, {
-          x: 40,
-          autoAlpha: 0,
-          duration: 0.65,
-          stagger: 0.12,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: intros[0],
-            start: "top 88%",
-            toggleActions: "play none none reverse",
-          },
-        });
-      }
+      gsap.from(".story-stat", {
+        y: 24,
+        opacity: 0,
+        duration: 0.55,
+        stagger: 0.1,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".story-stats",
+          start: "top 88%",
+          toggleActions: "play none none reverse",
+        },
+      });
 
-      // Craft copy + belief quote: opposing entrances
-      if (craft) {
-        gsap.from(craft, {
-          x: -36,
-          autoAlpha: 0,
-          duration: 0.7,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: craft,
-            start: "top 86%",
-            toggleActions: "play none none reverse",
-          },
-        });
-      }
-
-      if (quote) {
-        gsap.from(quote, {
-          x: 48,
-          rotate: 2.5,
-          autoAlpha: 0,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: quote,
-            start: "top 86%",
-            toggleActions: "play none none reverse",
-          },
-        });
-      }
-
-      if (marks.length) {
-        gsap.from(marks, {
-          scale: 0.4,
-          autoAlpha: 0,
-          duration: 0.7,
-          stagger: 0.15,
-          ease: "back.out(1.6)",
-          scrollTrigger: {
-            trigger: quote,
-            start: "top 80%",
-            toggleActions: "play none none reverse",
-          },
-        });
-      }
+      gsap.from(".story-close > *", {
+        y: 36,
+        opacity: 0,
+        filter: "blur(10px)",
+        duration: 0.9,
+        stagger: 0.14,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".story-close",
+          start: "top 85%",
+          toggleActions: "play none none reverse",
+        },
+      });
     },
     { scope: root },
   );
@@ -176,82 +135,93 @@ export default function WelcomeFarm() {
     <section
       ref={root}
       id="farm-intro"
-      className="welcome-section relative overflow-hidden bg-white px-5 pt-24 pb-24 sm:px-8 md:px-10 md:pt-28 md:pb-28 lg:px-12"
-      aria-labelledby="welcome-heading"
+      className="relative overflow-hidden bg-white pb-24 pt-8 md:pb-36 md:pt-14"
     >
-      <div
-        className="pointer-events-none absolute inset-0"
-        aria-hidden
-        style={{
-          background:
-            "radial-gradient(ellipse 50% 40% at 15% 45%, color-mix(in srgb, var(--color-mist) 45%, transparent), transparent 72%)",
-        }}
-      />
+      <div className="grain-overlay absolute inset-0 opacity-[0.035]" aria-hidden="true" />
 
-      <div className="relative mx-auto w-full max-w-[1100px]">
-        <h2
-          id="welcome-heading"
-          className="welcome-title font-display mb-14 whitespace-nowrap text-center text-[clamp(1.65rem,5.4vw,4.5rem)] leading-[1.05] font-extrabold tracking-[-0.035em] text-steel md:mb-16"
-        >
-          Welcome To Manaram Farm
-        </h2>
-
-        <div className="grid grid-cols-1 items-center gap-10 md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] md:gap-16 lg:gap-20 xl:gap-24">
-          <figure className="welcome-photo relative mx-auto w-full max-w-[22rem] md:mx-0 md:max-w-none will-change-transform">
-            <div
-              className="welcome-shape-ghost absolute -inset-[6%] translate-x-2 translate-y-3 bg-mist/60"
-              aria-hidden
+      <div className="relative mx-auto max-w-[1400px] px-5 md:px-10 xl:px-14">
+        <div className="story-hero-block story-lead max-w-3xl">
+          <h2 className="font-display text-[clamp(2rem,5vw,3.5rem)] font-semibold leading-[1.06] tracking-[-0.035em] text-steel">
+            <span className="block overflow-hidden pb-1">
+              <span className="story-title-word inline-block will-change-transform">Welcome to</span>
+            </span>
+            <span className="block overflow-hidden pb-1">
+              <span className="story-title-word inline-block will-change-transform">Manaram Farm</span>
+            </span>
+          </h2>
+          <p className="mt-6 max-w-2xl text-[1.1rem] leading-relaxed text-ink-soft md:text-lg">
+            Healthy dairy produced at our farm by our farmers and cows. We combine traditional
+            methods with modern care to keep every batch fresh, safe, and full of flavor.
+          </p>
+          <Link
+            to="/about"
+            className="group mt-8 inline-flex items-center gap-2 text-[15px] font-semibold text-steel transition-colors hover:text-steel-deep"
+          >
+            Read our full story
+            <ArrowUpRight
+              size={16}
+              weight="bold"
+              className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
             />
-            <div className="welcome-shape relative aspect-square overflow-hidden bg-mist shadow-[0_24px_48px_-24px_rgb(4_40_63_/_0.3)]">
-              <img
-                src="/welcome-cows.jpg"
-                alt="Dairy cows at Manaram Farm"
-                className="welcome-photo-img absolute inset-0 h-full w-full object-cover object-[center_32%] will-change-transform"
-                width={800}
-                height={800}
-              />
-            </div>
+          </Link>
+        </div>
+
+        <figure className="story-pasture mt-14 overflow-hidden rounded-[var(--radius-panel)] will-change-[clip-path] md:mt-20">
+          <img
+            src="/landing/story-pasture.jpg"
+            alt="Cows grazing on Manaram Farm pasture with Himalayan foothills beyond"
+            className="aspect-[16/9] w-full object-cover will-change-transform md:aspect-[21/9]"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+
+        <div className="story-split mt-16 grid items-center gap-10 md:mt-24 lg:grid-cols-12 lg:gap-14">
+          <figure className="story-facility-photo overflow-hidden rounded-[var(--radius-panel)] will-change-transform lg:col-span-7">
+            <img
+              src="/landing/story-facility.jpg"
+              alt="Modern dairy facility at Manaram Farm in Baluwatar, Kathmandu"
+              className="aspect-[4/3] w-full object-cover"
+              loading="lazy"
+              decoding="async"
+            />
           </figure>
 
-          <div className="welcome-intro flex flex-col justify-center gap-5 md:gap-6">
-            <p className="font-sans text-[clamp(1.05rem,1.8vw,1.35rem)] leading-[1.55] text-ink">
-              Manaram Farm was established with a clear vision: to harness the richness of local
-              resources and transform them into high-quality, wholesome products for everyday life.
+          <div className="story-facility-copy lg:col-span-5">
+            <h3 className="font-display text-[clamp(1.6rem,3vw,2.25rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-steel">
+              Built in Baluwatar for clean, consistent dairy
+            </h3>
+            <p className="mt-5 text-[1.05rem] leading-relaxed text-ink-soft">
+              Since 2014 we have worked to utilize and promote local resources across Nepal. From
+              milk and ghee to pickles, dried meats, and pantry staples, everything starts on our
+              farm and moves through a facility designed for care at every step.
             </p>
-            <p className="font-sans text-[clamp(1.05rem,1.8vw,1.35rem)] leading-[1.55] text-ink">
-              Through our diverse range of brands, we develop and deliver FMCG products that combine
-              quality, taste, and convenience, meeting the evolving needs of modern consumers.
-            </p>
+
+            <dl className="story-stats mt-10 space-y-5 border-t border-ink/10 pt-8">
+              <div className="story-stat flex items-baseline justify-between gap-6">
+                <dt className="text-sm text-ink-soft">Established</dt>
+                <dd className="font-display text-xl font-semibold text-ink">2014</dd>
+              </div>
+              <div className="story-stat flex items-baseline justify-between gap-6 border-t border-ink/8 pt-5">
+                <dt className="text-sm text-ink-soft">Facility</dt>
+                <dd className="text-right font-semibold text-ink">Baluwatar, Kathmandu</dd>
+              </div>
+              <div className="story-stat flex items-baseline justify-between gap-6 border-t border-ink/8 pt-5">
+                <dt className="text-sm text-ink-soft">Focus</dt>
+                <dd className="text-right font-semibold text-ink">Dairy &amp; pantry</dd>
+              </div>
+            </dl>
           </div>
         </div>
 
-        <div className="mt-12 grid grid-cols-1 items-stretch gap-8 border-t border-steel/10 pt-12 md:mt-14 md:grid-cols-2 md:gap-10 md:pt-14 lg:gap-12">
-          <p className="welcome-craft font-sans self-center text-[clamp(1.05rem,1.8vw,1.35rem)] leading-[1.55] text-ink md:pr-2">
-            We carefully select the finest raw materials and blend traditional knowledge with modern,
-            innovative production techniques to create products that are delicious, nutritious, and
-            made with care. Our commitment to quality and responsible production drives us to
-            continuously improve and bring products that our customers can trust to their everyday
-            lives.
+        <div className="story-close mt-16 grid gap-6 border-t border-ink/10 pt-14 md:mt-24 md:grid-cols-2 md:gap-10 md:pt-16">
+          <p className="font-display text-[clamp(1.5rem,3vw,2rem)] font-semibold leading-snug tracking-[-0.02em] text-steel">
+            Local resources. Modern methods. One farm you can trust.
           </p>
-
-          <blockquote className="welcome-quote relative overflow-hidden rounded-[1.35rem] bg-mist px-7 py-8 shadow-[0_18px_40px_-22px_rgb(4_40_63_/_0.22)] md:px-8 md:py-9 will-change-transform">
-            <span
-              className="welcome-mark font-display pointer-events-none absolute top-2 left-4 select-none text-[clamp(5.5rem,12vw,8.5rem)] leading-none font-extrabold text-steel/15"
-              aria-hidden
-            >
-              “
-            </span>
-            <p className="font-display relative z-[1] pt-8 text-[clamp(1.2rem,2.2vw,1.55rem)] leading-[1.3] font-extrabold tracking-[-0.03em] text-pine">
-              At Manaram Farm, we believe that the best products begin with the best resources,
-              thoughtful processes, and a commitment to quality.
-            </p>
-            <span
-              className="welcome-mark font-display pointer-events-none absolute right-5 bottom-0 select-none text-[clamp(4rem,9vw,6.5rem)] leading-none font-extrabold text-steel/12"
-              aria-hidden
-            >
-              ”
-            </span>
-          </blockquote>
+          <p className="max-w-md text-[1.05rem] leading-relaxed text-ink-soft md:justify-self-end md:pt-1">
+            We grow and source across Nepal to support our community, then finish each batch with
+            traditional craft and contemporary standards so flavor and freshness hold together.
+          </p>
         </div>
       </div>
     </section>

@@ -1,361 +1,356 @@
-import { useEffect, useEffectEvent, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowUpRight } from "@phosphor-icons/react";
+import {
+  CATALOG_CATEGORIES,
+  CATALOG_PRODUCTS,
+  type CatalogCategory,
+} from "../../data/catalog";
 import { prefersReducedMotion } from "../../lib/anim";
-import { gsap, useGSAP } from "../../lib/gsap";
+import { gsap, ScrollTrigger, useGSAP } from "../../lib/gsap";
 
-const PRODUCTS = [
-  {
-    name: "Mana Ko Milk",
-    note: "Pure cow milk from open pasture.",
-    img: "/cutouts/milk.png",
-    alt: "Glass bottle of Mana Ko Milk",
-  },
-  {
-    name: "Mana Ko Ghee",
-    note: "Clarified butter, 500 ml.",
-    img: "/cutouts/ghee.png",
-    alt: "Jar of Mana Ko Ghee",
-  },
-  {
-    name: "Mana Ko Dahi",
-    note: "Set yogurt from our dairy.",
-    img: "/cutouts/dahi.png",
-    alt: "Cup of Mana Ko Dahi",
-  },
-  {
-    name: "Sahi Sukuti",
-    note: "Chicken and buffalo dried meat.",
-    img: "/cutouts/sukuti.png",
-    alt: "Pack of Sahi Sukuti",
-  },
-  {
-    name: "Mana Ko Achar",
-    note: "Nepali pickles from our kitchens.",
-    img: "/cutouts/achar.png",
-    alt: "Jar of Mana Ko Achar",
-  },
-  {
-    name: "Titaura",
-    note: "Tangy fruit candy, traditional make.",
-    img: "/cutouts/titaura.png",
-    alt: "Pack of Titaura",
-  },
-] as const;
+const PER_PAGE = 3;
+const CYCLE_MS = 5500;
+const PAGE_COUNT = Math.ceil(CATALOG_CATEGORIES.length / PER_PAGE);
 
-type Product = (typeof PRODUCTS)[number];
-
-const SLOTS = [
-  {
-    key: "side-a",
-    shell:
-      "bg-white/12 backdrop-blur-md border border-white/25 md:rotate-[-3deg] md:translate-y-8",
-    figure: "h-[12rem] sm:h-[13.5rem] md:h-[15.5rem] -mt-14 md:-mt-16",
-    role: "side" as const,
-  },
-  {
-    key: "center",
-    shell:
-      "bg-white shadow-[0_32px_64px_-24px_rgb(4_40_63_/_0.45)] md:scale-[1.08] md:-translate-y-3 border border-white/80",
-    figure: "h-[14.5rem] sm:h-[17rem] md:h-[19.5rem] -mt-16 md:-mt-20",
-    role: "center" as const,
-  },
-  {
-    key: "side-b",
-    shell:
-      "bg-white/12 backdrop-blur-md border border-white/25 md:rotate-[3deg] md:translate-y-8",
-    figure: "h-[12rem] sm:h-[13.5rem] md:h-[15.5rem] -mt-14 md:-mt-16",
-    role: "side" as const,
-  },
-] as const;
-
-function pickThree(start: number): Product[] {
-  const n = PRODUCTS.length;
-  return [0, 1, 2].map((i) => PRODUCTS[(start + i) % n]!);
+function countInCategory(name: string) {
+  return CATALOG_PRODUCTS.filter((p) => p.category === name).length;
 }
 
-/**
- * Steel-field product turntable: cutouts break the card frame on floating pedestals.
- */
+function preloadImage(src: string) {
+  if (!src || typeof window === "undefined") return;
+  const img = new Image();
+  img.decoding = "async";
+  img.src = src;
+}
+
+function preloadCategorySlice(start: number) {
+  CATALOG_CATEGORIES.slice(start, start + PER_PAGE).forEach((cat) => {
+    const src = cat.cutout ?? cat.cover;
+    if (src) preloadImage(src);
+  });
+}
+
 export default function FeaturedProducts() {
   const root = useRef<HTMLElement>(null);
-  const stageRef = useRef<HTMLDivElement>(null);
-  const [index, setIndex] = useState(0);
+  const track = useRef<HTMLDivElement>(null);
+  const [page, setPage] = useState(0);
   const [paused, setPaused] = useState(false);
-  const visible = pickThree(index);
+  const reduce = prefersReducedMotion();
 
-  const swapCards = useEffectEvent((next: number) => {
-    const stage = stageRef.current;
-    if (!stage) {
-      setIndex(next);
-      return;
-    }
+  const slice = CATALOG_CATEGORIES.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
 
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setIndex(next);
-      return;
-    }
-
-    const cards = stage.querySelectorAll<HTMLElement>(".showcase-card");
-    gsap.to(cards, {
-      autoAlpha: 0,
-      y: 18,
-      scale: 0.96,
-      duration: 0.32,
-      stagger: 0.04,
-      ease: "power2.in",
-      onComplete: () => {
-        setIndex(next);
-        requestAnimationFrame(() => {
-          const fresh = stage.querySelectorAll<HTMLElement>(".showcase-card");
-          gsap.fromTo(
-            fresh,
-            { autoAlpha: 0, y: 22, scale: 0.94 },
-            {
-              autoAlpha: 1,
-              y: 0,
-              scale: 1,
-              duration: 0.5,
-              stagger: 0.07,
-              ease: "power3.out",
-            },
-          );
-        });
-      },
+  // Warm the full category set so rotation never waits on network
+  useEffect(() => {
+    CATALOG_CATEGORIES.forEach((cat) => {
+      const src = cat.cutout ?? cat.cover;
+      if (src) preloadImage(src);
     });
-  });
+  }, []);
 
   useEffect(() => {
-    if (paused) return;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    preloadCategorySlice(((page + 1) % PAGE_COUNT) * PER_PAGE);
+  }, [page]);
 
-    const id = window.setInterval(() => {
-      swapCards((index + 1) % PRODUCTS.length);
-    }, 3800);
-
-    return () => window.clearInterval(id);
-  }, [index, paused]);
+  // Recalc ScrollTrigger after images settle
+  useEffect(() => {
+    const el = root.current;
+    if (!el) return;
+    const imgs = Array.from(el.querySelectorAll("img"));
+    if (!imgs.length) {
+      ScrollTrigger.refresh();
+      return;
+    }
+    let pending = imgs.length;
+    const tick = () => {
+      pending -= 1;
+      if (pending <= 0) ScrollTrigger.refresh();
+    };
+    imgs.forEach((img) => {
+      if (img.complete) tick();
+      else {
+        img.addEventListener("load", tick, { once: true });
+        img.addEventListener("error", tick, { once: true });
+      }
+    });
+  }, [page]);
 
   useGSAP(
     () => {
-      if (prefersReducedMotion()) return;
+      if (prefersReducedMotion() || !root.current) return;
 
-      const header = root.current?.querySelector<HTMLElement>(".showcase-header");
-      const stage = stageRef.current;
-      const dots = root.current?.querySelector<HTMLElement>(".showcase-dots");
-      const cards = gsap.utils.toArray<HTMLElement>(".showcase-card");
-      const wash = root.current?.querySelector<HTMLElement>(".showcase-wash");
+      const headTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: root.current,
+          start: "top 78%",
+          toggleActions: "play none none reverse",
+        },
+      });
 
-      if (wash) {
-        gsap.fromTo(
-          wash,
-          { opacity: 0.7 },
+      headTl
+        .from(".cat-head h2", {
+          yPercent: 80,
+          opacity: 0,
+          rotateX: 55,
+          transformOrigin: "50% 100%",
+          duration: 0.95,
+          ease: "power4.out",
+        })
+        .from(
+          ".cat-head p",
           {
-            opacity: 1,
-            ease: "none",
-            scrollTrigger: {
-              trigger: root.current,
-              start: "top bottom",
-              end: "center center",
-              scrub: 0.8,
-            },
+            y: 24,
+            opacity: 0,
+            filter: "blur(6px)",
+            duration: 0.7,
+            ease: "power3.out",
           },
+          "-=0.55",
+        )
+        .from(
+          ".cat-head a",
+          {
+            scale: 0.86,
+            opacity: 0,
+            duration: 0.55,
+            ease: "back.out(1.6)",
+          },
+          "-=0.4",
         );
-      }
 
-      // Soft header rise — once, no reverse thrash
-      if (header) {
-        gsap.from(header.children, {
-          y: 20,
-          autoAlpha: 0,
-          duration: 1,
-          stagger: 0.12,
-          ease: "power2.out",
+      gsap.from(".cat-stage", {
+        y: 64,
+        opacity: 0,
+        scale: 0.92,
+        filter: "blur(12px)",
+        duration: 1.05,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: root.current,
+          start: "top 70%",
+          toggleActions: "play none none reverse",
+        },
+      });
+
+      gsap.from(".cat-pills", {
+        scaleX: 0.4,
+        opacity: 0,
+        duration: 0.65,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: root.current,
+          start: "top 62%",
+          toggleActions: "play none none reverse",
+        },
+      });
+
+      // Soft scrubbed light wash across the stage
+      gsap.fromTo(
+        ".cat-scrub-light",
+        { opacity: 0.15, xPercent: -12 },
+        {
+          opacity: 0.45,
+          xPercent: 12,
+          ease: "none",
           scrollTrigger: {
-            trigger: header,
-            start: "top 84%",
-            once: true,
+            trigger: root.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.1,
           },
-        });
-      }
-
-      // Pedestals: only opacity + y so CSS tilt/offset stay intact
-      if (cards.length && stage) {
-        gsap.set(cards, { autoAlpha: 0, y: 40 });
-
-        gsap.to(cards, {
-          autoAlpha: 1,
-          y: 0,
-          duration: 1.15,
-          stagger: { each: 0.16, from: "center" },
-          ease: "power2.out",
-          force3D: true,
-          scrollTrigger: {
-            trigger: stage,
-            start: "top 80%",
-            once: true,
-          },
-        });
-
-        // Gentle float after cards have settled — scrub lag for smoothness
-        cards.forEach((card, i) => {
-          const cutout = card.querySelector<HTMLElement>(".cutout");
-          if (!cutout) return;
-          gsap.to(cutout, {
-            y: i === 1 ? -12 : -8,
-            ease: "none",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 70%",
-              end: "bottom top",
-              scrub: 1.6,
-            },
-          });
-        });
-      }
-
-      if (dots) {
-        gsap.from(dots.children, {
-          autoAlpha: 0,
-          y: 8,
-          duration: 0.55,
-          stagger: 0.04,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: dots,
-            start: "top 94%",
-            once: true,
-          },
-        });
-      }
+        },
+      );
     },
     { scope: root },
   );
 
+  // Page-change card choreography
+  useGSAP(
+    () => {
+      if (!track.current) return;
+      const cards = track.current.querySelectorAll(".cat-card");
+      if (prefersReducedMotion()) {
+        gsap.set(cards, { clearProps: "all", opacity: 1, y: 0, scale: 1, rotateY: 0 });
+        return;
+      }
+      gsap.fromTo(
+        cards,
+        {
+          y: 48,
+          opacity: 0,
+          scale: 0.88,
+          rotateY: (i: number) => (i - 1) * 12,
+          transformPerspective: 900,
+        },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          rotateY: 0,
+          duration: 0.7,
+          stagger: 0.11,
+          ease: "power3.out",
+          overwrite: true,
+        },
+      );
+    },
+    { scope: root, dependencies: [page], revertOnUpdate: true },
+  );
+
+  useEffect(() => {
+    if (reduce || paused) return;
+    const id = window.setTimeout(() => {
+      setPage((p) => (p + 1) % PAGE_COUNT);
+    }, CYCLE_MS);
+    return () => window.clearTimeout(id);
+  }, [page, paused, reduce]);
+
   return (
     <section
       ref={root}
-      className="relative overflow-hidden bg-steel pt-20 pb-20 md:pt-28 md:pb-28"
-      aria-label="Product showcase"
+      className="relative overflow-hidden py-20 md:py-28"
+      style={{
+        background:
+          "radial-gradient(ellipse 80% 55% at 50% 0%, rgb(70 155 215 / 0.35), transparent 55%), linear-gradient(160deg, #0d78b6 0%, #005a96 48%, #00375f 100%)",
+      }}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
-      onFocusCapture={() => setPaused(true)}
-      onBlurCapture={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setPaused(false);
-      }}
     >
+      <div className="grain-overlay absolute inset-0 opacity-[0.09] mix-blend-soft-light" aria-hidden="true" />
       <div
-        className="showcase-wash pointer-events-none absolute inset-0 will-change-transform"
-        aria-hidden
-        style={{
-          background:
-            "radial-gradient(ellipse 70% 50% at 50% 0%, rgb(255 255 255 / 0.14), transparent 55%), radial-gradient(ellipse 50% 40% at 85% 80%, rgb(4 40 63 / 0.22), transparent 60%)",
-        }}
+        className="cat-scrub-light pointer-events-none absolute -left-1/4 top-1/3 h-72 w-1/2 rounded-full bg-white/30 blur-3xl"
+        aria-hidden="true"
       />
 
-      <div className="relative mx-auto max-w-[1200px] px-5 sm:px-8 md:px-10">
-        <div className="showcase-header flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <div className="max-w-[28rem]">
-            <h2 className="font-display text-[clamp(2rem,4.2vw,3.35rem)] leading-[1.02] font-extrabold tracking-[-0.035em] text-white">
-              What we bottle, churn and dry
+      <div className="relative mx-auto max-w-[1400px] px-5 md:px-10 xl:px-14">
+        <div className="cat-head flex flex-col gap-6 [perspective:900px] sm:flex-row sm:items-end sm:justify-between">
+          <div className="max-w-lg">
+            <h2 className="font-display text-[clamp(2rem,4.5vw,3.1rem)] font-semibold leading-[1.05] tracking-[-0.04em] text-white will-change-transform">
+              What we make
             </h2>
-            <p className="font-sans mt-3 text-[15px] leading-[1.65] text-white/75 md:text-base">
-              Six kitchen staples on a turning stage. Pause on hover to look closer.
+            <p className="mt-3 text-[1.05rem] leading-relaxed text-white/72">
+              Dairy, pantry, and kitchen staples across twelve categories.
             </p>
           </div>
           <Link
             to="/products"
-            className="font-display inline-flex h-12 w-fit cursor-pointer items-center gap-2 rounded-full bg-white px-6 text-[15px] font-extrabold text-steel transition-colors duration-200 hover:bg-mist active:scale-[0.98]"
+            className="group inline-flex shrink-0 items-center gap-2 rounded-full bg-white px-5 py-3 text-[14px] font-semibold text-[#00375f] transition-colors hover:bg-[#eef5fa] active:scale-[0.98]"
           >
-            See all products
-            <ArrowUpRight size={16} weight="bold" />
+            Full catalog
+            <ArrowUpRight
+              size={14}
+              weight="bold"
+              className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+            />
           </Link>
         </div>
 
-        <div
-          ref={stageRef}
-          className="mt-16 grid grid-cols-1 items-end gap-10 sm:mt-20 sm:grid-cols-3 sm:gap-5 md:gap-7 lg:mt-24"
-          aria-live="polite"
-        >
-          {SLOTS.map((slot, i) => {
-            const product = visible[i]!;
-            const isCenter = slot.role === "center";
-            return (
-              <article
-                key={slot.key}
-                className={`showcase-card group relative flex flex-col overflow-visible rounded-[1.6rem] px-5 pt-2 pb-6 transition-transform duration-300 ${slot.shell}`}
-              >
-                {/* Soft shelf under the cutout */}
-                <div
-                  className={`pointer-events-none absolute inset-x-8 top-[42%] h-10 rounded-[100%] blur-xl ${
-                    isCenter ? "bg-steel/20" : "bg-ink/25"
-                  }`}
-                  aria-hidden
-                />
-
-                <figure
-                  className={`relative z-[1] mx-auto flex w-full items-end justify-center ${slot.figure}`}
-                >
-                  <img
-                    src={product.img}
-                    alt={product.alt}
-                    className="cutout max-h-full w-auto max-w-[90%] object-contain drop-shadow-[0_22px_36px_rgb(4_40_63_/_0.4)] transition-transform duration-500 ease-out group-hover:-translate-y-2 group-hover:scale-[1.05]"
-                  />
-                </figure>
-
-                <div className="relative z-[1] mt-3 text-center">
-                  <h3
-                    className={`font-display font-extrabold tracking-[-0.03em] ${
-                      isCenter
-                        ? "text-[1.35rem] text-pine md:text-[1.55rem]"
-                        : "text-[1.15rem] text-white md:text-[1.25rem]"
-                    }`}
-                  >
-                    {product.name}
-                  </h3>
-                  <p
-                    className={`font-sans mt-1.5 text-[13.5px] leading-[1.5] ${
-                      isCenter ? "text-ink/55" : "text-white/70"
-                    }`}
-                  >
-                    {product.note}
-                  </p>
-                </div>
-
-                {isCenter && (
-                  <div
-                    className="mx-auto mt-4 h-1 w-10 rounded-full bg-steel/35"
-                    aria-hidden
-                  />
-                )}
-              </article>
-            );
-          })}
+        <div className="cat-stage relative mt-12 md:mt-16">
+          <div
+            ref={track}
+            className="flex gap-4 overflow-x-auto pb-2 [perspective:1100px] sm:grid sm:grid-cols-3 sm:gap-6 sm:overflow-visible sm:pb-0"
+          >
+            {slice.map((cat, i) => (
+              <CategoryCard key={`${page}-${cat.id}`} category={cat} priority={i === 0 && page === 0} />
+            ))}
+          </div>
         </div>
 
-        <div
-          className="showcase-dots mt-12 flex flex-wrap items-center justify-center gap-2.5"
-          role="tablist"
-          aria-label="Showcase position"
-        >
-          {PRODUCTS.map((p, i) => {
-            const active = i === index;
+        <div className="cat-pills mt-10 flex items-center justify-center gap-2 md:mt-12">
+          {Array.from({ length: PAGE_COUNT }, (_, i) => {
+            const active = i === page;
             return (
               <button
-                key={p.name}
+                key={i}
                 type="button"
-                role="tab"
-                aria-selected={active}
-                aria-label={`Show ${p.name}`}
-                onClick={() => swapCards(i)}
-                className={`h-2 cursor-pointer rounded-full transition-all duration-300 ${
-                  active ? "w-8 bg-white" : "w-2 bg-white/35 hover:bg-white/55"
+                aria-label={`Show categories ${i * PER_PAGE + 1} to ${Math.min((i + 1) * PER_PAGE, CATALOG_CATEGORIES.length)}`}
+                aria-current={active ? "true" : undefined}
+                onClick={() => setPage(i)}
+                className={`relative h-1.5 overflow-hidden rounded-full transition-all duration-300 ${
+                  active ? "w-12 bg-white/25 md:w-14" : "w-1.5 bg-white/35 hover:bg-white/55"
                 }`}
-              />
+              >
+                {active && !reduce ? (
+                  <span
+                    key={`${page}-${paused}`}
+                    className="category-pill-fill absolute inset-y-0 left-0 w-full rounded-full bg-white"
+                    style={{
+                      animationPlayState: paused ? "paused" : "running",
+                      animationDuration: `${CYCLE_MS}ms`,
+                    }}
+                  />
+                ) : active ? (
+                  <span className="absolute inset-0 rounded-full bg-white" />
+                ) : null}
+              </button>
             );
           })}
         </div>
       </div>
     </section>
+  );
+}
+
+function CategoryCard({
+  category,
+  priority,
+}: {
+  category: CatalogCategory;
+  priority?: boolean;
+}) {
+  const count = countInCategory(category.name);
+  const img = category.cutout ?? category.cover;
+
+  return (
+    <div className="cat-card w-[min(78vw,20rem)] shrink-0 sm:w-auto sm:shrink will-change-transform">
+      <Link
+        to={`/products?cat=${category.id}`}
+        className="group relative flex aspect-[4/5] flex-col overflow-hidden rounded-[1.5rem] outline-none transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-2 focus-visible:ring-2 focus-visible:ring-white/70 active:scale-[0.99] md:rounded-[1.75rem]"
+        style={{
+          background:
+            "linear-gradient(165deg, rgb(255 255 255 / 0.2) 0%, rgb(255 255 255 / 0.06) 42%, rgb(255 255 255 / 0.92) 42%, rgb(248 251 253) 100%)",
+          boxShadow:
+            "0 28px 56px -28px rgb(0 20 50 / 0.55), inset 0 1px 0 rgb(255 255 255 / 0.35)",
+          border: "1px solid rgb(255 255 255 / 0.28)",
+        }}
+      >
+        <div className="relative flex min-h-0 flex-[1.15] items-center justify-center px-5 pt-8 pb-2">
+          <span
+            className="pointer-events-none absolute bottom-[12%] left-1/2 h-24 w-[70%] -translate-x-1/2 rounded-[100%] bg-white/35 blur-2xl transition-opacity duration-500 group-hover:opacity-90"
+            aria-hidden="true"
+          />
+          <span
+            className="pointer-events-none absolute bottom-[18%] left-1/2 h-2.5 w-[40%] -translate-x-1/2 rounded-full bg-ink/20 blur-md"
+            aria-hidden="true"
+          />
+          {img ? (
+            <img
+              src={img}
+              alt={category.label}
+              width={420}
+              height={420}
+              className="product-cutout relative z-[1] h-[78%] w-auto max-w-[88%] object-contain transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.06] group-hover:-translate-y-1"
+              loading={priority ? "eager" : "lazy"}
+              decoding="async"
+              fetchPriority={priority ? "high" : "auto"}
+            />
+          ) : null}
+        </div>
+
+        <div className="relative flex shrink-0 flex-col justify-end px-6 pb-6 pt-4 md:px-7 md:pb-7">
+          <h3 className="font-display text-[1.25rem] font-semibold leading-snug tracking-[-0.03em] text-ink md:text-[1.4rem]">
+            {category.label}
+          </h3>
+          <div className="mt-3 flex items-center justify-between gap-3">
+            <p className="text-[0.88rem] text-ink-soft">
+              {count} {count === 1 ? "product" : "products"}
+            </p>
+            <span className="inline-flex size-9 items-center justify-center rounded-full bg-steel text-white transition-transform duration-300 group-hover:scale-105 group-hover:bg-steel-deep">
+              <ArrowUpRight size={15} weight="bold" />
+            </span>
+          </div>
+        </div>
+      </Link>
+    </div>
   );
 }
