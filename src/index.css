@@ -161,86 +161,6 @@ button:focus-visible {
   color: white;
 }
 
-@keyframes about-icon-float {
-  0%,
-  100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-10px) rotate(4deg);
-  }
-}
-
-@keyframes about-icon-spin-soft {
-  0%,
-  100% {
-    transform: rotate(-6deg) scale(1);
-  }
-  50% {
-    transform: rotate(6deg) scale(1.06);
-  }
-}
-
-@keyframes about-ring-pulse {
-  0% {
-    transform: scale(1);
-    opacity: 0.45;
-  }
-  100% {
-    transform: scale(1.55);
-    opacity: 0;
-  }
-}
-
-@keyframes about-heart-beat {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-  14% {
-    transform: scale(1.14);
-  }
-  28% {
-    transform: scale(1);
-  }
-  42% {
-    transform: scale(1.1);
-  }
-  70% {
-    transform: scale(1);
-  }
-}
-
-.about-icon-float {
-  animation: about-icon-float 3.6s ease-in-out infinite;
-}
-
-.about-icon-spin {
-  animation: about-icon-spin-soft 4.2s ease-in-out infinite;
-}
-
-.about-icon-beat {
-  animation: about-heart-beat 1.8s ease-in-out infinite;
-}
-
-.about-icon-ring {
-  position: relative;
-}
-
-.about-icon-ring::after {
-  content: "";
-  position: absolute;
-  inset: -4px;
-  border-radius: 9999px;
-  border: 1.5px solid color-mix(in srgb, var(--color-steel) 55%, white);
-  animation: about-ring-pulse 2.4s ease-out infinite;
-  pointer-events: none;
-}
-
-.about-icon-ring-light::after {
-  border-color: rgb(255 255 255 / 0.45);
-}
-
 .nav-surface {
   border: 1px solid rgb(255 255 255 / 0.12);
   background: rgb(8 20 36 / 0.45);
@@ -283,13 +203,6 @@ button:focus-visible {
 
   .cloud-fringe {
     display: none;
-  }
-
-  .about-icon-float,
-  .about-icon-spin,
-  .about-icon-beat,
-  .about-icon-ring::after {
-    animation: none !important;
   }
 }
 
