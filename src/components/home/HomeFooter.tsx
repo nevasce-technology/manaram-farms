@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { InstagramLogo, FacebookLogo, YoutubeLogo } from "@phosphor-icons/react";
 import { prefersReducedMotion } from "../../lib/anim";
 import { gsap, useGSAP } from "../../lib/gsap";
+import { FoodSafetyCert } from "../ui/FoodSafetyCert";
 
 const explore = [
   { to: "/about", label: "Our Story" },
@@ -113,9 +114,10 @@ export default function HomeFooter() {
               height={40}
             />
             <p className="mt-6 max-w-sm text-[1.05rem] leading-relaxed text-white/78">
-              Premium dairy and pantry products from Kathmandu. Established 2014, rooted in local
-              resources and honest craft.
+              Premium dairy and pantry products from our farm in Jhapa. Established 2014, rooted in
+              local resources and honest craft.
             </p>
+            <FoodSafetyCert className="mt-7" layout="seal" />
           </div>
 
           <div className="foot-col">
@@ -137,7 +139,9 @@ export default function HomeFooter() {
           <div className="foot-col">
             <h3 className="font-display text-sm font-semibold text-white">Contact</h3>
             <address className="mt-5 space-y-3 not-italic text-[15px] leading-relaxed text-white/72">
-              <p className="foot-link">Baluwatar 4, Kathmandu, Nepal</p>
+              <p className="foot-link">
+                Head office: Baluwatar 4, Kathmandu, Nepal
+              </p>
               <p>
                 <a
                   href="tel:+977015971547"
