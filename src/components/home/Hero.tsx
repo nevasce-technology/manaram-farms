@@ -20,6 +20,11 @@ export default function Hero() {
   const cloud = phase(progress, 0, 0.88);
   const copyOut = phase(progress, 0.12, 0.45);
 
+  useEffect(() => {
+    if (reduced || progress < 0.02 || !stage.current) return;
+    gsap.set(stage.current, { clipPath: "none" });
+  }, [progress, reduced]);
+
   useGSAP(
     () => {
       if (prefersReducedMotion()) {
@@ -139,7 +144,7 @@ export default function Hero() {
     >
       <div
         ref={sticky}
-        className={`relative overflow-hidden bg-ink ${reduced ? "min-h-[100dvh]" : "sticky top-0 h-[100dvh]"}`}
+        className={`relative overflow-hidden bg-white ${reduced ? "min-h-[100dvh]" : "sticky top-0 h-[100dvh]"}`}
       >
         <div ref={stage} className="absolute inset-0 will-change-[clip-path]">
           <div

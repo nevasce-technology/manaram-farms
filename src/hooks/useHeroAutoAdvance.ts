@@ -8,14 +8,11 @@ function docTop(el: HTMLElement) {
   return el.getBoundingClientRect().top + window.scrollY;
 }
 
+/** Smoothly scroll the window to `y` over `ms` milliseconds. */
 function animateScrollTo(y: number, ms: number) {
   const start = window.scrollY;
   const dist = y - start;
   if (Math.abs(dist) < 2) return Promise.resolve();
-
-  const root = document.documentElement;
-  const previous = root.style.scrollBehavior;
-  root.style.scrollBehavior = "auto";
 
   const t0 = performance.now();
   return new Promise<void>((resolve) => {
@@ -23,73 +20,74 @@ function animateScrollTo(y: number, ms: number) {
       const t = Math.min(1, (now - t0) / ms);
       window.scrollTo(0, start + dist * easeOutCubic(t));
       if (t < 1) requestAnimationFrame(step);
-      else {
-        root.style.scrollBehavior = previous;
-        resolve();
-      }
+      else resolve();
     };
     requestAnimationFrame(step);
   });
 }
 
 /**
- * While the hero runway is pinned, one scroll-down auto-advances through the
- * cloud wipe to #farm-intro. Scroll-up only snaps back in a tight band at the
- * intro top — never while reading the welcome section.
+ * One scroll-down while the hero is active advances through the cloud wipe and
+ * lands on #farm-intro. Scroll-up near the intro snaps back to the hero top.
+ * Respects prefers-reduced-motion (caller passes reduced=true to disable).
  */
-export function useHeroAutoAdvance(heroRef: RefObject<HTMLElement | null>, reduced: boolean) {
+export function useHeroAutoAdvance(
+  heroRef: RefObject<HTMLElement | null>,
+  reduced: boolean,
+) {
   useEffect(() => {
     if (reduced) return;
 
     let locked = false;
     let touchY = 0;
-    let wheelAcc = 0;
 
     const headerH = () => {
       const h = document.querySelector("header");
       return h?.getBoundingClientRect().height ?? 76;
     };
 
-    /** Tall hero still pinned: sticky stage fills the viewport. */
+    /** Sticky hero still owns the viewport. */
     const inHeroRunway = () => {
       const hero = heroRef.current;
       if (!hero) return false;
       const rect = hero.getBoundingClientRect();
-      return rect.top <= 8 && rect.bottom > window.innerHeight + 4;
-    };
-
-    const intro = () => document.getElementById("farm-intro");
-
-    const landY = () => {
-      const section = intro();
-      if (!section) {
-        const hero = heroRef.current;
-        return hero ? docTop(hero) + hero.offsetHeight - window.innerHeight : window.scrollY;
-      }
-      const padTop = parseFloat(getComputedStyle(section).paddingTop) || 0;
-      return Math.max(0, docTop(section) + padTop - headerH() - 8);
+      return rect.top <= 1 && rect.bottom > window.innerHeight + 4;
     };
 
     /**
-     * Cloud wipe mid-flight only: intro is on screen but has not reached its
-     * land position yet. Once past that, native scroll must work.
+     * Cloud handoff trap: intro has started peeking but the headline isn't
+     * fully framed yet — finish the snap on the next scroll-down.
      */
-    const inCloudApproach = () => {
-      if (inHeroRunway()) return false;
-      const section = intro();
-      if (!section) return false;
-      const top = section.getBoundingClientRect().top;
-      const target = headerH() + 8;
-      return top > target + 12 && top < window.innerHeight * 0.92;
+    const inPartialReveal = () => {
+      const section = document.getElementById("farm-intro");
+      if (!section || inHeroRunway()) return false;
+      const lead = section.querySelector(".story-hero-block");
+      const anchor = (lead ?? section) as HTMLElement;
+      const rect = anchor.getBoundingClientRect();
+      return rect.top < window.innerHeight * 0.55 && rect.bottom > headerH() + 48;
     };
 
-    /** Snap-back only when parked at the intro landing band. */
-    const atIntroLand = () => {
-      const section = intro();
+    const nearIntroTop = () => {
+      const section = document.getElementById("farm-intro");
       if (!section) return false;
-      const top = section.getBoundingClientRect().top;
-      const target = headerH() + 8;
-      return top > target - 16 && top < target + 96;
+      const lead = section.querySelector(".story-hero-block") as HTMLElement | null;
+      const top = (lead ?? section).getBoundingClientRect().top;
+      return top > headerH() - 8 && top < window.innerHeight * 0.62;
+    };
+
+    /** Frame WelcomeFarm headline below the nav, past cloud fringe. */
+    const nextY = () => {
+      const section = document.getElementById("farm-intro");
+      if (!section) {
+        const hero = heroRef.current;
+        return hero
+          ? docTop(hero) + hero.offsetHeight - window.innerHeight
+          : window.scrollY;
+      }
+
+      const lead = section.querySelector(".story-hero-block") as HTMLElement | null;
+      const anchor = lead ?? section;
+      return Math.max(0, docTop(anchor) - headerH() - 20);
     };
 
     const heroTopY = () => {
@@ -97,13 +95,20 @@ export function useHeroAutoAdvance(heroRef: RefObject<HTMLElement | null>, reduc
       return hero ? docTop(hero) : 0;
     };
 
+    const canSnapDown = () => {
+      const target = nextY();
+      if (target <= window.scrollY + 12) return false;
+      return inHeroRunway() || inPartialReveal();
+    };
+
     const goNext = async () => {
       if (locked) return;
-      if (!inHeroRunway() && !inCloudApproach()) return;
+      if (!canSnapDown()) return;
+
+      const target = nextY();
       locked = true;
-      wheelAcc = 0;
       try {
-        await animateScrollTo(landY(), 1500);
+        await animateScrollTo(target, 1400);
       } finally {
         locked = false;
       }
@@ -112,7 +117,6 @@ export function useHeroAutoAdvance(heroRef: RefObject<HTMLElement | null>, reduc
     const goBack = async () => {
       if (locked) return;
       locked = true;
-      wheelAcc = 0;
       try {
         await animateScrollTo(heroTopY(), 900);
       } finally {
@@ -126,20 +130,16 @@ export function useHeroAutoAdvance(heroRef: RefObject<HTMLElement | null>, reduc
         return;
       }
 
-      if (e.deltaY > 0 && (inHeroRunway() || inCloudApproach())) {
+      if (e.deltaY > 8 && canSnapDown()) {
         e.preventDefault();
-        wheelAcc += e.deltaY;
-        if (wheelAcc > 12) void goNext();
+        void goNext();
         return;
       }
 
-      if (e.deltaY < -8 && atIntroLand()) {
+      if (e.deltaY < -8 && nearIntroTop()) {
         e.preventDefault();
         void goBack();
-        return;
       }
-
-      wheelAcc = 0;
     };
 
     const onTouchStart = (e: TouchEvent) => {
@@ -151,14 +151,17 @@ export function useHeroAutoAdvance(heroRef: RefObject<HTMLElement | null>, reduc
         e.preventDefault();
         return;
       }
+
       const y = e.touches[0]?.clientY ?? touchY;
       const dy = touchY - y;
-      if (dy > 16 && (inHeroRunway() || inCloudApproach())) {
+
+      if (dy > 24 && canSnapDown()) {
         e.preventDefault();
         void goNext();
         return;
       }
-      if (dy < -16 && atIntroLand()) {
+
+      if (dy < -24 && nearIntroTop()) {
         e.preventDefault();
         void goBack();
       }

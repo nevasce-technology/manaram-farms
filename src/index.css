@@ -68,9 +68,54 @@ button:focus-visible {
 }
 
 .hero-vignette-edge {
+  background: radial-gradient(ellipse 100% 80% at 70% 40%, transparent 28%, rgb(8 20 36 / 0.12) 100%);
+}
+
+.about-hero-scrim {
   background:
-    radial-gradient(ellipse 100% 80% at 70% 40%, transparent 28%, rgb(8 20 36 / 0.12) 100%),
-    linear-gradient(to top, rgb(8 20 36 / 0.35) 0%, transparent 28%);
+    linear-gradient(
+      102deg,
+      rgb(8 20 36 / 0.82) 0%,
+      rgb(8 20 36 / 0.58) 26%,
+      rgb(8 20 36 / 0.22) 48%,
+      transparent 68%
+    ),
+    linear-gradient(to top, rgb(8 20 36 / 0.62) 0%, rgb(8 20 36 / 0.16) 36%, transparent 62%);
+}
+
+.about-hero-vignette {
+  background: radial-gradient(ellipse 85% 75% at 76% 48%, transparent 22%, rgb(8 20 36 / 0.1) 100%);
+}
+
+.about-hero-floor {
+  background: linear-gradient(to top, rgb(255 255 255 / 0.14) 0%, transparent 100%);
+}
+
+.about-ground-canvas {
+  background-color: var(--color-canvas);
+  background-image: radial-gradient(
+    ellipse 120% 80% at 50% -20%,
+    rgb(0 113 188 / 0.06) 0%,
+    transparent 55%
+  );
+}
+
+.about-ground-white {
+  background-color: #fff;
+  background-image: radial-gradient(
+    ellipse 100% 70% at 80% 0%,
+    rgb(0 113 188 / 0.04) 0%,
+    transparent 50%
+  );
+}
+
+.about-ground-mist {
+  background-color: #fff;
+  background-image: radial-gradient(
+    ellipse 90% 60% at 20% 100%,
+    rgb(244 247 250 / 0.9) 0%,
+    transparent 60%
+  );
 }
 
 .product-cutout {
@@ -209,9 +254,35 @@ button:focus-visible {
   box-shadow: 0 8px 32px -20px rgb(8 20 36 / 0.15);
 }
 
+.cloud-riser {
+  margin-top: -28vh;
+}
+
+.cloud-fringe {
+  --cloud-seam: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.25) 22%,
+    #000 45%,
+    #000 55%,
+    rgba(0, 0, 0, 0.25) 78%,
+    transparent 100%
+  );
+  -webkit-mask-image: var(--cloud-seam);
+  mask-image: var(--cloud-seam);
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .cloud-riser {
+    margin-top: 0;
+  }
+
+  .cloud-fringe {
+    display: none;
   }
 
   .about-icon-float,
