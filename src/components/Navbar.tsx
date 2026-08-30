@@ -18,15 +18,23 @@ function activeKey(pathname: string) {
   return "home";
 }
 
-const itemClass = ({ isActive }: { isActive: boolean }) =>
-  [
+function itemClass(isActive: boolean, onHero: boolean) {
+  if (onHero) {
+    return [
+      "relative z-10 rounded-full px-5 py-2.5 text-[14px] leading-none transition-colors duration-300",
+      isActive ? "font-semibold text-white" : "font-medium text-white/72 hover:text-white",
+    ].join(" ");
+  }
+  return [
     "relative z-10 rounded-full px-5 py-2.5 text-[14px] leading-none transition-colors duration-300",
-    isActive ? "font-semibold text-white" : "font-medium text-ink/75 hover:text-ink",
+    isActive ? "font-semibold text-white" : "font-medium text-ink/70 hover:text-ink",
   ].join(" ");
+}
 
 export default function Navbar() {
   const location = useLocation();
   const key = activeKey(location.pathname);
+  const onHero = location.pathname === "/";
   const [open, setOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const menuId = useId();
@@ -37,6 +45,8 @@ export default function Navbar() {
   const placed = useRef(false);
   const keyRef = useRef(key);
   keyRef.current = key;
+
+  const surfaceClass = onHero ? "nav-surface" : "nav-surface-light";
 
   useEffect(() => {
     setOpen(false);
@@ -93,7 +103,7 @@ export default function Navbar() {
         width: box.width,
         height: box.height,
         scaleX: 1,
-        duration: 0.52,
+        duration: 0.48,
         ease: "power2.inOut",
         overwrite: "auto",
       });
@@ -112,27 +122,36 @@ export default function Navbar() {
   }, [key]);
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-[40] px-4 pt-5 md:px-8">
-      <div className="pointer-events-auto mx-auto flex max-w-[1400px] justify-center">
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-[50] px-4 pt-4 md:px-8 md:pt-5">
+      <div className="pointer-events-auto relative mx-auto flex max-w-[1400px] items-center justify-between lg:justify-center">
+        <NavLink to="/" className="relative z-[2] shrink-0 lg:hidden" aria-label="Manaram Farm home">
+          <img
+            src="/logo.png"
+            alt=""
+            className={`h-8 w-auto ${onHero ? "brightness-0 invert" : ""}`}
+            width={120}
+            height={32}
+          />
+        </NavLink>
+
         <nav
           ref={navRef}
-          className="liquid-glass-web-approx relative hidden rounded-full px-2 py-2 lg:flex"
+          className={`${surfaceClass} relative hidden rounded-full px-2 py-1.5 lg:flex`}
           aria-label="Primary"
         >
           <span
             ref={pillRef}
-            className="pointer-events-none absolute top-0 left-0 z-[1] h-0 w-0 rounded-full will-change-transform"
-            style={{ backgroundColor: "#006eb5" }}
+            className="pointer-events-none absolute top-0 left-0 z-[1] h-0 w-0 rounded-full will-change-transform bg-steel"
             aria-hidden="true"
           />
-          <ul ref={listRef} className="relative z-[2] flex items-center gap-0.5">
+          <ul ref={listRef} className="relative z-[2] flex items-center gap-1.5">
             <li>
-              <NavLink to="/" end data-nav="home" className={itemClass}>
+              <NavLink to="/" end data-nav="home" className={({ isActive }) => itemClass(isActive, onHero)}>
                 Home
               </NavLink>
             </li>
             <li>
-              <NavLink to="/about" data-nav="about" className={itemClass}>
+              <NavLink to="/about" data-nav="about" className={({ isActive }) => itemClass(isActive, onHero)}>
                 Our Story
               </NavLink>
             </li>
@@ -140,7 +159,7 @@ export default function Navbar() {
               <button
                 type="button"
                 data-nav="products"
-                className={`${itemClass({ isActive: key === "products" })} inline-flex items-center gap-1`}
+                className={`${itemClass(key === "products", onHero)} inline-flex items-center gap-1.5`}
                 aria-expanded={productsOpen}
                 aria-controls={menuId}
                 onClick={() => setProductsOpen((value) => !value)}
@@ -155,13 +174,17 @@ export default function Navbar() {
               {productsOpen ? (
                 <div
                   id={menuId}
-                  className="liquid-glass-web-approx absolute top-[calc(100%+10px)] left-1/2 w-44 -translate-x-1/2 rounded-2xl p-1.5"
+                  className={`${surfaceClass} absolute top-[calc(100%+8px)] left-1/2 w-44 -translate-x-1/2 rounded-2xl p-1.5 shadow-[0_16px_40px_-20px_rgb(8_20_36_/_0.25)]`}
                 >
                   {productLinks.map((item) => (
                     <NavLink
                       key={item.to}
                       to={item.to}
-                      className="relative z-10 block rounded-full px-4 py-2 text-[14px] font-medium text-ink/80 transition-colors hover:bg-white/35 hover:text-ink"
+                      className={`relative z-10 block rounded-full px-4 py-2 text-[14px] font-medium transition-colors ${
+                        onHero
+                          ? "text-white/75 hover:bg-white/10 hover:text-white"
+                          : "text-ink/75 hover:bg-ink/5 hover:text-ink"
+                      }`}
                     >
                       {item.label}
                     </NavLink>
@@ -170,12 +193,12 @@ export default function Navbar() {
               ) : null}
             </li>
             <li>
-              <NavLink to="/recipes" data-nav="recipes" className={itemClass}>
+              <NavLink to="/recipes" data-nav="recipes" className={({ isActive }) => itemClass(isActive, onHero)}>
                 Recipes
               </NavLink>
             </li>
             <li>
-              <NavLink to="/contact" data-nav="contact" className={itemClass}>
+              <NavLink to="/contact" data-nav="contact" className={({ isActive }) => itemClass(isActive, onHero)}>
                 Contact
               </NavLink>
             </li>
@@ -184,41 +207,58 @@ export default function Navbar() {
 
         <button
           type="button"
-          className="liquid-glass-web-approx relative flex h-12 w-12 items-center justify-center rounded-full text-ink lg:hidden"
+          className={`${surfaceClass} relative flex h-11 w-11 items-center justify-center rounded-full ${
+            onHero ? "text-white" : "text-ink"
+          } lg:hidden`}
           aria-expanded={open}
           aria-label={open ? "Close menu" : "Open menu"}
           onClick={() => setOpen((value) => !value)}
         >
-          <span className="relative z-10">
-            {open ? <X size={18} weight="bold" /> : <List size={18} weight="bold" />}
-          </span>
+          {open ? <X size={18} weight="bold" /> : <List size={18} weight="bold" />}
         </button>
       </div>
 
       {open ? (
         <nav
-          className="liquid-glass-web-approx pointer-events-auto relative mx-auto mt-2 max-w-xs rounded-2xl p-1.5 lg:hidden"
+          className={`${surfaceClass} pointer-events-auto relative mx-auto mt-2 max-w-xs rounded-2xl p-1.5 lg:hidden`}
           aria-label="Mobile"
         >
-          <ul className="relative z-10 flex flex-col gap-0.5">
+          <ul className="flex flex-col gap-0.5">
             <li>
-              <NavLink to="/" end className={itemClass} onClick={() => setOpen(false)}>
+              <NavLink
+                to="/"
+                end
+                className={({ isActive }) => itemClass(isActive, onHero)}
+                onClick={() => setOpen(false)}
+              >
                 Home
               </NavLink>
             </li>
             <li>
-              <NavLink to="/about" className={itemClass} onClick={() => setOpen(false)}>
+              <NavLink
+                to="/about"
+                className={({ isActive }) => itemClass(isActive, onHero)}
+                onClick={() => setOpen(false)}
+              >
                 Our Story
               </NavLink>
             </li>
-            <li className="px-4 pt-2 pb-1 text-[11px] font-medium tracking-wide text-ink/45">
+            <li
+              className={`px-4 pt-2 pb-1 text-[11px] font-medium tracking-wide ${
+                onHero ? "text-white/45" : "text-ink/45"
+              }`}
+            >
               Products
             </li>
             {productLinks.map((item) => (
               <li key={item.to}>
                 <NavLink
                   to={item.to}
-                  className="block rounded-full px-4 py-2 text-[14px] font-medium text-ink/80 hover:bg-white/35 hover:text-ink"
+                  className={`block rounded-full px-4 py-2 text-[14px] font-medium ${
+                    onHero
+                      ? "text-white/75 hover:bg-white/10 hover:text-white"
+                      : "text-ink/75 hover:bg-ink/5 hover:text-ink"
+                  }`}
                   onClick={() => setOpen(false)}
                 >
                   {item.label}
@@ -226,12 +266,20 @@ export default function Navbar() {
               </li>
             ))}
             <li>
-              <NavLink to="/recipes" className={itemClass} onClick={() => setOpen(false)}>
+              <NavLink
+                to="/recipes"
+                className={({ isActive }) => itemClass(isActive, onHero)}
+                onClick={() => setOpen(false)}
+              >
                 Recipes
               </NavLink>
             </li>
             <li>
-              <NavLink to="/contact" className={itemClass} onClick={() => setOpen(false)}>
+              <NavLink
+                to="/contact"
+                className={({ isActive }) => itemClass(isActive, onHero)}
+                onClick={() => setOpen(false)}
+              >
                 Contact
               </NavLink>
             </li>
