@@ -70,7 +70,7 @@ export default function AboutHero() {
           <div className="grid w-full items-end gap-10 lg:grid-cols-12">
             <div className="lg:col-span-5 xl:col-span-4">
               <p className="about-hero-sub text-sm font-semibold uppercase tracking-[0.16em] text-white/72">
-                Manaram Farm · Kathmandu
+                Manaram Farm · Jhapa
               </p>
               <h1 className="mt-4 font-display text-[clamp(2.85rem,7.5vw,5.25rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-white">
                 <span className="block overflow-hidden pb-1">

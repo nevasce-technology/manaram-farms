@@ -216,7 +216,7 @@ export default function Hero() {
             </h1>
 
             <p className="hero-fade mt-6 max-w-[28rem] text-[1.05rem] leading-relaxed text-white/85 md:mt-8 md:text-lg">
-              Fresh milk, ghee, and pantry staples from our Kathmandu farm since 2014.
+              Fresh milk, ghee, and pantry staples from our Jhapa farm since 2014.
             </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-3 md:mt-11">

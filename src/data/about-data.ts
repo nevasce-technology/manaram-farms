@@ -17,12 +17,12 @@ export const stats = [
   {
     label: "Established",
     value: "2014",
-    note: "Farming and finishing in Kathmandu for over a decade.",
+    note: "Farm and facility in Jhapa; head office in Kathmandu.",
   },
   {
-    label: "Facility",
-    value: "Baluwatar",
-    note: "Our dairy house sits in Baluwatar 4, Kathmandu.",
+    label: "Farm & facility",
+    value: "Jhapa",
+    note: "Our pastures and dairy facility are in Jhapa, eastern Nepal.",
   },
   {
     label: "Workforce",
@@ -35,6 +35,17 @@ export const stats = [
     note: "Milk, ghee, pickles, dried meats, flours, and more.",
   },
 ] as const;
+
+export const foodSafetyCert = {
+  eyebrow: "Food safety, verified",
+  standard: "ISO 22000:2018",
+  body: "Our Jhapa facility operates under a certified food-safety management system.",
+  image: "/certifications/iso-22000-badges.png",
+  imageAlt:
+    "IAS Accredited MSCB-113 and G-CERT2 System Service ISO 22000:2018 certification marks",
+  accreditation: "IAS Accredited · MSCB-113",
+  certificate: "G-CERT2 · GINE-0068-FC",
+} as const;
 
 export const facilityCheckpoints: ReadonlyArray<{
   title: string;
@@ -70,7 +81,7 @@ export const processSteps: ReadonlyArray<{
   },
   {
     title: "Make with care",
-    body: "Traditional craft meets a modern Baluwatar facility built for clean, consistent dairy.",
+    body: "Traditional craft meets a modern Jhapa facility built for clean, consistent dairy.",
     icon: ClipboardIcon,
   },
   {
@@ -107,7 +118,7 @@ export const pillars: ReadonlyArray<{
     points: "Modern dairy facility · consistent batches · safety with flavor",
     icon: SparklesIcon,
     image: "/landing/about-facility.jpg",
-    imageAlt: "Stainless steel dairy tanks at Manaram Farm in Baluwatar",
+    imageAlt: "Stainless steel dairy tanks at Manaram Farm in Jhapa",
   },
   {
     title: "Crafted for nutrition",
@@ -192,7 +203,8 @@ export const visionNotes = [
 ] as const;
 
 export const facilityMeta = [
-  ["Location", "Baluwatar 4, Kathmandu"],
+  ["Farm & facility", "Jhapa, eastern Nepal"],
+  ["Head office", "Baluwatar 4, Kathmandu"],
   ["Brands", "Mana Ko and sister lines"],
   ["Range", "Dairy, pantry, achar, more"],
 ] as const;
