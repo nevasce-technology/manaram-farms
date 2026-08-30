@@ -23,7 +23,7 @@ function ScrollToHash() {
 
 export default function App() {
   return (
-    <div className="min-h-[100dvh] bg-paper">
+    <div className="min-h-[100dvh] bg-canvas">
       <ScrollToHash />
       <Navbar />
       <Routes>

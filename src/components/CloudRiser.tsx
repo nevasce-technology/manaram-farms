@@ -2,8 +2,7 @@ import type { ReactNode } from "react";
 
 /**
  * Lifts the first post-hero section up over the pinned hero so it emerges from
- * soft mist. Fringe uses the alpha cloud plate: no screen-blend, no dark seam.
- * (Same pattern as Samaya Holidays, tinted to Manaram paper.)
+ * soft mist. Fringe uses the alpha cloud plate : no screen-blend, no dark seam.
  */
 export default function CloudRiser({ children }: { children: ReactNode }) {
   return (
@@ -16,7 +15,7 @@ export default function CloudRiser({ children }: { children: ReactNode }) {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to bottom, transparent 0%, color-mix(in srgb, var(--color-paper) 55%, transparent) 30%, var(--color-paper) 52%, color-mix(in srgb, var(--color-paper) 70%, transparent) 72%, transparent 100%)",
+              "linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.55) 30%, #ffffff 52%, rgba(255,255,255,0.7) 72%, transparent 100%)",
           }}
         />
         <img

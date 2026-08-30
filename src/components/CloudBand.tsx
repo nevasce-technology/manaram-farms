@@ -13,8 +13,6 @@ type Layer = {
   flip?: boolean;
 };
 
-const PAPER = "var(--color-paper)";
-
 const LAYERS: Layer[] = [
   {
     from: 0,
@@ -66,10 +64,10 @@ export default function CloudBand({ t }: { t: number }) {
           background: `
             linear-gradient(
               to top,
-              color-mix(in srgb, ${PAPER} 98%, transparent) 0%,
-              color-mix(in srgb, ${PAPER} 72%, transparent) 28%,
-              color-mix(in srgb, ${PAPER} 28%, transparent) 62%,
-              transparent 100%
+              rgba(255,255,255,0.98) 0%,
+              rgba(255,255,255,0.72) 28%,
+              rgba(255,255,255,0.28) 62%,
+              rgba(255,255,255,0) 100%
             )
           `,
         }}
@@ -78,7 +76,7 @@ export default function CloudBand({ t }: { t: number }) {
       {LAYERS.map((layer, i) => {
         const raw = phase(t, layer.from, layer.to);
         const alpha = lerp(0.28, 1, easeOutCubic(raw)) * layer.opacity;
-        const feather = `linear-gradient(to top, #000 0%, #000 50%, transparent 100%)`;
+        const feather = "linear-gradient(to top, #000 0%, #000 50%, transparent 100%)";
 
         return (
           <div
@@ -109,7 +107,8 @@ export default function CloudBand({ t }: { t: number }) {
         className="absolute inset-x-0 bottom-0"
         style={{
           height: `${lerp(6, 48, phase(t, 0.35, 1))}%`,
-          background: `linear-gradient(to top, ${PAPER} 0%, ${PAPER} 50%, transparent 100%)`,
+          background:
+            "linear-gradient(to top, #ffffff 0%, #ffffff 50%, rgba(255,255,255,0) 100%)",
           opacity: phase(t, 0.3, 0.95),
         }}
       />

@@ -6,187 +6,182 @@ import { gsap, useGSAP } from "../../lib/gsap";
 const shops = [
   {
     country: "Nepal",
-    partner: "Mana Ko Mart",
+    partner: "Mana Mart",
     site: "manakomart.com",
     href: "https://manakomart.com/",
-    line: "Mana Ko Mart delivers across Nepal.",
-    tone: "primary" as const,
+    line: "Order Mana Ko across Nepal.",
+    logo: "/partners/mana-mart.png",
+    logoAlt: "Mana Mart",
+    cta: "Shop Nepal",
+    logoClass: "h-14 w-auto max-w-[min(100%,14rem)] object-contain object-left md:h-16",
   },
   {
     country: "United States",
-    partner: "Jibro Foods",
+    partner: "Pandam Foods",
     site: "jibrofoods.com",
     href: "https://jibrofoods.com/",
-    line: "Jibro Foods carries us stateside.",
-    tone: "secondary" as const,
+    line: "Find us on Pandam Foods in the US.",
+    logo: "/partners/pandam-foods-light.png",
+    logoAlt: "Pandam Foods",
+    cta: "Shop US",
+    logoClass: "h-11 w-auto max-w-[min(100%,16rem)] object-contain object-left md:h-12",
   },
-];
+] as const;
 
-/**
- * Shop destinations: opposing panel fly-ins + scrubbed counter-tilt.
- */
 export default function ShopDestinations() {
   const root = useRef<HTMLElement>(null);
 
   useGSAP(
     () => {
-      if (prefersReducedMotion()) return;
+      if (prefersReducedMotion() || !root.current) return;
 
-      const head = root.current?.querySelector<HTMLElement>(".shop-head");
-      const primary = root.current?.querySelector<HTMLElement>(".shop-panel-primary");
-      const secondary = root.current?.querySelector<HTMLElement>(".shop-panel-secondary");
+      const headTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: root.current,
+          start: "top 80%",
+          toggleActions: "play none none reverse",
+        },
+      });
 
-      if (head) {
-        gsap.from(head.children, {
-          y: 28,
-          autoAlpha: 0,
-          duration: 0.65,
-          stagger: 0.08,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: head,
-            start: "top 85%",
-            toggleActions: "play none none reverse",
-          },
-        });
-      }
-
-      // Nepal swings in from the left; USA from the right and lower
-      if (primary) {
-        gsap.from(primary, {
-          xPercent: -18,
-          rotate: -5,
-          autoAlpha: 0,
-          duration: 0.9,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: primary,
-            start: "top 82%",
-            toggleActions: "play none none reverse",
-          },
-        });
-
-        gsap.to(primary, {
-          rotate: 1.5,
-          ease: "none",
-          scrollTrigger: {
-            trigger: primary,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.2,
-          },
-        });
-      }
-
-      if (secondary) {
-        gsap.from(secondary, {
-          xPercent: 18,
+      headTl
+        .from(".shop-title-word", {
+          yPercent: 115,
           rotate: 5,
-          autoAlpha: 0,
-          duration: 0.9,
-          delay: 0.08,
+          duration: 0.95,
+          stagger: 0.1,
+          ease: "power4.out",
+        })
+        .from(
+          ".shop-sub",
+          {
+            y: 28,
+            opacity: 0,
+            filter: "blur(8px)",
+            duration: 0.7,
+            ease: "power3.out",
+          },
+          "-=0.5",
+        );
+
+      const panels = gsap.utils.toArray<HTMLElement>(".shop-panel");
+      panels.forEach((panel, i) => {
+        const fromLeft = i % 2 === 0;
+        gsap.from(panel, {
+          xPercent: fromLeft ? -18 : 18,
+          y: 40,
+          opacity: 0,
+          rotate: fromLeft ? -2.5 : 2.5,
+          scale: 0.94,
+          duration: 1,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: secondary,
-            start: "top 82%",
+            trigger: panel,
+            start: "top 88%",
             toggleActions: "play none none reverse",
           },
         });
 
-        gsap.to(secondary, {
-          rotate: -1.5,
-          ease: "none",
-          scrollTrigger: {
-            trigger: secondary,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 1.2,
-          },
-        });
-      }
+        const logo = panel.querySelector(".shop-logo");
+        const cta = panel.querySelector(".shop-cta-chip");
+        if (logo) {
+          gsap.from(logo, {
+            scale: 0.82,
+            opacity: 0,
+            duration: 0.7,
+            delay: 0.15,
+            ease: "back.out(1.5)",
+            scrollTrigger: {
+              trigger: panel,
+              start: "top 86%",
+              toggleActions: "play none none reverse",
+            },
+          });
+        }
+        if (cta) {
+          gsap.from(cta, {
+            y: 16,
+            opacity: 0,
+            duration: 0.55,
+            delay: 0.28,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: panel,
+              start: "top 84%",
+              toggleActions: "play none none reverse",
+            },
+          });
+        }
+      });
     },
     { scope: root },
   );
 
   return (
-    <section ref={root} className="relative overflow-hidden bg-paper py-16 md:py-20 lg:py-24">
-      <div className="mx-auto max-w-[1200px] px-5 sm:px-8 md:px-10">
-        <div className="shop-head max-w-[36rem]">
-          <h2 className="font-display text-[clamp(2rem,4vw,3.1rem)] leading-[1.02] font-extrabold tracking-[-0.035em] text-pine">
-            Where to buy
-          </h2>
-          <p className="font-sans mt-3 text-[15px] leading-[1.65] text-ink/60 md:text-base">
-            Checkout lives on our partner shops. Choose Nepal or the United States.
-          </p>
-        </div>
+    <section ref={root} className="relative overflow-hidden bg-white py-20 md:py-28">
+      <div className="grain-overlay absolute inset-0 opacity-[0.035]" aria-hidden="true" />
 
-        <div className="mt-10 grid grid-cols-1 gap-5 md:mt-12 md:grid-cols-2 md:gap-6">
-          {shops.map((s) => {
-            const isPrimary = s.tone === "primary";
-            return (
-              <a
-                key={s.country}
-                href={s.href}
-                rel="noreferrer"
-                target="_blank"
-                className={`group relative flex min-h-[16.5rem] cursor-pointer flex-col justify-between overflow-hidden rounded-[1.6rem] p-7 transition-shadow duration-300 ease-out hover:shadow-[0_28px_56px_-24px_rgb(4_40_63_/_0.35)] active:scale-[0.99] md:min-h-[19rem] md:p-8 will-change-transform ${
-                  isPrimary
-                    ? "shop-panel-primary bg-pine text-paper shadow-[0_28px_56px_-28px_rgb(4_40_63_/_0.55)] md:translate-y-0"
-                    : "shop-panel-secondary border border-steel/15 bg-white text-ink shadow-[0_20px_48px_-28px_rgb(0_110_181_/_0.28)] md:translate-y-6"
-                }`}
-              >
-                <div
-                  className={`pointer-events-none absolute -right-8 -top-10 size-44 rounded-full opacity-40 blur-2xl ${
-                    isPrimary ? "bg-steel" : "bg-mist"
-                  }`}
-                  aria-hidden
-                />
+      <div className="relative mx-auto max-w-[1400px] px-5 md:px-10 xl:px-14">
+        <h2 className="font-display text-[clamp(1.75rem,4vw,2.75rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-ink">
+          <span className="block overflow-hidden pb-1">
+            <span className="shop-title-word inline-block will-change-transform">Where to</span>
+          </span>
+          <span className="block overflow-hidden pb-1">
+            <span className="shop-title-word inline-block will-change-transform">buy</span>
+          </span>
+        </h2>
+        <p className="shop-sub mt-3 max-w-lg text-[1.05rem] leading-relaxed text-ink-soft">
+          Order through our retail partners in Nepal and the United States.
+        </p>
 
-                <div className="relative flex items-start justify-between gap-4">
-                  <p
-                    className={`font-display text-[1.05rem] font-extrabold tracking-[-0.02em] md:text-[1.15rem] ${
-                      isPrimary ? "text-paper" : "text-pine"
-                    }`}
-                  >
-                    {s.partner}
-                  </p>
-                  <span
-                    className={`shop-arrow inline-flex size-11 shrink-0 items-center justify-center rounded-full transition-colors duration-200 ${
-                      isPrimary
-                        ? "bg-white/10 text-paper group-hover:bg-white group-hover:text-pine"
-                        : "bg-steel/10 text-steel group-hover:bg-steel group-hover:text-white"
-                    }`}
-                  >
-                    <ArrowUpRight size={18} weight="bold" aria-hidden />
+        <div className="mt-12 grid gap-5 lg:grid-cols-2">
+          {shops.map((shop) => (
+            <a
+              key={shop.href}
+              href={shop.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shop-panel group relative flex min-h-[17rem] flex-col overflow-hidden rounded-[var(--radius-panel)] border border-ink/8 bg-canvas p-8 shadow-[0_20px_50px_-36px_rgb(8_20_36_/_0.45)] transition-[transform,box-shadow,border-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1.5 hover:border-steel/35 hover:shadow-[0_28px_60px_-32px_rgb(0_113_188_/_0.35)] focus-visible:border-steel active:translate-y-0 active:scale-[0.985] md:min-h-[18.5rem] md:p-10"
+            >
+              <span
+                className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_70%_at_100%_0%,rgb(0_113_188_/_0.1),transparent_55%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                aria-hidden="true"
+              />
+
+              <div className="relative flex flex-1 flex-col">
+                <p className="text-sm font-medium text-ink-soft">{shop.country}</p>
+
+                <div className="mt-8 flex min-h-[4.5rem] items-center">
+                  <img
+                    src={shop.logo}
+                    alt={shop.logoAlt}
+                    className={`shop-logo ${shop.logoClass}`}
+                    width={280}
+                    height={80}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </div>
+
+                <p className="mt-6 max-w-sm text-[1.05rem] leading-relaxed text-ink-soft">
+                  {shop.line}
+                </p>
+
+                <span className="shop-cta-chip mt-auto inline-flex w-fit items-center gap-2.5 pt-8">
+                  <span className="inline-flex items-center gap-2 rounded-full bg-steel px-5 py-2.5 text-[15px] font-semibold text-white shadow-[0_10px_24px_-12px_rgb(0_113_188_/_0.7)] transition-[background-color,transform] duration-300 group-hover:bg-steel-deep group-active:scale-[0.98]">
+                    {shop.cta}
+                    <ArrowUpRight
+                      size={16}
+                      weight="bold"
+                      className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                    />
                   </span>
-                </div>
-
-                <div className="relative mt-10 md:mt-auto">
-                  <p
-                    className={`font-display text-[clamp(1.85rem,3.2vw,2.65rem)] leading-[1.02] font-extrabold tracking-[-0.03em] ${
-                      isPrimary ? "text-paper" : "text-pine"
-                    }`}
-                  >
-                    {s.country}
-                  </p>
-                  <p
-                    className={`font-sans mt-2 max-w-[28ch] text-[15px] leading-[1.55] ${
-                      isPrimary ? "text-paper/65" : "text-ink/55"
-                    }`}
-                  >
-                    {s.line}
-                  </p>
-                  <p
-                    className={`font-sans mt-4 text-[13px] font-semibold tracking-wide ${
-                      isPrimary ? "text-steel-soft" : "text-steel"
-                    }`}
-                  >
-                    {s.site}
-                  </p>
-                </div>
-              </a>
-            );
-          })}
+                  <span className="text-sm text-ink-soft transition-colors group-hover:text-steel">
+                    {shop.site}
+                  </span>
+                </span>
+              </div>
+            </a>
+          ))}
         </div>
       </div>
     </section>

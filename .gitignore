@@ -31,3 +31,8 @@ dist-ssr
 
 # Wireframe preview
 wireframes/.mobile-preview/
+
+# Script scratch output
+scripts/tmp/
+scripts/_products.html
+scripts/*.log

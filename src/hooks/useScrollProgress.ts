@@ -27,6 +27,7 @@ export function useScrollProgress() {
     let target = 0;
     let current = 0;
     const SMOOTH = 0.18;
+    const FAST = 0.52;
 
     const readTarget = () => {
       const el = ref.current;
@@ -39,7 +40,8 @@ export function useScrollProgress() {
 
     const tick = () => {
       target = readTarget();
-      current += (target - current) * SMOOTH;
+      const smooth = Math.abs(target - current) > 0.05 ? FAST : SMOOTH;
+      current += (target - current) * smooth;
       if (Math.abs(target - current) < 0.0004) {
         current = target;
         setProgress(current);
