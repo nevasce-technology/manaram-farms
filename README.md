@@ -37,3 +37,8 @@ npx wrangler deploy
 - `wireframes/*.css` / `*.js` — styles and interactions
 - `wireframes/assets/` — images and brand logo
 - `wrangler.jsonc` — Cloudflare Worker static assets config
+
+
+## Notes
+
+
