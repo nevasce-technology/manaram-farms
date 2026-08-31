@@ -1758,6 +1758,69 @@ button:focus-visible {
   color: #9a2436;
 }
 
+.home-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  min-height: 100dvh;
+  overflow: hidden;
+  pointer-events: none;
+  background: transparent;
+}
+
+.home-intro__columns {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.home-intro__col {
+  height: 100dvh;
+  background: #fff;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+.home-intro__col + .home-intro__col {
+  margin-left: -1px;
+}
+
+.home-intro__brand {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1.5rem;
+  pointer-events: none;
+  text-align: center;
+  background: #fff;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+.home-intro__logo {
+  width: clamp(16rem, 42vw, 26rem);
+  height: auto;
+  object-fit: contain;
+}
+
+.home-intro__welcome {
+  margin: 0;
+  max-width: 22ch;
+  font-size: clamp(1.75rem, 4.5vw, 2.85rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+  color: var(--color-steel);
+}
+
 .hero-band {
   position: relative;
   isolation: isolate;
@@ -1779,7 +1842,19 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   overflow: hidden;
+}
+
+.hero-band__zoom {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  transform-origin: center center;
   will-change: transform;
+}
+
+.hero-band__zoom--ready {
+  transform: none;
+  will-change: auto;
 }
 
 .hero-band__photo {
@@ -1912,6 +1987,16 @@ button:focus-visible {
   background: rgb(255 255 255);
 }
 
+.facility-rail__zoom {
+  transform-origin: 50% 0%;
+  will-change: transform;
+}
+
+.facility-rail__zoom--ready {
+  transform: none;
+  will-change: auto;
+}
+
 .facility-rail__panel {
   position: relative;
   z-index: 1;
@@ -1960,6 +2045,17 @@ button:focus-visible {
 
 .facility-rail__item:last-child {
   border-bottom: none;
+}
+
+.facility-rail__eyebrow {
+  display: block;
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--color-steel);
+  transform-origin: left center;
+  will-change: transform;
 }
 
 .facility-rail__label {
@@ -2033,7 +2129,9 @@ button:focus-visible {
 
 @media (prefers-reduced-motion: reduce) {
   .facility-rail__panel,
-  .facility-rail__item {
+  .facility-rail__item,
+  .facility-rail__eyebrow,
+  .facility-rail__zoom {
     animation: none !important;
     transform: none !important;
   }
@@ -2041,6 +2139,7 @@ button:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .hero-band__media,
   .hero-band__parallax,
+  .hero-band__zoom,
   .hero-band__photo,
   .hero-band__copy,
   .hero-band__line,

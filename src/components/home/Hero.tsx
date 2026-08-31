@@ -2,14 +2,30 @@ import { useRef, type RefObject } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "@phosphor-icons/react";
 import { prefersReducedMotion } from "../../lib/anim";
-import { gsap, useGSAP } from "../../lib/gsap";
+import { gsap, ScrollTrigger, useGSAP } from "../../lib/gsap";
+import {
+  LIFT_TOTAL_DURATION,
+  REVEAL_SCALE_START,
+} from "./home-intro-timing";
 
 const HERO_POSTER = "/landing/hero-farm-cows.jpg?v=3";
 const HERO_VIDEO = "/landing/hero-cows-hay.mp4";
 
-export default function Hero() {
+type HeroProps = {
+  skipIntro: boolean;
+  revealStarted: boolean;
+  mediaReady: boolean;
+  onZoomComplete?: () => void;
+};
+
+export default function Hero({
+  skipIntro,
+  revealStarted,
+  mediaReady,
+  onZoomComplete,
+}: HeroProps) {
   const root = useRef<HTMLElement>(null);
-  const parallax = useRef<HTMLDivElement>(null);
+  const zoom = useRef<HTMLDivElement>(null);
   const photo = useRef<HTMLVideoElement | HTMLImageElement>(null);
   const scrim = useRef<HTMLDivElement>(null);
   const copy = useRef<HTMLDivElement>(null);
@@ -17,67 +33,72 @@ export default function Hero() {
 
   useGSAP(
     () => {
-      if (prefersReducedMotion() || !root.current || !parallax.current || !photo.current) return;
+      if (!root.current || !zoom.current || !photo.current || !scrim.current) return;
 
-      const loadTl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      if (reduceMotion || skipIntro) {
+        if (photo.current instanceof HTMLVideoElement) {
+          photo.current.play().catch(() => {});
+        }
+        if (zoom.current) {
+          zoom.current.classList.add("hero-band__zoom--ready");
+        }
+        return;
+      }
 
-      loadTl
-        .from(parallax.current, {
-          clipPath: "inset(100% 0 0 0)",
-          duration: 1.35,
+      if (photo.current instanceof HTMLVideoElement) {
+        photo.current.play().catch(() => {});
+      }
+
+      gsap.set(zoom.current, {
+        scale: REVEAL_SCALE_START,
+        transformOrigin: "50% 50%",
+        force3D: true,
+      });
+      gsap.set(scrim.current, { autoAlpha: 0 });
+      gsap.set(".hero-band__brand > *", { autoAlpha: 0, y: 24 });
+      gsap.set(".hero-band__line", { yPercent: 108 });
+      gsap.set(".hero-band__sub", { autoAlpha: 0, y: 22 });
+      gsap.set(".hero-band__cta", { autoAlpha: 0, scale: 0.93, y: 20 });
+    },
+    { scope: root },
+  );
+
+  useGSAP(
+    () => {
+      if (reduceMotion || skipIntro || !revealStarted || !zoom.current) return;
+
+      gsap.killTweensOf(zoom.current);
+
+      gsap.fromTo(
+        zoom.current,
+        {
+          scale: REVEAL_SCALE_START,
+          transformOrigin: "50% 50%",
+          force3D: true,
+        },
+        {
+          scale: 1,
+          duration: LIFT_TOTAL_DURATION,
           ease: "power4.inOut",
-        })
-        .from(
-          photo.current,
-          { scale: 1.12, duration: 1.85, ease: "power2.out", transformOrigin: "50% 50%" },
-          0,
-        )
-        .from(scrim.current, { opacity: 0, duration: 1.15 }, 0.18)
-        .from(
-          ".hero-band__brand > *",
-          {
-            y: 24,
-            opacity: 0,
-            filter: "blur(8px)",
-            duration: 0.9,
-            stagger: 0.12,
-            clearProps: "filter",
+          force3D: true,
+          transformOrigin: "50% 50%",
+          onComplete: () => {
+            if (zoom.current) {
+              zoom.current.classList.add("hero-band__zoom--ready");
+              gsap.set(zoom.current, { clearProps: "transform" });
+            }
+            ScrollTrigger.refresh();
+            onZoomComplete?.();
           },
-          0.52,
-        )
-        .from(
-          ".hero-band__line",
-          {
-            yPercent: 108,
-            duration: 1,
-            stagger: 0.14,
-            ease: "power4.out",
-          },
-          0.64,
-        )
-        .from(
-          ".hero-band__sub",
-          {
-            y: 22,
-            opacity: 0,
-            filter: "blur(10px)",
-            duration: 0.8,
-            clearProps: "filter",
-          },
-          0.9,
-        )
-        .from(
-          ".hero-band__cta",
-          {
-            y: 20,
-            opacity: 0,
-            scale: 0.93,
-            duration: 0.65,
-            stagger: 0.1,
-            ease: "back.out(1.55)",
-          },
-          1.02,
-        );
+        },
+      );
+    },
+    { scope: root, dependencies: [revealStarted] },
+  );
+
+  useGSAP(
+    () => {
+      if (!root.current || !photo.current || !mediaReady || reduceMotion) return;
 
       gsap.to(photo.current, {
         yPercent: 8,
@@ -107,41 +128,106 @@ export default function Hero() {
         });
       }
     },
-    { scope: root },
+    { scope: root, dependencies: [mediaReady] },
+  );
+
+  useGSAP(
+    () => {
+      if (reduceMotion || skipIntro || !revealStarted || !scrim.current) return;
+
+      const revealTl = gsap.timeline({
+        defaults: { ease: "power3.out" },
+        delay: LIFT_TOTAL_DURATION * 0.55,
+        onComplete: () => {
+          gsap.set(
+            [".hero-band__brand > *", ".hero-band__line", ".hero-band__sub", ".hero-band__cta"],
+            { clearProps: "transform,opacity,visibility,filter" },
+          );
+        },
+      });
+
+      revealTl
+        .to(scrim.current, { autoAlpha: 1, duration: 1.05, ease: "power2.out" }, 0)
+        .to(
+          ".hero-band__brand > *",
+          {
+            y: 0,
+            autoAlpha: 1,
+            filter: "blur(0px)",
+            duration: 0.9,
+            stagger: 0.12,
+          },
+          0.15,
+        )
+        .to(
+          ".hero-band__line",
+          {
+            yPercent: 0,
+            duration: 1,
+            stagger: 0.14,
+            ease: "power4.out",
+          },
+          0.28,
+        )
+        .to(
+          ".hero-band__sub",
+          {
+            y: 0,
+            autoAlpha: 1,
+            filter: "blur(0px)",
+            duration: 0.8,
+          },
+          0.45,
+        )
+        .to(
+          ".hero-band__cta",
+          {
+            y: 0,
+            autoAlpha: 1,
+            scale: 1,
+            duration: 0.65,
+            stagger: 0.1,
+            ease: "back.out(1.55)",
+          },
+          0.58,
+        );
+    },
+    { scope: root, dependencies: [revealStarted] },
   );
 
   return (
     <section ref={root} className="hero-band" aria-label="Introduction">
       <div className="hero-band__media" aria-hidden="true">
-        <div ref={parallax} className="hero-band__parallax">
-          {reduceMotion ? (
-            <img
-              ref={photo as RefObject<HTMLImageElement>}
-              src={HERO_POSTER}
-              alt=""
-              width={1920}
-              height={1080}
-              className="hero-band__photo"
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-            />
-          ) : (
-            <video
-              ref={photo as RefObject<HTMLVideoElement>}
-              className="hero-band__photo"
-              autoPlay
-              muted
-              loop
-              playsInline
-              poster={HERO_POSTER}
-              preload="auto"
-              width={1920}
-              height={1080}
-            >
-              <source src={HERO_VIDEO} type="video/mp4" />
-            </video>
-          )}
+        <div className="hero-band__parallax">
+          <div ref={zoom} className="hero-band__zoom">
+            {reduceMotion ? (
+              <img
+                ref={photo as RefObject<HTMLImageElement>}
+                src={HERO_POSTER}
+                alt=""
+                width={1920}
+                height={1080}
+                className="hero-band__photo"
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
+              />
+            ) : (
+              <video
+                ref={photo as RefObject<HTMLVideoElement>}
+                className="hero-band__photo"
+                muted
+                loop
+                playsInline
+                poster={HERO_POSTER}
+                preload="auto"
+                width={1920}
+                height={1080}
+              >
+                <source src={HERO_VIDEO} type="video/mp4" />
+              </video>
+            )}
+          </div>
         </div>
         <div ref={scrim} className="hero-band__scrim" />
       </div>
