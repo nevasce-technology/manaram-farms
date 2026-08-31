@@ -1,17 +1,16 @@
 import FeaturedProducts from "../components/home/FeaturedProducts";
+import FacilityProofRail from "../components/home/FacilityProofRail";
 import Hero from "../components/home/Hero";
 import HomeFooter from "../components/home/HomeFooter";
 import ShopDestinations from "../components/home/ShopDestinations";
 import WelcomeFarm from "../components/home/WelcomeFarm";
-import CloudRiser from "../components/CloudRiser";
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <CloudRiser>
-        <WelcomeFarm />
-      </CloudRiser>
+      <FacilityProofRail />
+      <WelcomeFarm />
       <FeaturedProducts />
       <ShopDestinations />
       <HomeFooter />

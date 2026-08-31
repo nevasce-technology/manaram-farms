@@ -1020,6 +1020,160 @@ button:focus-visible {
   }
 }
 
+/* Floating credential rail */
+.facility-rail {
+  --rail-overlap: clamp(3.5rem, 5.75vw, 4.75rem);
+  --rail-ground-bleed: clamp(2rem, 4vw, 3.5rem);
+  position: relative;
+  z-index: 4;
+  margin-top: calc(-1 * var(--rail-overlap));
+  padding-inline: 1.25rem;
+}
+
+/*
+ * White ground begins exactly where the hero ends (same value as overlap).
+ * Above that line: transparent — hero video shows beside the panel.
+ * Below that line: full-width white — no canvas grey bleed.
+ */
+.facility-rail::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  top: var(--rail-overlap);
+  bottom: calc(-1 * var(--rail-ground-bleed));
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  background: rgb(255 255 255);
+}
+
+.facility-rail__panel {
+  position: relative;
+  z-index: 1;
+  isolation: isolate;
+  width: 100%;
+  max-width: 87.5rem;
+  margin-inline: auto;
+  border: 1px solid rgb(8 20 36 / 0.07);
+  border-radius: 0;
+  background-color: rgb(255 255 255);
+  box-shadow:
+    0 8px 20px rgb(6 13 22 / 0.07),
+    0 24px 48px rgb(6 13 22 / 0.06);
+}
+
+#farm-intro {
+  --rail-ground-bleed: clamp(2rem, 4vw, 3.5rem);
+}
+
+#farm-intro::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  top: calc(-1 * var(--rail-ground-bleed));
+  height: var(--rail-ground-bleed);
+  background: rgb(255 255 255);
+}
+
+.facility-rail__grid {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.facility-rail__item {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 0.625rem;
+  padding: 1.5rem 1.25rem;
+  border-bottom: 1px solid rgb(8 20 36 / 0.08);
+}
+
+.facility-rail__item:last-child {
+  border-bottom: none;
+}
+
+.facility-rail__label {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-ink-soft);
+}
+
+.facility-rail__value {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.65rem, 3.2vw, 2.25rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--color-steel);
+}
+
+.facility-rail__note {
+  margin: 0;
+  max-width: 18rem;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-ink-soft);
+}
+
+@media (min-width: 640px) {
+  .facility-rail__grid {
+    flex-direction: row;
+  }
+
+  .facility-rail__item {
+    gap: 0.75rem;
+    padding: 1.75rem 1.5rem;
+    border-bottom: none;
+    border-right: 1px solid rgb(8 20 36 / 0.08);
+  }
+
+  .facility-rail__item:last-child {
+    border-right: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .facility-rail {
+    padding-inline: 2.5rem;
+  }
+
+  .facility-rail__item {
+    padding: 1.75rem 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .facility-rail {
+    padding-inline: 3.5rem;
+  }
+
+  .facility-rail__item {
+    gap: 0.75rem;
+    padding: 1.75rem 2.5rem;
+  }
+
+  .facility-rail__note {
+    max-width: 20rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .facility-rail__panel,
+  .facility-rail__item {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
 .nav-surface {
   border: 1px solid rgb(255 255 255 / 0.12);
   background: rgb(8 20 36 / 0.45);
