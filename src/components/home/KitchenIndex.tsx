@@ -6,7 +6,7 @@ import { gsap, useGSAP } from "../../lib/gsap";
 const groups = [
   {
     heading: "From the dairy",
-    items: ["Dairy", "Beverages", "Tea and Coffee"],
+    items: ["Dairy", "Tea and Coffee"],
   },
   {
     heading: "Dried and cured",

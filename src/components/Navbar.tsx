@@ -4,10 +4,10 @@ import { CaretDown, List, X } from "@phosphor-icons/react";
 import gsap from "gsap";
 
 const productLinks = [
-  { to: "/products#milk", label: "Milk" },
-  { to: "/products#yogurt", label: "Yogurt" },
-  { to: "/products#ghee", label: "Ghee" },
-  { to: "/products#paneer", label: "Paneer" },
+  { to: "/products/mana-ko-milk", label: "Milk" },
+  { to: "/products/mana-ko-dahi", label: "Dahi" },
+  { to: "/products/mana-ko-ghee", label: "Ghee" },
+  { to: "/products/mana-ko-paneer", label: "Paneer" },
 ];
 
 function activeKey(pathname: string) {
@@ -18,25 +18,18 @@ function activeKey(pathname: string) {
   return "home";
 }
 
-function itemClass(isActive: boolean, onHero: boolean) {
+function itemClass(isActive: boolean) {
   const base =
     "relative z-10 inline-flex items-center justify-center rounded-full px-5 py-2 text-[14px] leading-none whitespace-nowrap transition-colors duration-300";
-  if (onHero) {
-    return [
-      base,
-      isActive ? "font-semibold text-white" : "font-medium text-white/72 hover:text-white",
-    ].join(" ");
-  }
   return [
     base,
-    isActive ? "font-semibold text-white" : "font-medium text-ink/70 hover:text-ink",
+    isActive ? "font-semibold text-white" : "font-medium text-white/72 hover:text-white",
   ].join(" ");
 }
 
 export default function Navbar() {
   const location = useLocation();
   const key = activeKey(location.pathname);
-  const onHero = location.pathname === "/";
   const [open, setOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const menuId = useId();
@@ -48,7 +41,7 @@ export default function Navbar() {
   const keyRef = useRef(key);
   keyRef.current = key;
 
-  const surfaceClass = onHero ? "nav-surface" : "nav-surface-light";
+  const surfaceClass = "nav-surface";
 
   useEffect(() => {
     setOpen(false);
@@ -57,13 +50,11 @@ export default function Navbar() {
 
   useEffect(() => {
     if (!productsOpen) return;
-    const onPointer = (event: MouseEvent) => {
-      if (!panelRef.current?.contains(event.target as Node)) {
-        setProductsOpen(false);
-      }
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setProductsOpen(false);
     };
-    window.addEventListener("pointerdown", onPointer);
-    return () => window.removeEventListener("pointerdown", onPointer);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [productsOpen]);
 
   useLayoutEffect(() => {
@@ -130,7 +121,7 @@ export default function Navbar() {
           <img
             src="/logo.png"
             alt=""
-            className={`h-8 w-auto ${onHero ? "brightness-0 invert" : ""}`}
+            className="h-8 w-auto brightness-0 invert"
             width={120}
             height={32}
           />
@@ -148,23 +139,28 @@ export default function Navbar() {
           />
           <ul ref={listRef} className="relative z-[2] flex items-center gap-1">
             <li>
-              <NavLink to="/" end data-nav="home" className={({ isActive }) => itemClass(isActive, onHero)}>
+              <NavLink to="/" end data-nav="home" className={({ isActive }) => itemClass(isActive)}>
                 Home
               </NavLink>
             </li>
             <li>
-              <NavLink to="/about" data-nav="about" className={({ isActive }) => itemClass(isActive, onHero)}>
+              <NavLink to="/about" data-nav="about" className={({ isActive }) => itemClass(isActive)}>
                 Our Story
               </NavLink>
             </li>
-            <li className="relative" ref={panelRef}>
-              <button
-                type="button"
+            <li
+              className="relative"
+              ref={panelRef}
+              onMouseEnter={() => setProductsOpen(true)}
+              onMouseLeave={() => setProductsOpen(false)}
+            >
+              <NavLink
+                to="/products"
                 data-nav="products"
-                className={`${itemClass(key === "products", onHero)} gap-1.5`}
+                className={({ isActive }) => `${itemClass(isActive)} gap-1.5`}
                 aria-expanded={productsOpen}
                 aria-controls={menuId}
-                onClick={() => setProductsOpen((value) => !value)}
+                aria-haspopup="true"
               >
                 Products
                 <CaretDown
@@ -172,35 +168,43 @@ export default function Navbar() {
                   weight="bold"
                   className={`transition-transform duration-200 ${productsOpen ? "rotate-180" : ""}`}
                 />
-              </button>
+              </NavLink>
               {productsOpen ? (
-                <div
-                  id={menuId}
-                  className={`${surfaceClass} absolute top-[calc(100%+8px)] left-1/2 w-44 -translate-x-1/2 rounded-2xl p-1.5 shadow-[0_16px_40px_-20px_rgb(8_20_36_/_0.25)]`}
-                >
-                  {productLinks.map((item) => (
+                <div className="absolute left-1/2 top-full z-50 -translate-x-1/2 pt-2">
+                  <div
+                    id={menuId}
+                    className={`${surfaceClass} w-48 rounded-2xl p-1.5 shadow-[0_16px_40px_-20px_rgb(8_20_36_/_0.25)]`}
+                    role="menu"
+                  >
                     <NavLink
-                      key={item.to}
-                      to={item.to}
-                      className={`relative z-10 block rounded-full px-4 py-2 text-[14px] font-medium transition-colors ${
-                        onHero
-                          ? "text-white/75 hover:bg-white/10 hover:text-white"
-                          : "text-ink/75 hover:bg-ink/5 hover:text-ink"
-                      }`}
+                      to="/products"
+                      role="menuitem"
+                      className="relative z-10 block rounded-full px-4 py-2 text-[14px] font-semibold text-white transition-colors hover:bg-white/10"
                     >
-                      {item.label}
+                      All products
                     </NavLink>
-                  ))}
+                    <div className="my-1 h-px bg-white/10" aria-hidden="true" />
+                    {productLinks.map((item) => (
+                      <NavLink
+                        key={item.to}
+                        to={item.to}
+                        role="menuitem"
+                        className="relative z-10 block rounded-full px-4 py-2 text-[14px] font-medium text-white/75 transition-colors hover:bg-white/10 hover:text-white"
+                      >
+                        {item.label}
+                      </NavLink>
+                    ))}
+                  </div>
                 </div>
               ) : null}
             </li>
             <li>
-              <NavLink to="/recipes" data-nav="recipes" className={({ isActive }) => itemClass(isActive, onHero)}>
+              <NavLink to="/recipes" data-nav="recipes" className={({ isActive }) => itemClass(isActive)}>
                 Recipes
               </NavLink>
             </li>
             <li>
-              <NavLink to="/contact" data-nav="contact" className={({ isActive }) => itemClass(isActive, onHero)}>
+              <NavLink to="/contact" data-nav="contact" className={({ isActive }) => itemClass(isActive)}>
                 Contact
               </NavLink>
             </li>
@@ -209,9 +213,7 @@ export default function Navbar() {
 
         <button
           type="button"
-          className={`${surfaceClass} relative flex h-11 w-11 items-center justify-center rounded-full ${
-            onHero ? "text-white" : "text-ink"
-          } lg:hidden`}
+          className={`${surfaceClass} relative flex h-11 w-11 items-center justify-center rounded-full text-white lg:hidden`}
           aria-expanded={open}
           aria-label={open ? "Close menu" : "Open menu"}
           onClick={() => setOpen((value) => !value)}
@@ -230,7 +232,7 @@ export default function Navbar() {
               <NavLink
                 to="/"
                 end
-                className={({ isActive }) => itemClass(isActive, onHero)}
+                className={({ isActive }) => itemClass(isActive)}
                 onClick={() => setOpen(false)}
               >
                 Home
@@ -239,28 +241,26 @@ export default function Navbar() {
             <li>
               <NavLink
                 to="/about"
-                className={({ isActive }) => itemClass(isActive, onHero)}
+                className={({ isActive }) => itemClass(isActive)}
                 onClick={() => setOpen(false)}
               >
                 Our Story
               </NavLink>
             </li>
-            <li
-              className={`px-4 pt-2 pb-1 text-[11px] font-medium tracking-wide ${
-                onHero ? "text-white/45" : "text-ink/45"
-              }`}
-            >
-              Products
+            <li>
+              <NavLink
+                to="/products"
+                className={({ isActive }) => itemClass(isActive)}
+                onClick={() => setOpen(false)}
+              >
+                All products
+              </NavLink>
             </li>
             {productLinks.map((item) => (
               <li key={item.to}>
                 <NavLink
                   to={item.to}
-                  className={`block rounded-full px-4 py-2 text-[14px] font-medium ${
-                    onHero
-                      ? "text-white/75 hover:bg-white/10 hover:text-white"
-                      : "text-ink/75 hover:bg-ink/5 hover:text-ink"
-                  }`}
+                  className="block rounded-full px-4 py-2 text-[14px] font-medium text-white/75 hover:bg-white/10 hover:text-white"
                   onClick={() => setOpen(false)}
                 >
                   {item.label}
@@ -270,7 +270,7 @@ export default function Navbar() {
             <li>
               <NavLink
                 to="/recipes"
-                className={({ isActive }) => itemClass(isActive, onHero)}
+                className={({ isActive }) => itemClass(isActive)}
                 onClick={() => setOpen(false)}
               >
                 Recipes
@@ -279,7 +279,7 @@ export default function Navbar() {
             <li>
               <NavLink
                 to="/contact"
-                className={({ isActive }) => itemClass(isActive, onHero)}
+                className={({ isActive }) => itemClass(isActive)}
                 onClick={() => setOpen(false)}
               >
                 Contact

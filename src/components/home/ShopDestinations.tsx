@@ -117,7 +117,7 @@ export default function ShopDestinations() {
   );
 
   return (
-    <section ref={root} className="relative overflow-hidden bg-white py-20 md:py-28">
+    <section ref={root} className="relative overflow-hidden border-t border-ink/6 bg-white py-20 md:py-28">
       <div className="grain-overlay absolute inset-0 opacity-[0.035]" aria-hidden="true" />
 
       <div className="relative mx-auto max-w-[1400px] px-5 md:px-10 xl:px-14">
