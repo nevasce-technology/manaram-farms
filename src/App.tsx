@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
@@ -7,6 +7,7 @@ import ProductDetail from "./pages/ProductDetail";
 import Products from "./pages/Products";
 import Recipes from "./pages/Recipes";
 import Contact from "./pages/Contact";
+import { markRoutedToHome } from "./lib/home-intro-navigation";
 
 function ScrollToHash() {
   const { pathname, hash } = useLocation();
@@ -22,10 +23,29 @@ function ScrollToHash() {
   return null;
 }
 
+function HomeIntroNavigationGuard() {
+  const { pathname } = useLocation();
+  const isInitialNavigation = useRef(true);
+
+  useEffect(() => {
+    if (isInitialNavigation.current) {
+      isInitialNavigation.current = false;
+      return;
+    }
+
+    if (pathname === "/") {
+      markRoutedToHome();
+    }
+  }, [pathname]);
+
+  return null;
+}
+
 export default function App() {
   return (
     <div className="min-h-[100dvh] bg-canvas">
       <ScrollToHash />
+      <HomeIntroNavigationGuard />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
