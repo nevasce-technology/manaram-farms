@@ -1,18 +1,11 @@
 import { Link } from "react-router-dom";
 import { useRef } from "react";
+import { RECIPES } from "../../data/recipes-data";
 import { gsap, useGSAP } from "../../lib/gsap";
-
-const titles = [
-  "Chicken Ghee Momo with Mana Ko Ghee",
-  "Butter Cookie Recipe with Mana Ko Butter",
-  "Nepali Style Sukuti with Sahi Sukuti",
-  "ManaKo Ice Ade Juice",
-  "Easy Vanilla Muffins Recipe",
-  "Crispy Corn Recipe",
-];
 
 export default function RecipeList() {
   const root = useRef<HTMLElement>(null);
+  const preview = RECIPES.slice(0, 6);
 
   useGSAP(
     () => {
@@ -40,13 +33,13 @@ export default function RecipeList() {
             to="/recipes"
             className="font-display cursor-pointer text-sm font-extrabold text-steel hover:text-steel-deep"
           >
-            Open the list
+            Watch all videos
           </Link>
         </div>
 
         <ol className="mt-8 divide-y divide-pine/10 border-y border-pine/10">
-          {titles.map((title, i) => (
-            <li key={title}>
+          {preview.map((recipe, i) => (
+            <li key={recipe.id}>
               <Link
                 to="/recipes"
                 className="recipe-row group flex cursor-pointer items-baseline gap-6 py-5 md:py-6"
@@ -55,7 +48,7 @@ export default function RecipeList() {
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <span className="font-sans flex-1 text-base text-ink/80 transition-colors group-hover:text-steel md:text-lg">
-                  {title}
+                  {recipe.title}
                 </span>
               </Link>
             </li>
