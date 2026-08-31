@@ -47,7 +47,7 @@ export default function HomeFooter() {
         scrollTrigger: {
           trigger: root.current,
           start: "top 92%",
-          toggleActions: "play none none reverse",
+          toggleActions: "play none none none",
         },
       });
     },
@@ -177,8 +177,8 @@ export default function HomeFooter() {
         </div>
       </div>
 
-      <div className="foot-reveal site-footer__legal">
-        <div className="mx-auto flex max-w-[1400px] flex-col gap-2 px-5 py-5 text-xs md:flex-row md:items-center md:justify-between md:px-10 xl:px-14">
+      <div className="site-footer__legal">
+        <div className="site-footer__legal-inner mx-auto flex max-w-[1400px] flex-col gap-2 px-5 text-xs md:flex-row md:items-center md:justify-between md:px-10 xl:px-14">
           <p>Jhapa facility · Kathmandu head office · Nepal</p>
           <p>© {new Date().getFullYear()} Manaram Farm. All rights reserved.</p>
         </div>
