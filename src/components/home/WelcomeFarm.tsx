@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { ArrowUpRight } from "@phosphor-icons/react";
 import { prefersReducedMotion } from "../../lib/anim";
 import { gsap, useGSAP } from "../../lib/gsap";
+import { FoodSafetyCert } from "../ui/FoodSafetyCert";
 
 export default function WelcomeFarm() {
   const root = useRef<HTMLElement>(null);
@@ -180,7 +181,7 @@ export default function WelcomeFarm() {
           <figure className="story-facility-photo overflow-hidden rounded-[var(--radius-panel)] will-change-transform lg:col-span-7">
             <img
               src="/landing/story-facility.jpg"
-              alt="Modern dairy facility at Manaram Farm in Baluwatar, Kathmandu"
+              alt="Modern dairy facility at Manaram Farm in Jhapa"
               className="aspect-[4/3] w-full object-cover"
               loading="lazy"
               decoding="async"
@@ -189,13 +190,15 @@ export default function WelcomeFarm() {
 
           <div className="story-facility-copy lg:col-span-5">
             <h3 className="font-display text-[clamp(1.6rem,3vw,2.25rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-steel">
-              Built in Baluwatar for clean, consistent dairy
+              Built in Jhapa for clean, consistent dairy
             </h3>
             <p className="mt-5 text-[1.05rem] leading-relaxed text-ink-soft">
               Since 2014 we have worked to utilize and promote local resources across Nepal. From
               milk and ghee to pickles, dried meats, and pantry staples, everything starts on our
-              farm and moves through a facility designed for care at every step.
+              Jhapa farm and moves through a facility designed for care at every step.
             </p>
+
+            <FoodSafetyCert className="mt-8" layout="strip" />
 
             <dl className="story-stats mt-10 space-y-5 border-t border-ink/10 pt-8">
               <div className="story-stat flex items-baseline justify-between gap-6">
@@ -203,7 +206,11 @@ export default function WelcomeFarm() {
                 <dd className="font-display text-xl font-semibold text-ink">2014</dd>
               </div>
               <div className="story-stat flex items-baseline justify-between gap-6 border-t border-ink/8 pt-5">
-                <dt className="text-sm text-ink-soft">Facility</dt>
+                <dt className="text-sm text-ink-soft">Farm &amp; facility</dt>
+                <dd className="text-right font-semibold text-ink">Jhapa</dd>
+              </div>
+              <div className="story-stat flex items-baseline justify-between gap-6 border-t border-ink/8 pt-5">
+                <dt className="text-sm text-ink-soft">Head office</dt>
                 <dd className="text-right font-semibold text-ink">Baluwatar, Kathmandu</dd>
               </div>
               <div className="story-stat flex items-baseline justify-between gap-6 border-t border-ink/8 pt-5">

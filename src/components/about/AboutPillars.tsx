@@ -87,8 +87,8 @@ export default function AboutPillars() {
             How we make food worth trusting
           </h2>
           <p className="mt-5 text-[1.05rem] leading-relaxed text-ink-soft">
-            Three commitments behind every product that leaves Baluwatar: tradition, innovation, and
-            nutrition working as one.
+            Three commitments behind every product that leaves our Jhapa facility: tradition,
+            innovation, and nutrition working as one.
           </p>
         </div>
 

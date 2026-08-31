@@ -4,6 +4,7 @@ import { ArrowUpRight } from "@phosphor-icons/react";
 import { gsap, useGSAP } from "../../lib/gsap";
 import { facilityCheckpoints, facilityMeta } from "../../data/about-data";
 import { useSectionReveal } from "../../hooks/useSectionReveal";
+import { FoodSafetyCert } from "../ui/FoodSafetyCert";
 import { IconCopyBlock } from "../ui/IconTitle";
 import { SplitMediaImage, SplitMediaLayout } from "../ui/SplitMediaLayout";
 
@@ -75,15 +76,16 @@ export default function AboutFacility() {
         >
           <div data-reveal-header>
             <p className="text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-steel">
-              Baluwatar facility
+              Jhapa facility
             </p>
             <h2 className="mt-4 max-w-[18ch] font-display text-[clamp(1.75rem,3.2vw,2.35rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-ink">
-              Built in Baluwatar for clean, consistent dairy
+              Built in Jhapa for clean, consistent dairy
             </h2>
             <p className="mt-5 max-w-xl text-[1.05rem] leading-relaxed text-ink-soft">
               Since 2014 we have worked to utilize and promote local resources across Nepal. From milk
-              and ghee to pickles, dried meats, and pantry staples, everything starts on our farm and
-              moves through a facility designed for care at every step.
+              and ghee to pickles, dried meats, and pantry staples, everything starts on our Jhapa farm
+              and moves through a facility designed for care at every step. Our head office sits in
+              Baluwatar, Kathmandu.
             </p>
           </div>
 
@@ -94,11 +96,15 @@ export default function AboutFacility() {
           </ul>
         </SplitMediaLayout>
 
+        <div data-reveal="fade">
+          <FoodSafetyCert className="mt-14" layout="feature" />
+        </div>
+
         <div
           data-reveal="fade"
-          className="mt-14 flex flex-col gap-8 border-t border-ink/10 pt-10 md:flex-row md:items-end md:justify-between"
+          className="mt-10 flex flex-col gap-8 border-t border-ink/10 pt-10 md:flex-row md:items-end md:justify-between"
         >
-          <dl className="grid w-full max-w-2xl gap-6 sm:grid-cols-3">
+          <dl className="grid w-full max-w-3xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {facilityMeta.map(([label, value]) => (
               <div key={label}>
                 <dt className="text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-ink-soft">

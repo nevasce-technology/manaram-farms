@@ -19,14 +19,16 @@ function activeKey(pathname: string) {
 }
 
 function itemClass(isActive: boolean, onHero: boolean) {
+  const base =
+    "relative z-10 inline-flex items-center justify-center rounded-full px-5 py-2 text-[14px] leading-none whitespace-nowrap transition-colors duration-300";
   if (onHero) {
     return [
-      "relative z-10 rounded-full px-5 py-2.5 text-[14px] leading-none transition-colors duration-300",
+      base,
       isActive ? "font-semibold text-white" : "font-medium text-white/72 hover:text-white",
     ].join(" ");
   }
   return [
-    "relative z-10 rounded-full px-5 py-2.5 text-[14px] leading-none transition-colors duration-300",
+    base,
     isActive ? "font-semibold text-white" : "font-medium text-ink/70 hover:text-ink",
   ].join(" ");
 }
@@ -136,15 +138,15 @@ export default function Navbar() {
 
         <nav
           ref={navRef}
-          className={`${surfaceClass} relative hidden rounded-full px-2 py-1.5 lg:flex`}
+          className={`${surfaceClass} relative hidden rounded-full p-2 lg:flex`}
           aria-label="Primary"
         >
           <span
             ref={pillRef}
-            className="pointer-events-none absolute top-0 left-0 z-[1] h-0 w-0 rounded-full will-change-transform bg-steel"
+            className="pointer-events-none absolute top-0 left-0 z-[1] h-0 w-0 rounded-full bg-steel will-change-[transform,width,height]"
             aria-hidden="true"
           />
-          <ul ref={listRef} className="relative z-[2] flex items-center gap-1.5">
+          <ul ref={listRef} className="relative z-[2] flex items-center gap-1">
             <li>
               <NavLink to="/" end data-nav="home" className={({ isActive }) => itemClass(isActive, onHero)}>
                 Home
@@ -159,7 +161,7 @@ export default function Navbar() {
               <button
                 type="button"
                 data-nav="products"
-                className={`${itemClass(key === "products", onHero)} inline-flex items-center gap-1.5`}
+                className={`${itemClass(key === "products", onHero)} gap-1.5`}
                 aria-expanded={productsOpen}
                 aria-controls={menuId}
                 onClick={() => setProductsOpen((value) => !value)}
@@ -220,7 +222,7 @@ export default function Navbar() {
 
       {open ? (
         <nav
-          className={`${surfaceClass} pointer-events-auto relative mx-auto mt-2 max-w-xs rounded-2xl p-1.5 lg:hidden`}
+          className={`${surfaceClass} pointer-events-auto relative mx-auto mt-2 max-w-xs rounded-2xl p-2 lg:hidden`}
           aria-label="Mobile"
         >
           <ul className="flex flex-col gap-0.5">
