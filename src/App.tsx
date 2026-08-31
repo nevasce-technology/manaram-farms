@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import About from "./pages/About";
+import ProductDetail from "./pages/ProductDetail";
 import Products from "./pages/Products";
 import Recipes from "./pages/Recipes";
 import Contact from "./pages/Contact";
@@ -30,6 +31,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/products" element={<Products />} />
+        <Route path="/products/:slug" element={<ProductDetail />} />
         <Route path="/recipes" element={<Recipes />} />
         <Route path="/recepies" element={<Navigate to="/recipes" replace />} />
         <Route path="/contact" element={<Contact />} />
