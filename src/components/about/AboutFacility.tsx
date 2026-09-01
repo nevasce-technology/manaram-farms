@@ -67,7 +67,7 @@ export default function AboutFacility() {
         <SplitMediaLayout
           media={
             <SplitMediaImage
-              alt="Bright daylight over stainless steel dairy tanks at Manaram Farm"
+              alt="Polished stainless steel processing tanks inside the Manaram Farm Jhapa facility"
               src="/landing/about-facility.jpg"
               loading="lazy"
             />

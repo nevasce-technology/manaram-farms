@@ -3,7 +3,6 @@ import AboutFacility from "../components/about/AboutFacility";
 import AboutHero from "../components/about/AboutHero";
 import AboutMission from "../components/about/AboutMission";
 import AboutOrigin from "../components/about/AboutOrigin";
-import AboutPantry from "../components/about/AboutPantry";
 import AboutPillars from "../components/about/AboutPillars";
 import AboutProcess from "../components/about/AboutProcess";
 import AboutVision from "../components/about/AboutVision";
@@ -21,7 +20,6 @@ export default function About() {
         <AboutVision />
         <AboutMission />
         <AboutWhy />
-        <AboutPantry />
       </main>
       <HomeFooter />
     </>

@@ -7,23 +7,30 @@ type FoodSafetyCertProps = {
   className?: string;
 };
 
-function CertBadges({
-  className = "",
-  maxHeight = "max-h-16",
-}: {
+type CertLogosProps = {
   className?: string;
-  maxHeight?: string;
-}) {
+  logoHeight?: string;
+  logoWidths?: string[];
+};
+
+export function CertLogos({
+  className = "",
+  logoHeight = "h-11",
+  logoWidths = ["max-w-[9rem]", "max-w-[7.5rem]"],
+}: CertLogosProps) {
   return (
-    <img
-      src={foodSafetyCert.image}
-      alt={foodSafetyCert.imageAlt}
-      className={`h-auto w-full object-contain object-left ${maxHeight} ${className}`}
-      loading="lazy"
-      decoding="async"
-      width={600}
-      height={200}
-    />
+    <div className={`cert-logos flex flex-nowrap items-center gap-3 sm:gap-4 ${className}`}>
+      {foodSafetyCert.logos.map((logo, index) => (
+        <img
+          key={logo.src}
+          src={logo.src}
+          alt={logo.alt}
+          className={`${logoHeight} w-auto shrink-0 object-contain ${logoWidths[index] ?? ""}`}
+          loading="lazy"
+          decoding="async"
+        />
+      ))}
+    </div>
   );
 }
 
@@ -50,8 +57,12 @@ function FeatureLayout({ className = "" }: { className?: string }) {
           {foodSafetyCert.certificate}
         </p>
       </div>
-      <div className="w-full max-w-[15rem] shrink-0 rounded-xl bg-white p-3 ring-1 ring-ink/6 md:max-w-[17rem] md:p-4">
-        <CertBadges maxHeight="max-h-[4.25rem] md:max-h-[4.75rem]" />
+      <div className="w-full max-w-[26rem] shrink-0 rounded-xl bg-white p-5 ring-1 ring-ink/6 md:max-w-[30rem] md:p-6">
+        <CertLogos
+          logoHeight="h-16 md:h-[4.75rem]"
+          logoWidths={["max-w-[12rem]", "max-w-[10rem]"]}
+          className="gap-4 md:gap-5"
+        />
       </div>
     </aside>
   );
@@ -75,8 +86,8 @@ function StripLayout({ className = "" }: { className?: string }) {
           Certified at our Jhapa facility.
         </p>
       </div>
-      <div className="w-full max-w-[11.5rem] shrink-0 sm:max-w-[12.5rem]">
-        <CertBadges maxHeight="max-h-14" />
+      <div className="w-full max-w-[16rem] shrink-0 sm:max-w-[17rem]">
+        <CertLogos logoHeight="h-11" />
       </div>
     </aside>
   );
@@ -89,8 +100,8 @@ function SealLayout({ className = "" }: { className?: string }) {
       className={`flex items-center gap-4 ${className}`}
       aria-label={`${foodSafetyCert.standard} food safety certification`}
     >
-      <div className="w-[7.5rem] shrink-0 rounded-lg bg-white/95 p-2">
-        <CertBadges maxHeight="max-h-11" className="object-center" />
+      <div className="shrink-0 rounded-lg bg-white px-3 py-2.5">
+        <CertLogos logoHeight="h-10 sm:h-11" className="gap-3 sm:gap-4" />
       </div>
       <div className="min-w-0">
         <p className="font-display text-sm font-semibold text-white">{foodSafetyCert.standard}</p>

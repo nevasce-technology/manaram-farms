@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowUpRight } from "@phosphor-icons/react";
+import { ArrowUpRight, CaretLeft, CaretRight } from "@phosphor-icons/react";
 import {
   CATALOG_CATEGORIES,
   CATALOG_PRODUCTS,
@@ -132,7 +132,7 @@ export default function FeaturedProducts() {
         },
       });
 
-      gsap.from(".cat-pills", {
+      gsap.from(".cat-nav", {
         scaleX: 0.4,
         opacity: 0,
         duration: 0.65,
@@ -160,6 +160,19 @@ export default function FeaturedProducts() {
           },
         },
       );
+
+      gsap.utils.toArray<HTMLElement>(".cat-card").forEach((card, i) => {
+        gsap.to(card, {
+          y: (i - 1) * -16,
+          ease: "none",
+          scrollTrigger: {
+            trigger: root.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.4,
+          },
+        });
+      });
     },
     { scope: root },
   );
@@ -205,6 +218,10 @@ export default function FeaturedProducts() {
     return () => window.clearTimeout(id);
   }, [page, paused, reduce]);
 
+  const goToPage = (next: number) => setPage((next + PAGE_COUNT) % PAGE_COUNT);
+  const goPrev = () => goToPage(page - 1);
+  const goNext = () => goToPage(page + 1);
+
   return (
     <section
       ref={root}
@@ -229,7 +246,7 @@ export default function FeaturedProducts() {
               What we make
             </h2>
             <p className="mt-3 text-[1.05rem] leading-relaxed text-white/72">
-              Dairy, pantry, and kitchen staples across twelve categories.
+              Dairy, pantry, and kitchen staples across eleven categories.
             </p>
           </div>
           <Link
@@ -256,35 +273,57 @@ export default function FeaturedProducts() {
           </div>
         </div>
 
-        <div className="cat-pills mt-10 flex items-center justify-center gap-2 md:mt-12">
-          {Array.from({ length: PAGE_COUNT }, (_, i) => {
-            const active = i === page;
-            return (
-              <button
-                key={i}
-                type="button"
-                aria-label={`Show categories ${i * PER_PAGE + 1} to ${Math.min((i + 1) * PER_PAGE, CATALOG_CATEGORIES.length)}`}
-                aria-current={active ? "true" : undefined}
-                onClick={() => setPage(i)}
-                className={`relative h-1.5 overflow-hidden rounded-full transition-all duration-300 ${
-                  active ? "w-12 bg-white/25 md:w-14" : "w-1.5 bg-white/35 hover:bg-white/55"
-                }`}
-              >
-                {active && !reduce ? (
-                  <span
-                    key={`${page}-${paused}`}
-                    className="category-pill-fill absolute inset-y-0 left-0 w-full rounded-full bg-white"
-                    style={{
-                      animationPlayState: paused ? "paused" : "running",
-                      animationDuration: `${CYCLE_MS}ms`,
-                    }}
-                  />
-                ) : active ? (
-                  <span className="absolute inset-0 rounded-full bg-white" />
-                ) : null}
-              </button>
-            );
-          })}
+        <div className="cat-nav mt-10 flex items-center justify-center gap-4 md:mt-12 md:gap-6">
+          <button
+            type="button"
+            aria-label="Previous categories"
+            onClick={goPrev}
+            className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white transition-colors hover:border-white/50 hover:bg-white/20 active:scale-[0.96] md:size-12"
+          >
+            <CaretLeft size={22} weight="bold" aria-hidden="true" />
+          </button>
+
+          <div className="cat-pills flex items-center gap-2.5 md:gap-3">
+            {Array.from({ length: PAGE_COUNT }, (_, i) => {
+              const active = i === page;
+              return (
+                <button
+                  key={i}
+                  type="button"
+                  aria-label={`Show categories ${i * PER_PAGE + 1} to ${Math.min((i + 1) * PER_PAGE, CATALOG_CATEGORIES.length)}`}
+                  aria-current={active ? "true" : undefined}
+                  onClick={() => setPage(i)}
+                  className={`relative overflow-hidden rounded-full transition-all duration-300 ${
+                    active
+                      ? "h-3 w-16 bg-white/25 md:h-3.5 md:w-20"
+                      : "size-3 bg-white/35 hover:bg-white/55 md:size-3.5"
+                  }`}
+                >
+                  {active && !reduce ? (
+                    <span
+                      key={`${page}-${paused}`}
+                      className="category-pill-fill absolute inset-y-0 left-0 w-full rounded-full bg-white"
+                      style={{
+                        animationPlayState: paused ? "paused" : "running",
+                        animationDuration: `${CYCLE_MS}ms`,
+                      }}
+                    />
+                  ) : active ? (
+                    <span className="absolute inset-0 rounded-full bg-white" />
+                  ) : null}
+                </button>
+              );
+            })}
+          </div>
+
+          <button
+            type="button"
+            aria-label="Next categories"
+            onClick={goNext}
+            className="inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white transition-colors hover:border-white/50 hover:bg-white/20 active:scale-[0.96] md:size-12"
+          >
+            <CaretRight size={22} weight="bold" aria-hidden="true" />
+          </button>
         </div>
       </div>
     </section>

@@ -45,7 +45,7 @@ export default function AboutPantry() {
         >
           {pantryStrip.map(({ id, label, cover }) => (
             <li key={id} className="group overflow-hidden rounded-[var(--radius-soft)] bg-white">
-              <Link to="/products" className="relative block aspect-[4/5] overflow-hidden bg-mist">
+              <Link to={`/products?cat=${id}`} className="relative block aspect-[4/5] overflow-hidden bg-mist">
                 <img
                   src={cover!}
                   alt={label}

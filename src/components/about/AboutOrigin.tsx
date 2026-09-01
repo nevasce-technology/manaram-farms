@@ -8,7 +8,7 @@ export default function AboutOrigin() {
   const stack = [
     {
       src: "/landing/about-facility.jpg",
-      alt: "Stainless steel dairy tanks at Manaram Farm in Jhapa",
+      alt: "Polished stainless steel processing tanks inside the Manaram Farm Jhapa facility",
     },
     {
       src: "/landing/about-craft.jpg",

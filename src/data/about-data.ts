@@ -40,7 +40,16 @@ export const foodSafetyCert = {
   eyebrow: "Food safety, verified",
   standard: "ISO 22000:2018",
   body: "Our Jhapa facility operates under a certified food-safety management system.",
-  image: "/certifications/iso-22000-badges.png",
+  logos: [
+    {
+      src: "/certifications/ias-accredited.png",
+      alt: "IAS Accredited Management Systems Certification Body",
+    },
+    {
+      src: "/certifications/g-cert2.png",
+      alt: "G-CERT2 System Service certification mark",
+    },
+  ] as const,
   imageAlt:
     "IAS Accredited MSCB-113 and G-CERT2 System Service ISO 22000:2018 certification marks",
   accreditation: "IAS Accredited · MSCB-113",
@@ -118,7 +127,7 @@ export const pillars: ReadonlyArray<{
     points: "Modern dairy facility · consistent batches · safety with flavor",
     icon: SparklesIcon,
     image: "/landing/about-facility.jpg",
-    imageAlt: "Stainless steel dairy tanks at Manaram Farm in Jhapa",
+    imageAlt: "Polished stainless steel processing tanks inside the Manaram Farm Jhapa facility",
   },
   {
     title: "Crafted for nutrition",
