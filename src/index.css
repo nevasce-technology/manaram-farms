@@ -1858,12 +1858,15 @@ button:focus-visible {
 }
 
 .hero-band__photo {
+  position: absolute;
+  left: 50%;
+  top: 50%;
   display: block;
-  width: 100%;
+  width: 112%;
   height: 112%;
-  min-height: 100%;
+  translate: -50% -50%;
   object-fit: cover;
-  object-position: 58% 42%;
+  object-position: center 42%;
   transform-origin: center center;
 }
 
@@ -1900,6 +1903,34 @@ button:focus-visible {
   will-change: transform;
 }
 
+.hero-band__brand-plate {
+  display: inline-flex;
+  max-width: 100%;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.25rem;
+  padding: 0.875rem 1.125rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgb(255 255 255 / 0.72);
+  background: rgb(255 255 255 / 0.96);
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.85) inset,
+    0 16px 36px -22px rgb(6 13 22 / 0.55);
+}
+
+.hero-band__brand-divider {
+  display: none;
+  height: 2.75rem;
+  width: 1px;
+  flex-shrink: 0;
+  background: rgb(12 24 41 / 0.12);
+}
+
+.hero-band__brand-logo {
+  display: block;
+  flex-shrink: 0;
+}
+
 .hero-band__title {
   margin: 0;
 }
@@ -1926,6 +1957,18 @@ button:focus-visible {
   .hero-band__copy {
     gap: 1.5rem;
   }
+
+  .hero-band__brand-plate {
+    gap: 1.15rem 1.5rem;
+    padding: 1rem 1.35rem;
+    border-radius: 1.35rem;
+  }
+}
+
+@media (min-width: 640px) {
+  .hero-band__brand-divider {
+    display: block;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -1940,7 +1983,7 @@ button:focus-visible {
   }
 
   .hero-band__photo {
-    object-position: 52% 38%;
+    object-position: center 40%;
   }
 
   .hero-band__scrim {
