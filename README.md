@@ -1,39 +1,34 @@
 # manaram-farms
 
-Next-generation website concept for [Manaram Farm](https://manaram.farm).
+Next-generation website for [Manaram Farm](https://manaram.farm).
 
-## Preview
-
-Open the homepage wireframe locally:
+## Development
 
 ```bash
-cd wireframes
-python3 -m http.server 5173
+npm install
+npm run dev
 ```
 
-Then visit [http://localhost:5173/](http://localhost:5173/) or [http://localhost:5173/homepage.html](http://localhost:5173/homepage.html).
+Visit [http://localhost:5173](http://localhost:5173).
+
+## Build
+
+```bash
+npm run build
+npm run preview
+```
 
 ## Deploy (Cloudflare)
 
 This site is a **Worker with static assets** (not Pages). Config: `wrangler.jsonc`.
 
-Live URL looks like: `https://manaram-farms.<account>.workers.dev`  
-(`*.pages.dev` is a different product — only works if you create a separate Pages project.)
+1. Build the app: `npm run build`
+2. Deploy: `npx wrangler deploy`
 
-1. Push to `main` (Cloudflare Git deploy runs `npx wrangler deploy`).
-2. Assets directory must be `./wireframes` (the whole site, not only `wireframes/assets`).
-3. Root `/` serves `wireframes/index.html`.
-
-Local deploy (optional):
-
-```bash
-npx wrangler deploy
-```
+The worker serves the Vite `dist/` output with SPA routing.
 
 ## Structure
 
-- `wireframes/index.html` — site entry (Cloudflare `/`)
-- `wireframes/homepage.html` — same homepage concept
-- `wireframes/*.css` / `*.js` — styles and interactions
-- `wireframes/assets/` — images and brand logo
+- `src/` — React app (pages, components, data)
+- `public/` — static assets (images, video, product catalog media)
 - `wrangler.jsonc` — Cloudflare Worker static assets config

@@ -3,7 +3,7 @@
   "name": "manaram-farms",
   "compatibility_date": "2026-07-19",
   "assets": {
-    "directory": "./wireframes",
-    "html_handling": "auto-trailing-slash"
+    "directory": "./dist",
+    "not_found_handling": "single-page-application"
   }
 }
