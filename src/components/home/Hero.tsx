@@ -9,7 +9,7 @@ import {
 } from "./home-intro-timing";
 
 const HERO_POSTER = "/landing/hero-farm-cows.jpg?v=3";
-const HERO_VIDEO = "/landing/hero-cows-hay.mp4";
+const HERO_VIDEO = "/landing/hero-cows-hay.mp4?v=4";
 
 type HeroProps = {
   skipIntro: boolean;
@@ -25,6 +25,7 @@ export default function Hero({
   onZoomComplete,
 }: HeroProps) {
   const root = useRef<HTMLElement>(null);
+  const parallax = useRef<HTMLDivElement>(null);
   const zoom = useRef<HTMLDivElement>(null);
   const photo = useRef<HTMLVideoElement | HTMLImageElement>(null);
   const scrim = useRef<HTMLDivElement>(null);
@@ -98,9 +99,9 @@ export default function Hero({
 
   useGSAP(
     () => {
-      if (!root.current || !photo.current || !mediaReady || reduceMotion) return;
+      if (!root.current || !parallax.current || !mediaReady || reduceMotion) return;
 
-      gsap.to(photo.current, {
+      gsap.to(parallax.current, {
         yPercent: 8,
         ease: "none",
         force3D: true,
@@ -198,7 +199,7 @@ export default function Hero({
   return (
     <section ref={root} className="hero-band" aria-label="Introduction">
       <div className="hero-band__media" aria-hidden="true">
-        <div className="hero-band__parallax">
+        <div ref={parallax} className="hero-band__parallax">
           <div ref={zoom} className="hero-band__zoom">
             {reduceMotion ? (
               <img
@@ -234,22 +235,24 @@ export default function Hero({
 
       <div className="hero-band__content mx-auto max-w-[1400px] px-5 md:px-10 xl:px-14">
         <div ref={copy} className="hero-band__copy">
-          <div className="hero-band__brand flex flex-wrap items-center gap-5 md:gap-7">
-            <img
-              src="/logo.png"
-              alt="Manaram Farm"
-              className="h-14 w-auto md:h-16"
-              width={240}
-              height={52}
-            />
-            <span className="hidden h-11 w-px bg-white/22 sm:block" aria-hidden="true" />
-            <img
-              src="/mana-ko.png"
-              alt="Mana Ko"
-              className="h-16 w-auto md:h-[4.75rem]"
-              width={260}
-              height={62}
-            />
+          <div className="hero-band__brand">
+            <div className="hero-band__brand-plate">
+              <img
+                src="/logo.png"
+                alt="Manaram Farm"
+                className="hero-band__brand-logo h-14 w-auto md:h-16"
+                width={240}
+                height={52}
+              />
+              <span className="hero-band__brand-divider" aria-hidden="true" />
+              <img
+                src="/mana-ko.png"
+                alt="Mana Ko"
+                className="hero-band__brand-logo h-16 w-auto md:h-[4.75rem]"
+                width={260}
+                height={62}
+              />
+            </div>
           </div>
 
           <h1 className="hero-band__title font-display text-[clamp(2.75rem,6.2vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-white">
